@@ -7,18 +7,24 @@ function App() {
 
   useEffect(() => {
     callBackendAPI()
-      .then(res => setData(res.express))
+      .then(res => setData(res.body.express))
       .catch(err => console.log(err))
   })
 
   const callBackendAPI = async () => {
     const response = await fetch('/express_backend')
     const body = await response.json()
+    console.log(body)
+
+    const shopRes = await fetch('/shopify')
+    console.log(shopRes)
 
     if (response.status !== 200) {
       throw Error(body.message) 
     }
-    return body
+    return {
+      body
+    }
   }
 
   return (
