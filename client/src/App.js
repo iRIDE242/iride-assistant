@@ -17,7 +17,8 @@ function App() {
     console.log(body)
 
     const shopRes = await fetch('/shopify')
-    console.log(shopRes)
+    const shopBody = await shopRes.json()
+    console.log(shopBody)
 
     if (response.status !== 200) {
       throw Error(body.message) 

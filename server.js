@@ -1,8 +1,8 @@
 const express = require('express'); 
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+
 const app = express(); 
 const port = process.env.PORT || 5000; 
-
-const https = require('https');
 
 const options = {
   method: 'GET',
@@ -12,20 +12,11 @@ const options = {
   }
 };
 
-https.get('https://iride-store.myshopify.com/admin/api/2021-10/products.json', options, res => {
-  let data = [];
-  const headerDate = res.headers && res.headers.date ? res.headers.date : 'no response date';
-  console.log('Status Code:', res.statusCode);
-  console.log('Date in Response header:', headerDate);
-
-  console.log(res)  
-}).on('error', err => {
-  console.log('Error: ', err.message);
-});
-
-
 app.get('/shopify', async (req, res) => { 
-  res.send({ shopify: 'This should be a Shopify response' }); 
+  const resFromShop = await fetch('https://iride-store.myshopify.com/admin/api/2021-10/products.json', options)
+  const objFromShop = await resFromShop.json()
+
+  res.send({ shopify: 'This should be a Shopify response', objFromShop }); 
 }); 
 
 
