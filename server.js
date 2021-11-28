@@ -14,8 +14,11 @@ const options = {
   }
 };
 
+const productAPI = 'https://iride-store.myshopify.com/admin/api/2021-10/products.json'
+const collectionClearanceAPI = 'https://iride-store.myshopify.com/admin/api/2021-10/products.json?collection_id=210639487136'
+
 app.get('/shopify', async (req, res) => { 
-  const resFromShop = await fetch('https://iride-store.myshopify.com/admin/api/2021-10/products.json', options)
+  const resFromShop = await fetch(collectionClearanceAPI, options)
   const objFromShop = await resFromShop.json()
 
   res.send({ shopify: 'This should be a Shopify response', objFromShop }); 

@@ -5,12 +5,14 @@ import { pipe } from './utils/functions';
 function App() {
   const [data, setData] = useState(null)
   const [products, setPropducts] = useState([])
+  const [outOfStockProductsWithNonHiddenVariants, setProductsWithNonHiddenOutOfStockVariants] = useState([])
 
   useEffect(() => {
     callBackendAPI()
       .then(res => {
         setData(res.body.express)
         setPropducts(res.products)
+        setProductsWithNonHiddenOutOfStockVariants(res.products.filter(isProductWithNonHiddenVariantsOutOfStock))
       })
       .catch(err => console.log(err))
   }, [])
@@ -37,7 +39,13 @@ function App() {
 
   const getNonHiddenVariants = variants => variants.filter(variant => variant.weight !== 9999)
 
+  const getVariantInventory = variant => variant.inventory_quantity
+
+  const getTotalInventoryOfNonHiddenVariants = variants => variants.map(getVariantInventory).reduce((acc, cur) => acc + cur)
+
   const isInventoryZero = variant => variant.inventory_quantity <= 0
+
+  const isHiddenVariant = variant => variant.weight === 9999
 
   const getVariantInventoryItem = variant => variant.inventory_item_id
 
@@ -60,6 +68,11 @@ function App() {
     getOutOfStockVariants
   )
 
+  const getNonHiddenVariantsFromProduct = pipe(
+    getProductVariants,
+    getNonHiddenVariants
+  )
+
   const outputOutOfStock = (product, index) => {
     const nonHiddenOutOfStockVariants = getNonHiddenOutOfStockVariants(product)
     
@@ -77,11 +90,35 @@ function App() {
     }
   }
 
+  const isProductWithNonHiddenOutOfStockVariants = product => {
+    const nonHiddenOutOfStockVariants = getNonHiddenOutOfStockVariants(product)
+    return hasOutOfStockVariants(nonHiddenOutOfStockVariants)
+  }
+
+  const isProductWithNonHiddenVariantsOutOfStock = product => {
+    const nonHiddenVariants = getNonHiddenVariantsFromProduct(product)
+    const totalInventoryOfNonHiddenVariants = getTotalInventoryOfNonHiddenVariants(nonHiddenVariants)
+
+    return totalInventoryOfNonHiddenVariants <= 0
+  }
+
   return (
     <div className="App">
       <p className="App-intro">{data}</p>
       <ul>
-        {products.map(outputOutOfStock)}
+        {outOfStockProductsWithNonHiddenVariants.length
+          ? outOfStockProductsWithNonHiddenVariants.map((product, index) => 
+              <li key={index}>
+                <h2>{product.title}</h2>
+                <ul>
+                  {product.variants.map((variant, index) => 
+                    !isHiddenVariant(variant) && isInventoryZero(variant) &&
+                      <li key={index}>{getVariantTitle(variant)}</li>  
+                  )}
+                </ul>
+              </li>
+            )
+          : <li>No out of stock products</li>}
       </ul>
     </div>
   );
