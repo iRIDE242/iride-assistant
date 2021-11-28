@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express'); 
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
@@ -8,7 +10,7 @@ const options = {
   method: 'GET',
   headers: {
     'Content-Type': 'application/json',
-    'X-Shopify-Access-Token': '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'
+    'X-Shopify-Access-Token': process.env.API_SECRET_KEY
   }
 };
 
@@ -19,11 +21,10 @@ app.get('/shopify', async (req, res) => {
   res.send({ shopify: 'This should be a Shopify response', objFromShop }); 
 }); 
 
-
-// This displays message that the server running and listening to specified port
-app.listen(port, () => console.log(`Listening on port ${port}`)); 
-
 // create a GET route
 app.get('/express_backend', (req, res) => { 
   res.send({ mock: 'text', express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); 
 }); 
+
+// This displays message that the server running and listening to specified port
+app.listen(port, () => console.log(`Listening on port ${port}`)); 
