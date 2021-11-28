@@ -13,6 +13,7 @@ function App() {
         setData(res.body.express)
         setPropducts(res.products)
         setProductsWithNonHiddenOutOfStockVariants(res.products.filter(isProductWithNonHiddenVariantsOutOfStock))
+        console.log(res)
       })
       .catch(err => console.log(err))
   }, [])
@@ -29,7 +30,8 @@ function App() {
     }
     return {
       body,
-      products: shopBody.objFromShop.products
+      products: shopBody.objFromShop.products,
+      headerObj: shopBody.headerObj
     }
   }
 
