@@ -34,6 +34,20 @@ app.get('/shopify', async (req, res) => {
   res.send({ shopify: 'This should be a Shopify response', objFromShop, headerObj: headerObj }); 
 }); 
 
+app.get('/inventory', async (req, res) => { 
+  const locationId = req.query.location
+  const itemId = req.query.item
+
+  console.log(itemId)
+
+  const resFromShop = await fetch(`https://iride-store.myshopify.com/admin/api/2021-10/inventory_levels.json?inventory_item_ids=${itemId}&location_ids=${locationId}`, options)
+  const objFromShop = await resFromShop.json()
+
+  console.log(objFromShop)
+
+  res.send({ objFromShop }); 
+}); 
+
 // create a GET route
 app.get('/express_backend', (req, res) => { 
   res.send({ mock: 'text', express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); 

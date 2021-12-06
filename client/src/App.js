@@ -43,7 +43,7 @@ function App() {
 
   const getVariantInventory = variant => variant.inventory_quantity
 
-  const getTotalInventoryOfNonHiddenVariants = variants => variants.map(getVariantInventory).reduce((acc, cur) => acc + cur)
+  const getTotalInventoryOfNonHiddenVariants = nonHiddenVariants => nonHiddenVariants.map(getVariantInventory).reduce((acc, cur) => acc + cur)
 
   const isInventoryZero = variant => variant.inventory_quantity <= 0
 
@@ -97,6 +97,20 @@ function App() {
     return hasOutOfStockVariants(nonHiddenOutOfStockVariants)
   }
 
+  const isLocalOutOfStock = async product => {
+    const locationId = '16347136066'
+    const nonHiddenVariants = getNonHiddenVariantsFromProduct(product)
+
+    const nonHiddenLocalInventories = await Promise.all(nonHiddenVariants.map(async variant => {
+      const inventoryRes = await fetch(`/inventory?location=${locationId}&item=${variant.inventory_item_id}`)
+      const inventoryLevel = await inventoryRes.json()
+      return inventoryLevel.objFromShop
+    }))
+
+    console.log(nonHiddenLocalInventories)
+  }
+
+
   const isProductWithNonHiddenVariantsOutOfStock = product => {
     const nonHiddenVariants = getNonHiddenVariantsFromProduct(product)
     const totalInventoryOfNonHiddenVariants = getTotalInventoryOfNonHiddenVariants(nonHiddenVariants)
@@ -107,6 +121,13 @@ function App() {
   return (
     <div className="App">
       <p className="App-intro">{data}</p>
+      {products.map((p, i) => {
+        isLocalOutOfStock(p)
+
+        return (
+          <p key={i}>{p.title}</p>
+        )
+      })}
       <ul>
         {outOfStockProductsWithNonHiddenVariants.length
           ? outOfStockProductsWithNonHiddenVariants.map((product, index) => 
