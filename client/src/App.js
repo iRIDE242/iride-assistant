@@ -14,6 +14,19 @@ function App() {
         setPropducts(res.products)
         setProductsWithNonHiddenOutOfStockVariants(res.products.filter(isProductWithNonHiddenVariantsOutOfStock))
         console.log(res)
+
+        for (let index = 0; index < res.products.length; index++) {
+          setTimeout(() => {
+            console.log(index * 1)
+
+            isLocalOutOfStock(res.products[index])
+
+
+          }, 1000 * index);
+          
+        }
+
+
       })
       .catch(err => console.log(err))
   }, [])
@@ -101,13 +114,22 @@ function App() {
     const locationId = '16347136066'
     const nonHiddenVariants = getNonHiddenVariantsFromProduct(product)
 
-    const nonHiddenLocalInventories = await Promise.all(nonHiddenVariants.map(async variant => {
-      const inventoryRes = await fetch(`/inventory?location=${locationId}&item=${variant.inventory_item_id}`)
-      const inventoryLevel = await inventoryRes.json()
-      return inventoryLevel.objFromShop
-    }))
+    // const nonHiddenLocalInventories = await Promise.all(nonHiddenVariants.map(async variant => {
+    //   const inventoryRes = await fetch(`/inventory?location=${locationId}&item=${variant.inventory_item_id}`)
+    //   const inventoryLevel = await inventoryRes.json()
+    //   return inventoryLevel.objFromShop
+    // }))
 
-    console.log(nonHiddenLocalInventories)
+    for (let index = 0; index < nonHiddenVariants.length; index++) {
+      setTimeout(async () => {
+        const inventoryRes = await fetch(`/inventory?location=${locationId}&item=${nonHiddenVariants[index].inventory_item_id}`)
+        const inventoryLevel = await inventoryRes.json()
+        // return inventoryLevel.objFromShop
+        console.log(inventoryLevel.objFromShop)
+      }, 1000 * index);
+    }
+
+    // console.log(nonHiddenLocalInventories)
   }
 
 
@@ -121,13 +143,13 @@ function App() {
   return (
     <div className="App">
       <p className="App-intro">{data}</p>
-      {products.map((p, i) => {
+      {/* {products.map((p, i) => {
         isLocalOutOfStock(p)
 
         return (
           <p key={i}>{p.title}</p>
         )
-      })}
+      })} */}
       <ul>
         {outOfStockProductsWithNonHiddenVariants.length
           ? outOfStockProductsWithNonHiddenVariants.map((product, index) => 
