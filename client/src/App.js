@@ -6,6 +6,8 @@ function App() {
   const [data, setData] = useState(null)
   const [products, setPropducts] = useState([])
   const [outOfStockProductsWithNonHiddenVariants, setProductsWithNonHiddenOutOfStockVariants] = useState([])
+  const [localsOutOfStock, setLocalsOutOfStock] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     callBackendAPI()
@@ -15,16 +17,7 @@ function App() {
         setProductsWithNonHiddenOutOfStockVariants(res.products.filter(isProductWithNonHiddenVariantsOutOfStock))
         console.log(res)
 
-        for (let index = 0; index < res.products.length; index++) {
-          setTimeout(() => {
-            console.log(index * 1)
-
-            isLocalOutOfStock(res.products[index])
-
-
-          }, 1000 * index);
-          
-        }
+        getLocalsOutOfStock(res.products)
 
 
       })
@@ -117,22 +110,21 @@ function App() {
     let promiseContainer = []
 
     for (let index = 0; index < nonHiddenVariants.length; index++) {
-      promiseContainer = 
-        [
-          ...promiseContainer,
-          new Promise(res => {
-            setTimeout(async () => {
-              const inventoryRes = await fetch(`/inventory?location=${locationId}&item=${nonHiddenVariants[index].inventory_item_id}`)
-              const { objFromShop } = await inventoryRes.json()
+      promiseContainer = [
+        ...promiseContainer,
+        new Promise(res => {
+          setTimeout(async () => {
+            const inventoryRes = await fetch(`/inventory?location=${locationId}&item=${nonHiddenVariants[index].inventory_item_id}`)
+            const { objFromShop } = await inventoryRes.json()
 
-              const { inventory_levels } = objFromShop
-              const { available } = inventory_levels[0]
-              
-              res(available)
+            const { inventory_levels } = objFromShop
+            const { available } = inventory_levels[0]
+            
+            res(available)
 
-            }, 1000 * index);
-          })
-        ]
+          }, 1000 * index);
+        })
+      ]
     }
 
     const promises = await Promise.all(promiseContainer)
@@ -141,6 +133,33 @@ function App() {
 
     return nonHiddenStock <= 0
   }
+
+  const getLocalsOutOfStock = async products => {
+    setIsLoading(true)
+    let promiseContainer = []
+
+    for (let index = 0; index < products.length; index++) {
+      promiseContainer = [
+        ...promiseContainer,
+        new Promise(res => {
+          setTimeout(async () => {
+            console.log(index * 1)
+    
+            if (await isLocalOutOfStock(products[index])) {
+              res(products[index])
+            } else {
+              res(null)
+            }
+
+          }, 1000 * index);
+        })
+      ]
+    }
+
+    const localsOutOfStock = await Promise.all(promiseContainer)
+    setLocalsOutOfStock(localsOutOfStock.filter(local => local !== null))
+    setIsLoading(false)
+  } 
 
 
   const isProductWithNonHiddenVariantsOutOfStock = product => {
@@ -153,14 +172,15 @@ function App() {
   return (
     <div className="App">
       <p className="App-intro">{data}</p>
-      {/* {products.map((p, i) => {
-        isLocalOutOfStock(p)
-
-        return (
-          <p key={i}>{p.title}</p>
-        )
-      })} */}
-      <ul>
+      {isLoading 
+        ? <p>Loading</p>
+        : localsOutOfStock.length 
+            ? localsOutOfStock.map((p, i) => (
+                <p key={i}>{p.title}</p>
+              ))
+            : <p>No products are out of stock locally.</p>
+      }
+      {/* <ul>
         {outOfStockProductsWithNonHiddenVariants.length
           ? outOfStockProductsWithNonHiddenVariants.map((product, index) => 
               <li key={index}>
@@ -174,7 +194,7 @@ function App() {
               </li>
             )
           : <li>No out of stock products</li>}
-      </ul>
+      </ul> */}
     </div>
   );
 }
