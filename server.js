@@ -22,7 +22,7 @@ const collectionClearanceAPI4 = 'https://iride-store.myshopify.com/admin/api/202
 const collectionClearanceAPI5 = 'https://iride-store.myshopify.com/admin/api/2021-10/products.json?limit=50&page_info=eyJjb2xsZWN0aW9uX2lkIjoyMTA2Mzk0ODcxMzYsImRpcmVjdGlvbiI6Im5leHQiLCJsYXN0X2lkIjo2OTI1Nzg3NzkxNTUyLCJsYXN0X3ZhbHVlIjoiU3BlY2lhbGl6ZWQgLSBUaGVybWluYWzihKIgQmliIFRpZ2h0cyAtIDIwMjAifQ'
 
 app.get('/shopify', async (req, res) => { 
-  const resFromShop = await fetch(collectionClearanceAPI5, options) // fetach returns a Promise
+  const resFromShop = await fetch(collectionClearanceAPI4, options) // fetach returns a Promise
   const objFromShop = await resFromShop.json() // json() method return a Promise, so need to await
   const responseHeaders = resFromShop.headers // This is the response's property, so can be used directly
 

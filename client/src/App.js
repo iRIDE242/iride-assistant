@@ -45,6 +45,8 @@ function App() {
   // Functions to handle products API
   const getProductVariants = product => product.variants
 
+  const isProductArchived = product => product.status === 'archived'
+
   const getNonHiddenVariants = variants => variants.filter(variant => variant.weight !== 9999)
 
   const getVariantInventory = variant => variant.inventory_quantity
@@ -122,7 +124,7 @@ function App() {
             
             res(available)
 
-          }, 1000 * index);
+          }, 500 * index);
         })
       ]
     }
@@ -136,28 +138,17 @@ function App() {
 
   const getLocalsOutOfStock = async products => {
     setIsLoading(true)
-    let promiseContainer = []
 
-    for (let index = 0; index < products.length; index++) {
-      promiseContainer = [
-        ...promiseContainer,
-        new Promise(res => {
-          setTimeout(async () => {
-            console.log(index * 1)
-    
-            if (await isLocalOutOfStock(products[index])) {
-              res(products[index])
-            } else {
-              res(null)
-            }
+    const nonArchivedProducts = products.filter(product => !isProductArchived(product))
 
-          }, 1000 * index);
-        })
-      ]
+    const localsOutOfStock = []
+
+    for (let index = 0; index < nonArchivedProducts.length; index++) {
+
+      if (await isLocalOutOfStock(nonArchivedProducts[index])) localsOutOfStock.push(nonArchivedProducts[index])
     }
 
-    const localsOutOfStock = await Promise.all(promiseContainer)
-    setLocalsOutOfStock(localsOutOfStock.filter(local => local !== null))
+    setLocalsOutOfStock(localsOutOfStock)
     setIsLoading(false)
   } 
 
