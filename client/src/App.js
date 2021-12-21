@@ -47,6 +47,8 @@ function App() {
 
   const isProductArchived = product => product.status === 'archived'
 
+  const isProductActive = product => product.status === 'active'
+
   const getNonHiddenVariants = variants => variants.filter(variant => variant.weight !== 9999)
 
   const getVariantInventory = variant => variant.inventory_quantity
@@ -139,13 +141,13 @@ function App() {
   const getLocalsOutOfStock = async products => {
     setIsLoading(true)
 
-    const nonArchivedProducts = products.filter(product => !isProductArchived(product))
+    const activeProducts = products.filter(isProductActive)
 
     const localsOutOfStock = []
 
-    for (let index = 0; index < nonArchivedProducts.length; index++) {
+    for (let index = 0; index < activeProducts.length; index++) {
 
-      if (await isLocalOutOfStock(nonArchivedProducts[index])) localsOutOfStock.push(nonArchivedProducts[index])
+      if (await isLocalOutOfStock(activeProducts[index])) localsOutOfStock.push(activeProducts[index])
     }
 
     setLocalsOutOfStock(localsOutOfStock)
