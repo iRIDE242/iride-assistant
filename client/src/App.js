@@ -114,22 +114,30 @@ function App() {
     const locationId = '16347136066'
     const nonHiddenVariants = getNonHiddenVariantsFromProduct(product)
 
-    // const nonHiddenLocalInventories = await Promise.all(nonHiddenVariants.map(async variant => {
-    //   const inventoryRes = await fetch(`/inventory?location=${locationId}&item=${variant.inventory_item_id}`)
-    //   const inventoryLevel = await inventoryRes.json()
-    //   return inventoryLevel.objFromShop
-    // }))
+    let promiseContainer = []
 
     for (let index = 0; index < nonHiddenVariants.length; index++) {
-      setTimeout(async () => {
-        const inventoryRes = await fetch(`/inventory?location=${locationId}&item=${nonHiddenVariants[index].inventory_item_id}`)
-        const inventoryLevel = await inventoryRes.json()
-        // return inventoryLevel.objFromShop
-        console.log(inventoryLevel.objFromShop)
-      }, 1000 * index);
+      promiseContainer = 
+        [
+          ...promiseContainer,
+          new Promise(res => {
+            setTimeout(async () => {
+              const inventoryRes = await fetch(`/inventory?location=${locationId}&item=${nonHiddenVariants[index].inventory_item_id}`)
+              const { objFromShop } = await inventoryRes.json()
+
+              const { inventory_levels } = objFromShop
+              const { available } = inventory_levels[0]
+              
+              res(available)
+
+            }, 1000 * index);
+          })
+        ]
     }
 
-    // console.log(nonHiddenLocalInventories)
+    const promises = await Promise.all(promiseContainer)
+
+    console.log(`${product.title}: ${promises}`)
   }
 
 
