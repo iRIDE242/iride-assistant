@@ -136,8 +136,10 @@ function App() {
     }
 
     const promises = await Promise.all(promiseContainer)
+    const nonHiddenStock = promises.reduce((acc, cur) => acc + cur)
+    console.log(`${product.title}: ${nonHiddenStock}`)
 
-    console.log(`${product.title}: ${promises}`)
+    return nonHiddenStock <= 0
   }
 
 
