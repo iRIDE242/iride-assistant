@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
+import Product from './components/Product';
 import { pipe } from './utils/functions';
 
 function App() {
@@ -162,6 +163,10 @@ function App() {
     return totalInventoryOfNonHiddenVariants <= 0
   }
 
+  if (!products.length) return (
+    <p>Loading...</p>
+  )
+
   return (
     <div className="App">
       <p className="App-intro">{data}</p>
@@ -173,21 +178,12 @@ function App() {
               ))
             : <p>No products are out of stock locally.</p>
       }
-      {/* <ul>
-        {outOfStockProductsWithNonHiddenVariants.length
-          ? outOfStockProductsWithNonHiddenVariants.map((product, index) => 
-              <li key={index}>
-                <h2>{product.title}</h2>
-                <ul>
-                  {product.variants.map((variant, index) => 
-                    !isHiddenVariant(variant) && isInventoryZero(variant) &&
-                      <li key={index}>{getVariantTitle(variant)}</li>  
-                  )}
-                </ul>
-              </li>
-            )
-          : <li>No out of stock products</li>}
-      </ul> */}
+      <h2>PRODUCT LIST</h2>
+      {products.length
+        ? products.map((product, index) => (
+            <Product key={index} product={product} />
+          ))
+        : <p>No products from this query</p>}
     </div>
   );
 }
