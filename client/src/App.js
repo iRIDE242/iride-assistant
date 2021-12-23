@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { getProductNonHiddenVariants } from './actions/shared';
 import './App.css';
 import Product from './components/Product';
 import { pipe } from './utils/functions';
@@ -110,16 +111,16 @@ function App() {
 
   const isLocalOutOfStock = async product => {
     const locationId = '16347136066'
-    const nonHiddenVariants = getNonHiddenVariantsFromProduct(product)
+    const productNonHiddenVariants = getProductNonHiddenVariants(product)
 
     let promiseContainer = []
 
-    for (let index = 0; index < nonHiddenVariants.length; index++) {
+    for (let index = 0; index < productNonHiddenVariants.length; index++) {
       promiseContainer = [
         ...promiseContainer,
         new Promise(res => {
           setTimeout(async () => {
-            const inventoryRes = await fetch(`/inventory?location=${locationId}&item=${nonHiddenVariants[index].inventory_item_id}`)
+            const inventoryRes = await fetch(`/inventory?location=${locationId}&item=${productNonHiddenVariants[index].inventory_item_id}`)
             const { objFromShop } = await inventoryRes.json()
 
             const { inventory_levels } = objFromShop

@@ -1,5 +1,5 @@
 import React from 'react'
-import { getProductTitle } from './productAPIs'
+import { getProductTitle } from '../actions/productAPIs'
 
 function Product(props) {
   const { product } = props
