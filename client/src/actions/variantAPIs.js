@@ -4,6 +4,7 @@ import { filter, pipe, prop } from "ramda";
  * Get properties
  */
 const getVariantWeight = prop('weight')
+export const getVariantInventoryItemId = prop('inventory_item_id')
 
 
 
