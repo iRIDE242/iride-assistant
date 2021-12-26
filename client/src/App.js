@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { areLocalNonHiddensOutOfStock } from './actions/productAPIs';
+import { getLocallyOutOfStockProducts } from './actions/shared';
 import './App.css';
 import Product from './components/Product';
 
@@ -10,14 +10,18 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
+    setIsLoading(true)
     callBackendAPI()
       .then(res => {
         setData(res.body.express)
         setPropducts(res.products)
         console.log(res)
-        getLocalsOutOfStock(res.products)
-
-
+        
+        return getLocallyOutOfStockProducts(res.products) // A promise
+      })
+      .then(res => {
+        setLocalsOutOfStock(res)
+        setIsLoading(false)
       })
       .catch(err => console.log(err))
   }, [])
@@ -38,28 +42,6 @@ function App() {
       headerObj: shopBody.headerObj
     }
   }
-
-
-  // Functions to handle products API
-  
-
-  const isProductActive = product => product.status === 'active'
-
-  const getLocalsOutOfStock = async products => {
-    setIsLoading(true)
-
-    const activeProducts = products.filter(isProductActive)
-
-    const localsOutOfStock = []
-
-    for (let index = 0; index < activeProducts.length; index++) {
-
-      if (await areLocalNonHiddensOutOfStock(activeProducts[index])) localsOutOfStock.push(activeProducts[index])
-    }
-
-    setLocalsOutOfStock(localsOutOfStock)
-    setIsLoading(false)
-  } 
 
   if (!products.length) return (
     <p>Loading...</p>

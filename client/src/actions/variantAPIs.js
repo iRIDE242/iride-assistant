@@ -1,7 +1,7 @@
-import { filter, pipe, prop } from "ramda";
+import { pipe, prop } from "ramda";
 
 /**
- * Get properties
+ * Variant properties
  */
 const getWeight = prop('weight')
 export const getInventoryItemId = prop('inventory_item_id')

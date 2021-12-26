@@ -1,10 +1,7 @@
-import { add, filter, pipe, prop, reduce } from "ramda";
+import { add, equals, filter, pipe, prop, reduce } from "ramda";
 import { getVariantLocationInventory } from "../utils/api";
 import { LOCAL_LOCATION_ID } from "../utils/config";
 import { getInventoryItemId, isNonHidden } from "./variantAPIs";
-
-
-
 
 /**
  * Product properties
@@ -19,6 +16,7 @@ const getStatus = prop('status')
  * Specific requests
  */
 const getNonHiddens = pipe(getVariants, filter(isNonHidden))
+export const isActive = pipe(getStatus, equals('active'))
 
 
 
