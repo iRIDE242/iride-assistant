@@ -1,9 +1,9 @@
 import React from 'react'
-import { getProductTitle } from '../actions/productAPIs'
+import { getTitle } from '../actions/shared'
 
 function Product(props) {
   const { product } = props
-  const title = getProductTitle(product)
+  const title = getTitle(product)
 
   return (
     <div>

@@ -3,8 +3,8 @@ import { filter, pipe, prop } from "ramda";
 /**
  * Get properties
  */
-const getVariantWeight = prop('weight')
-export const getVariantInventoryItemId = prop('inventory_item_id')
+const getWeight = prop('weight')
+export const getInventoryItemId = prop('inventory_item_id')
 
 
 
@@ -14,5 +14,5 @@ export const getVariantInventoryItemId = prop('inventory_item_id')
  */
 
 // Non-hidden variant
-const isNotHidden = weight => weight !== 9999
-export const isNonHiddenVariant = pipe(getVariantWeight, isNotHidden)
+const isNot9999 = weight => weight !== 9999
+export const isNonHidden = pipe(getWeight, isNot9999)
