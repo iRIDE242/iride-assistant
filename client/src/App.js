@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { isLocalNonHiddensOutOfStock } from './actions/productAPIs';
+import { areLocalNonHiddensOutOfStock } from './actions/productAPIs';
 import './App.css';
 import Product from './components/Product';
 
@@ -54,7 +54,7 @@ function App() {
 
     for (let index = 0; index < activeProducts.length; index++) {
 
-      if (await isLocalNonHiddensOutOfStock(activeProducts[index])) localsOutOfStock.push(activeProducts[index])
+      if (await areLocalNonHiddensOutOfStock(activeProducts[index])) localsOutOfStock.push(activeProducts[index])
     }
 
     setLocalsOutOfStock(localsOutOfStock)

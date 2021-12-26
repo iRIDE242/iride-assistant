@@ -32,7 +32,7 @@ const getNonHiddens = pipe(getVariants, filter(isNonHidden))
  * @param {Product Object} product 
  * @returns {Boolean}
  */
-export const isLocalNonHiddensOutOfStock = async product => {
+export const areLocalNonHiddensOutOfStock = async product => {
   let promiseContainer = []
   const nonHiddens = getNonHiddens(product)
 
