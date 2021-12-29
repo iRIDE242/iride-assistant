@@ -5,12 +5,8 @@ import express from 'express'
 
 dotenv.config()
 const debug = debugModule('app')
-
-// const express = require('express'); 
-// const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
-
-const app = express(); 
-const port = process.env.PORT || 5000; 
+const app = express()
+const port = process.env.PORT || 5000
 
 const options = {
   method: 'GET',
@@ -55,11 +51,6 @@ app.get('/inventory', async (req, res) => {
   // console.log(objFromShop)
 
   res.send({ objFromShop }); 
-}); 
-
-// create a GET route
-app.get('/express_backend', (req, res) => { 
-  res.send({ mock: 'text', express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); 
 }); 
 
 app.listen(port, () => debug(`Listening on port ${port} : )`))

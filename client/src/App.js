@@ -4,7 +4,6 @@ import './App.css';
 import Product from './components/Product';
 
 function App() {
-  const [data, setData] = useState(null)
   const [products, setPropducts] = useState([])
   const [localsOutOfStock, setLocalsOutOfStock] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -13,7 +12,6 @@ function App() {
     setIsLoading(true)
     callBackendAPI()
       .then(res => {
-        setData(res.body.express)
         setPropducts(res.products)
         console.log(res)
         
@@ -27,17 +25,10 @@ function App() {
   }, [])
 
   const callBackendAPI = async () => {
-    const response = await fetch('/express_backend')
-    const body = await response.json()
-
     const shopRes = await fetch('/shopify')
     const shopBody = await shopRes.json()
-
-    if (response.status !== 200) {
-      throw Error(body.message) 
-    }
+    
     return {
-      body,
       products: shopBody.objFromShop.products,
       headerObj: shopBody.headerObj
     }
@@ -49,7 +40,6 @@ function App() {
 
   return (
     <div className="App">
-      <p className="App-intro">{data}</p>
       {isLoading 
         ? <p>Loading</p>
         : localsOutOfStock.length 
