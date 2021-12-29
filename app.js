@@ -1,7 +1,13 @@
-require('dotenv').config();
+import dotenv from 'dotenv'
+import fetch from 'node-fetch'
+import debugModule from 'debug'
+import express from 'express'
 
-const express = require('express'); 
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+dotenv.config()
+const debug = debugModule('app')
+
+// const express = require('express'); 
+// const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
 const app = express(); 
 const port = process.env.PORT || 5000; 
@@ -56,5 +62,4 @@ app.get('/express_backend', (req, res) => {
   res.send({ mock: 'text', express: 'YOUR EXPRESS BACKEND IS CONNECTED TO REACT' }); 
 }); 
 
-// This displays message that the server running and listening to specified port
-app.listen(port, () => console.log(`Listening on port ${port}`)); 
+app.listen(port, () => debug(`Listening on port ${port} : )`))
