@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 import fetch from 'node-fetch'
 import debugModule from 'debug'
 import express from 'express'
+import { getByItemAndLocation } from './src/shopifyAPIs/inventory.js'
 
 dotenv.config()
 const debug = debugModule('app')
@@ -43,12 +44,7 @@ app.get('/inventory', async (req, res) => {
   const locationId = req.query.location
   const itemId = req.query.item
 
-  // console.log(itemId)
-
-  const resFromShop = await fetch(`https://iride-store.myshopify.com/admin/api/2021-10/inventory_levels.json?inventory_item_ids=${itemId}&location_ids=${locationId}`, options)
-  const objFromShop = await resFromShop.json()
-
-  // console.log(objFromShop)
+  const objFromShop = await getByItemAndLocation(itemId, locationId)
 
   res.send({ objFromShop }); 
 }); 
