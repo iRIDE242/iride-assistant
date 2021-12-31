@@ -44,9 +44,9 @@ app.get('/inventory', async (req, res) => {
   const locationId = req.query.location
   const itemId = req.query.item
 
-  const objFromShop = await getByItemAndLocation(itemId, locationId)
+  const inventory = await getByItemAndLocation(itemId, locationId)
 
-  res.send({ objFromShop }); 
+  res.send({ inventory })
 }); 
 
 app.listen(port, () => debug(`Listening on port ${port} : )`))
