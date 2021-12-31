@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 import fetch from 'node-fetch'
 import debugModule from 'debug'
 import express from 'express'
-import { getByItemAndLocation } from './src/shopifyAPIs/inventory.js'
+import { inventoryRouter } from './src/routes/inventoryRoutes.js'
 
 dotenv.config()
 const debug = debugModule('app')
@@ -26,6 +26,8 @@ const collectionClearanceAPI5 = 'https://iride-store.myshopify.com/admin/api/202
 const collectionClearanceAPI6 = 'https://iride-store.myshopify.com/admin/api/2021-10/products.json?limit=50&page_info=eyJjb2xsZWN0aW9uX2lkIjoyMTA2Mzk0ODcxMzYsImRpcmVjdGlvbiI6Im5leHQiLCJsYXN0X2lkIjo1NTA2MjkxMTA1OTUyLCJsYXN0X3ZhbHVlIjoiUkFDRUZBQ0UgLSBNZW4ncyBOYW5vIFBhY2thYmxlIEphY2tldCJ9'
 const collectionClearanceAPI7 = 'https://iride-store.myshopify.com/admin/api/2021-10/products.json?limit=50&page_info=eyJjb2xsZWN0aW9uX2lkIjoyMTA2Mzk0ODcxMzYsImRpcmVjdGlvbiI6Im5leHQiLCJsYXN0X2lkIjo0Mzc3NDc4ODg5NjA4LCJsYXN0X3ZhbHVlIjoiU3BlY2lhbGl6ZWQgLSBUcml2ZW50IFNDIFRyaWF0aGxvbiBTaG9lcyJ9'
 
+app.use('/inventory', inventoryRouter)
+
 app.get('/shopify', async (req, res) => { 
   const resFromShop = await fetch(collectionClearanceAPI3, options) // fetach returns a Promise
   const objFromShop = await resFromShop.json() // json() method return a Promise, so need to await
@@ -35,18 +37,9 @@ app.get('/shopify', async (req, res) => {
   for (var pair of responseHeaders.entries()) {
     headerObj[pair[0]] = pair[1]
   }
-  console.log(headerObj)
+  // console.log(headerObj)
 
   res.send({ shopify: 'This should be a Shopify response', objFromShop, headerObj: headerObj }); 
-}); 
-
-app.get('/inventory', async (req, res) => { 
-  const locationId = req.query.location
-  const itemId = req.query.item
-
-  const inventory = await getByItemAndLocation(itemId, locationId)
-
-  res.send({ inventory })
 }); 
 
 app.listen(port, () => debug(`Listening on port ${port} : )`))
