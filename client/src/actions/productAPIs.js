@@ -41,9 +41,8 @@ export const areLocalNonHiddensOutOfStock = async product => {
       ...promiseContainer,
       new Promise(res => {
         setTimeout(async () => {
-          const inventoryRes = await getVariantLocationInventory(LOCAL_LOCATION_ID, inventoryItemId)
+          const { objFromShop } = await getVariantLocationInventory(LOCAL_LOCATION_ID, inventoryItemId)
 
-          const { objFromShop } = await inventoryRes.json()
           const { inventory_levels } = objFromShop
           const { available } = inventory_levels[0]
           

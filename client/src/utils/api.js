@@ -1,3 +1,4 @@
-export function getVariantLocationInventory (locationId, inventoryItemId) {
-  return fetch(`/inventory?location=${locationId}&item=${inventoryItemId}`)
+export const getVariantLocationInventory = async (locationId, inventoryItemId) => {
+  const response = await fetch(`/inventory?location=${locationId}&item=${inventoryItemId}`)
+  return response.json()
 }
