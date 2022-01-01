@@ -27,6 +27,8 @@ function App() {
   const callBackendAPI = async () => {
     const shopRes = await fetch('/shopify')
     const shopBody = await shopRes.json()
+
+    const test = await fetch('/products?collection=210639487136')
     
     return {
       products: shopBody.objFromShop.products,

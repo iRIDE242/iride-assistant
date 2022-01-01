@@ -3,6 +3,7 @@ import fetch from 'node-fetch'
 import debugModule from 'debug'
 import express from 'express'
 import { inventoryRouter } from './src/routes/inventoryRoutes.js'
+import { productsRouter } from './src/routes/productsRouter.js'
 
 dotenv.config()
 const debug = debugModule('app')
@@ -27,8 +28,10 @@ const collectionClearanceAPI6 = 'https://iride-store.myshopify.com/admin/api/202
 const collectionClearanceAPI7 = 'https://iride-store.myshopify.com/admin/api/2021-10/products.json?limit=50&page_info=eyJjb2xsZWN0aW9uX2lkIjoyMTA2Mzk0ODcxMzYsImRpcmVjdGlvbiI6Im5leHQiLCJsYXN0X2lkIjo0Mzc3NDc4ODg5NjA4LCJsYXN0X3ZhbHVlIjoiU3BlY2lhbGl6ZWQgLSBUcml2ZW50IFNDIFRyaWF0aGxvbiBTaG9lcyJ9'
 
 app.use('/inventory', inventoryRouter)
+app.use('/products', productsRouter)
 
 app.get('/shopify', async (req, res) => { 
+  // debug(req.headers)
   const resFromShop = await fetch(collectionClearanceAPI3, options) // fetach returns a Promise
   const objFromShop = await resFromShop.json() // json() method return a Promise, so need to await
   const responseHeaders = resFromShop.headers // This is the response's property, so can be used directly
