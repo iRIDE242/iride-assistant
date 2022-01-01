@@ -25,14 +25,25 @@ function App() {
   }, [])
 
   const callBackendAPI = async () => {
-    const shopRes = await fetch('/shopify')
-    const shopBody = await shopRes.json()
+    // const shopRes = await fetch('/shopify')
+    // const shopBody = await shopRes.json()
 
-    const test = await fetch('/products?collection_id=210639487136')
+    // const { products, responseHeaders } = await fetch('/products?collection_id=210639487136')
+    // console.log(products)
+
+    const response = await fetch('/products?collection_id=210639487136')
+    const { products, responseHeaders } = await response.json()
+
+    // console.log(products)
+    // console.log(responseHeaders)
+
+    // const result = await response.json()
+    // console.log(result)
+
     
     return {
-      products: shopBody.objFromShop.products,
-      headerObj: shopBody.headerObj
+      products,
+      responseHeaders
     }
   }
 
