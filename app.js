@@ -1,5 +1,4 @@
 import dotenv from 'dotenv'
-import fetch from 'node-fetch'
 import debugModule from 'debug'
 import express from 'express'
 import { inventoryRouter } from './src/routes/inventoryRoutes.js'
@@ -9,14 +8,6 @@ dotenv.config()
 const debug = debugModule('app')
 const app = express()
 const port = process.env.PORT || 5000
-
-const options = {
-  method: 'GET',
-  headers: {
-    'Content-Type': 'application/json',
-    'X-Shopify-Access-Token': process.env.API_SECRET_KEY
-  }
-};
 
 const productAPI = 'https://iride-store.myshopify.com/admin/api/2021-10/products.json'
 const collectionClearanceAPI = 'https://iride-store.myshopify.com/admin/api/2021-10/products.json?collection_id=210639487136'
@@ -29,20 +20,5 @@ const collectionClearanceAPI7 = 'https://iride-store.myshopify.com/admin/api/202
 
 app.use('/inventory', inventoryRouter)
 app.use('/products', productsRouter)
-
-app.get('/shopify', async (req, res) => { 
-  // debug(req.headers)
-  const resFromShop = await fetch(collectionClearanceAPI3, options) // fetach returns a Promise
-  const objFromShop = await resFromShop.json() // json() method return a Promise, so need to await
-  const responseHeaders = resFromShop.headers // This is the response's property, so can be used directly
-
-  let headerObj = { jerry: 'Zhang' }
-  for (var pair of responseHeaders.entries()) {
-    headerObj[pair[0]] = pair[1]
-  }
-  // console.log(headerObj)
-
-  res.send({ shopify: 'This should be a Shopify response', objFromShop, headerObj: headerObj }); 
-}); 
 
 app.listen(port, () => debug(`Listening on port ${port} : )`))
