@@ -1,17 +1,17 @@
 import debugModule from 'debug'
 import { prop } from 'ramda'
-import { queryByCollection } from '../shopifyAPIs/products.js'
-import { getQueryCollection } from '../utils/functions.js'
+import { queryByCollectionId } from '../shopifyAPIs/products.js'
+import { getQueryCollectionId } from '../utils/functions.js'
 
 const debug = debugModule('app: productsController')
 
 export const productsController = () => {
   const middleware = (req, res, next) => {
-    if (getQueryCollection(req)) {
-      const collectionId = getQueryCollection(req)
+    if (getQueryCollectionId(req)) {
+      const collectionId = getQueryCollectionId(req)
       debug(`collectionId: ${collectionId}`)
 
-      req.queryFunc = () => queryByCollection(collectionId)
+      req.queryFunc = () => queryByCollectionId(collectionId)
       next()
     }
   }

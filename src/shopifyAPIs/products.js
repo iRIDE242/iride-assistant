@@ -6,7 +6,7 @@ export const queryProducts = async () => {
   return response.json()
 }
 
-export const queryByCollection = async collectionId => {
+export const queryByCollectionId = async collectionId => {
   const response = await fetch(`https://${STORE_NAME}.myshopify.com/admin/api/${API_VERSION}/products.json?collection_id=${collectionId}`, options)
   const products = await response.json()
   

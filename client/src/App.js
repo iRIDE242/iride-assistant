@@ -28,7 +28,7 @@ function App() {
     const shopRes = await fetch('/shopify')
     const shopBody = await shopRes.json()
 
-    const test = await fetch('/products?collection=210639487136')
+    const test = await fetch('/products?collection_id=210639487136')
     
     return {
       products: shopBody.objFromShop.products,
