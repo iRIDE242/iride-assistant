@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getLocallyOutOfStockProducts } from './actions/shared';
+import { getLocallyOutOfStockProducts, getProductsByCollectionId } from './actions/shared';
 import './App.css';
 import Product from './components/Product';
 
@@ -25,21 +25,7 @@ function App() {
   }, [])
 
   const callBackendAPI = async () => {
-    // const shopRes = await fetch('/shopify')
-    // const shopBody = await shopRes.json()
-
-    // const { products, responseHeaders } = await fetch('/products?collection_id=210639487136')
-    // console.log(products)
-
-    const response = await fetch('/products?collection_id=210639487136')
-    const { products, responseHeaders } = await response.json()
-
-    // console.log(products)
-    // console.log(responseHeaders)
-
-    // const result = await response.json()
-    // console.log(result)
-
+    const { products, responseHeaders } = await getProductsByCollectionId('210639487136')
     
     return {
       products,

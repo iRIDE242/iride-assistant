@@ -20,8 +20,8 @@ export const productsController = () => {
     try {
       const queryFunc = prop('queryFunc')(req)
 
-      // queryFunc's return is not a promise, but includes promise inside.
-      // So it still needs 'await' to get the result from the promise.
+      // queryFunc's return is a promise,
+      // So it needs 'await' to get the result from the promise.
       const { responseHeaders, products: { products }} = await queryFunc()
       debug('Succeeded getting products and response header')
       debug(responseHeaders)

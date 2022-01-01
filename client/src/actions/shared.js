@@ -29,3 +29,8 @@ export const getLocallyOutOfStockProducts = async products => {
 
   return activeLocallyOutOfStockProducts
 }
+
+export const getProductsByCollectionId = async collectionId => {
+  const response = await fetch(`/products?collection_id=${collectionId}`)
+  return response.json()
+}
