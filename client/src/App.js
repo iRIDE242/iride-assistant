@@ -25,11 +25,11 @@ function App() {
   }, [])
 
   const callBackendAPI = async () => {
-    const { products, responseHeaders } = await getProductsByCollectionId('210639487136')
+    const { products, headerObj } = await getProductsByCollectionId('210639487136')
     
     return {
       products,
-      responseHeaders
+      headerObj
     }
   }
 
