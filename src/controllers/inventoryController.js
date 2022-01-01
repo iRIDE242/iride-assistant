@@ -5,11 +5,11 @@ const debug = debugModule('app: inventoryController')
 
 export const inventoryController = () => {
   const getByItemAndLocation = async (req, res) => {
-    const itemId = req.query.item
-    const locationId = req.query.location
+    const inventoryItemIds = req.query.inventory_item_ids
+    const locationIds = req.query.location_ids
 
     try {
-      const inventory = await queryByItemAndLocation(itemId, locationId)
+      const inventory = await queryByItemAndLocation(inventoryItemIds, locationIds)
       // debug(inventory)
       
       res.send({ inventory })
