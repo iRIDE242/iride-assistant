@@ -35,7 +35,10 @@ export const getProductsByCollectionId = async collectionId => {
   return response.json()
 }
 
-
+export const getProductsByPageInfo = async ({ limit, pageInfo }) => {
+  const response = await fetch(`/products?limit=${limit}&page_info=${pageInfo}`)
+  return response.json()
+}
 
 
 /**
@@ -53,7 +56,7 @@ const regexGeneratorForLink = direction => {
 }
 
 const regexNext = regexGeneratorForLink('next')
-const regexPrev = regexGeneratorForLink('prev')
+const regexPrev = regexGeneratorForLink('previous')
 
 const getLink = prop('link')
 

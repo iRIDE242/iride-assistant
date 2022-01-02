@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { createPrevAndNextFromHeader, getLocallyOutOfStockProducts, getProductsByCollectionId } from './actions/shared';
+import { createPrevAndNextFromHeader, getLocallyOutOfStockProducts, getProductsByCollectionId, getProductsByPageInfo } from './actions/shared';
 import './App.css';
 import Product from './components/Product';
 
@@ -47,12 +47,39 @@ function App() {
     }
   }
 
+  const handlePrevOrNextClick = direction => async e => {
+    setIsLoading(true)
+
+    const { prev, next } = prevAndNext
+    const { products: newProducts, headerObj } = direction === 'prev'
+      ? await getProductsByPageInfo(prev)
+      : await getProductsByPageInfo(next)
+
+    setPropducts(newProducts)
+    setPrevAndNext(createPrevAndNextFromHeader(headerObj))
+
+    const locallyOutOfStockProducts = await getLocallyOutOfStockProducts(newProducts)
+
+    setLocalsOutOfStock(locallyOutOfStockProducts)
+    setIsLoading(false)
+  }
+
   if (!products.length) return (
     <p>Loading...</p>
   )
 
   return (
     <div className="App">
+      <button 
+        disabled={isLoading || !prevAndNext.prev.pageInfo}
+        onClick={handlePrevOrNextClick('prev')}>
+        PREVIOUS
+      </button>
+      <button 
+        disabled={isLoading || !prevAndNext.next.pageInfo}
+        onClick={handlePrevOrNextClick('next')}>
+        NEXT
+      </button>
       {isLoading 
         ? <p>Loading</p>
         : localsOutOfStock.length 

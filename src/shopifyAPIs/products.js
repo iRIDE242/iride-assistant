@@ -20,7 +20,12 @@ export const queryByCollectionId = async collectionId => {
   }
 }
 
-export const queryByLimitAndPageInfo = async (limit, pageInfo) => {
+export const queryByPageInfo = async (limit, pageInfo) => {
   const response = await fetch(`https://${STORE_NAME}.myshopify.com/admin/api/${API_VERSION}/products.json?limit=${limit}&page_info=${pageInfo}`, options)
-  return response.json()
+  const products = await response.json()
+
+  return {
+    responseHeaders: response.headers,
+    products
+  }
 }

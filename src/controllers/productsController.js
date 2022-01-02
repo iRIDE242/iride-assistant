@@ -1,7 +1,7 @@
 import debugModule from 'debug'
 import { prop } from 'ramda'
-import { queryByCollectionId } from '../shopifyAPIs/products.js'
-import { getQueryCollectionId, handleHeaders } from '../utils/functions.js'
+import { queryByCollectionId, queryByPageInfo } from '../shopifyAPIs/products.js'
+import { getQueryCollectionId, getQueryLimit, getQueryPageInfo, handleHeaders } from '../utils/functions.js'
 
 const debug = debugModule('app: productsController')
 
@@ -9,9 +9,18 @@ export const productsController = () => {
   const middleware = (req, res, next) => {
     if (getQueryCollectionId(req)) {
       const collectionId = getQueryCollectionId(req)
-      debug(`collectionId: ${collectionId}`)
+      debug(`Collection ID: ${collectionId}`)
 
       req.queryFunc = () => queryByCollectionId(collectionId)
+      next()
+    }
+
+    if (getQueryPageInfo(req)) {
+      const pageInfo = getQueryPageInfo(req)
+      const limit = getQueryLimit(req)
+      debug(`Page info: ${pageInfo}`)
+
+      req.queryFunc = () => queryByPageInfo(limit, pageInfo)
       next()
     }
   }
