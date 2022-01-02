@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getLocallyOutOfStockProducts, getProductsByCollectionId } from './actions/shared';
+import { createPrevAndNextFromHeader, getLocallyOutOfStockProducts, getProductsByCollectionId } from './actions/shared';
 import './App.css';
 import Product from './components/Product';
 
@@ -7,6 +7,17 @@ function App() {
   const [products, setPropducts] = useState([])
   const [localsOutOfStock, setLocalsOutOfStock] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [collectionId, setCollectionId] = useState('210639487136')
+  const [prevAndNext, setPrevAndNext] = useState({
+    prev: {
+      limit: '',
+      pageInfo: ''
+    },
+    next: {
+      limit: '',
+      pageInfo: ''
+    }
+  })
 
   useEffect(() => {
     setIsLoading(true)
@@ -14,6 +25,9 @@ function App() {
       .then(res => {
         setPropducts(res.products)
         console.log(res)
+        console.log(res.headerObj.link)
+        
+        setPrevAndNext(createPrevAndNextFromHeader(res.headerObj))
         
         return getLocallyOutOfStockProducts(res.products) // A promise
       })
@@ -25,7 +39,7 @@ function App() {
   }, [])
 
   const callBackendAPI = async () => {
-    const { products, headerObj } = await getProductsByCollectionId('210639487136')
+    const { products, headerObj } = await getProductsByCollectionId(collectionId)
     
     return {
       products,
