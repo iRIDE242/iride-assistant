@@ -3,6 +3,17 @@ import { createPrevAndNextFromHeader, getLocallyOutOfStockProducts, getProductsB
 import './App.css';
 import Product from './components/Product';
 
+const collections = {
+  '210639487136': {
+    id: '210639487136',
+    name: 'Clearance'
+  },
+  '291229171904': {
+    id: '291229171904',
+    name: '25% Off Riding Tops'
+  }
+}
+
 function App() {
   const [products, setPropducts] = useState([])
   const [localsOutOfStock, setLocalsOutOfStock] = useState([])
@@ -70,6 +81,17 @@ function App() {
 
   return (
     <div className="App">
+      <div>
+        <label htmlFor='collections'>Choose a collection: </label>
+        <select name="collections" id="collections" disabled={isLoading}>
+          {Object.values(collections).map(({id, name}) => 
+            <option key={id} value={id}>{name}</option>)
+          }
+        </select>
+      </div>
+      
+
+
       <button 
         disabled={isLoading || !prevAndNext.prev.pageInfo}
         onClick={handlePrevOrNextClick('prev')}>
