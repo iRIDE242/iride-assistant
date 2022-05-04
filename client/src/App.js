@@ -47,7 +47,7 @@ function App() {
         setIsLoading(false)
       })
       .catch(err => console.log(err))
-  }, [])
+  }, [collectionId])
 
   const callBackendAPI = async () => {
     const { products, headerObj } = await getProductsByCollectionId(collectionId)
@@ -79,11 +79,21 @@ function App() {
     <p>Loading...</p>
   )
 
+  const handleSelectChange = e => {
+    setCollectionId(e.target.value)
+  }
+
   return (
     <div className="App">
       <div>
         <label htmlFor='collections'>Choose a collection: </label>
-        <select name="collections" id="collections" disabled={isLoading}>
+        <select 
+          name="collections" 
+          id="collections" 
+          disabled={isLoading}
+          value={collectionId}
+          onChange={handleSelectChange}
+        >
           {Object.values(collections).map(({id, name}) => 
             <option key={id} value={id}>{name}</option>)
           }
