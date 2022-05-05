@@ -1,4 +1,4 @@
-import { add, equals, filter, pipe, prop, reduce } from "ramda";
+import { equals, filter, pipe, prop, reduce } from "ramda";
 import { getVariantLocationInventory } from "../utils/api";
 import { LOCAL_LOCATION_ID } from "../utils/config";
 import { getInventoryItemId, isNonHidden } from "./variantAPIs";
@@ -31,6 +31,7 @@ export const isActive = pipe(getStatus, equals('active'))
  * @returns {Boolean}
  */
 export const areLocalNonHiddensOutOfStock = async product => {
+  let status = 'in stock'
   let promiseContainer = []
   const nonHiddens = getNonHiddens(product)
 
@@ -51,10 +52,20 @@ export const areLocalNonHiddensOutOfStock = async product => {
   }
 
   const inventories = await Promise.all(promiseContainer)
-  const totalNonHiddensInventory = reduce(add, 0)(inventories)
+
+  const processAdd = (acc, cur) => {
+    if (cur <= 0 && status === 'in stock') status = 'has variants out of stock'
+    return acc + cur
+  }
+
+  const totalNonHiddensInventory = reduce(processAdd, 0)(inventories)
   // Note, reduce from Ramda needs to give the initial value
 
   console.log(`${product.title}: ${totalNonHiddensInventory}`)
 
-  return totalNonHiddensInventory <= 0
+  if (totalNonHiddensInventory <= 0) status = 'out of stock'
+  console.log(status)
+
+  // return totalNonHiddensInventory <= 0
+  return status
 }

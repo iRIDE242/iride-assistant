@@ -22,12 +22,19 @@ export const getLocallyOutOfStockProducts = async products => {
   const activeProducts = filter(isActive)(products)
 
   const activeLocallyOutOfStockProducts = []
+  const activeLocallyHavingOutOfStockProducts = []
 
   for (let index = 0; index < activeProducts.length; index++) {
-    if (await areLocalNonHiddensOutOfStock(activeProducts[index])) activeLocallyOutOfStockProducts.push(activeProducts[index])
+    const status = await areLocalNonHiddensOutOfStock(activeProducts[index])
+
+    if (status === 'out of stock') activeLocallyOutOfStockProducts.push(activeProducts[index])
+    if (status === 'has variants out of stock') activeLocallyHavingOutOfStockProducts.push(activeProducts[index])
   }
 
-  return activeLocallyOutOfStockProducts
+  return {
+    activeLocallyOutOfStockProducts,
+    activeLocallyHavingOutOfStockProducts
+  }
 }
 
 export const getProductsByCollectionId = async collectionId => {

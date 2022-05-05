@@ -14,6 +14,40 @@ const collections = {
   }
 }
 
+
+function InventoryInfo({ localsOutOfStock }) {
+  const { 
+    activeLocallyOutOfStockProducts: gone, 
+    activeLocallyHavingOutOfStockProducts: partially 
+  } = localsOutOfStock
+
+  if (!gone.length && !partially.length) {
+    return <p>No products are out of stock locally.</p>
+  }
+
+  return (
+    <>
+      {gone.length > 0 && (
+        <div style={{color: 'red'}}>
+          <h3>Products out of stock [Counts: {gone.length}]</h3>
+          {gone.map((p) => (
+            <p key={p.id}>{p.title}</p>
+          ))}
+        </div>
+      )}
+      {partially.length > 0 && (
+        <div style={{color: 'orange'}}>
+          <h3>Products having out of stock variants [Counts: {partially.length}]</h3>
+          {partially.map((p) => (
+            <p key={p.id}>{p.title}</p>
+          ))}
+        </div>
+      )}
+    </>
+  )
+}
+
+
 function App() {
   const [products, setPropducts] = useState([])
   const [localsOutOfStock, setLocalsOutOfStock] = useState([])
@@ -114,13 +148,9 @@ function App() {
       </button>
       {isLoading 
         ? <p>Loading</p>
-        : localsOutOfStock.length 
-            ? localsOutOfStock.map((p, i) => (
-                <p key={i}>{p.title}</p>
-              ))
-            : <p>No products are out of stock locally.</p>
+        : <InventoryInfo localsOutOfStock={localsOutOfStock} />
       }
-      <h2>PRODUCT LIST</h2>
+      <h2>{collections[collectionId].name.toUpperCase()}</h2>
       {products.length
         ? products.map((product, index) => (
             <Product key={index} product={product} />
