@@ -89,6 +89,7 @@ function App() {
 
   const handlePrevOrNextClick = direction => async e => {
     setIsLoading(true)
+    setLocalsOutOfStock(null)
 
     const { prev, next } = prevAndNext
     const { products: newProducts, headerObj } = direction === 'prev'
@@ -110,6 +111,7 @@ function App() {
 
   const handleSelectChange = e => {
     setCollectionId(e.target.value)
+    setLocalsOutOfStock(null)
   }
 
   const handleQuery = async (e) => {
