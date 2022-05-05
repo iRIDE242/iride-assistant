@@ -35,7 +35,7 @@ function InventoryInfo({ localsOutOfStock }) {
         <div style={{color: 'red'}}>
           <h3>Products out of stock [Counts: {gone.length}]</h3>
           {gone.map((p) => (
-            <Product key={p.id} product={p} />
+            <Product key={p.id} product={p} fromInventory={true} />
           ))}
         </div>
       )}
@@ -43,7 +43,7 @@ function InventoryInfo({ localsOutOfStock }) {
         <div style={{color: 'orange'}}>
           <h3>Products having out of stock variants [Counts: {partially.length}]</h3>
           {partially.map((p) => (
-            <Product key={p.id} product={p} />
+            <Product key={p.id} product={p} fromInventory={true} />
           ))}
         </div>
       )}
