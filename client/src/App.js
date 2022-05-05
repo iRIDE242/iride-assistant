@@ -92,17 +92,20 @@ function App() {
     setLocalsOutOfStock(null)
 
     const { prev, next } = prevAndNext
-    const { products: newProducts, headerObj } = direction === 'prev'
-      ? await getProductsByPageInfo(prev)
-      : await getProductsByPageInfo(next)
 
-    setPropducts(newProducts)
-    setPrevAndNext(createPrevAndNextFromHeader(headerObj))
+    try {
+      const { products: newProducts, headerObj } = direction === 'prev'
+        ? await getProductsByPageInfo(prev)
+        : await getProductsByPageInfo(next)
 
-    const locallyOutOfStockProducts = await getLocallyOutOfStockProducts(newProducts)
+      setPropducts(newProducts)
+      setPrevAndNext(createPrevAndNextFromHeader(headerObj))
 
-    setLocalsOutOfStock(locallyOutOfStockProducts)
-    setIsLoading(false)
+      setIsLoading(false)
+    } catch (error) {
+      console.log(error)
+      setIsLoading(false)
+    }
   }
 
   if (!products.length) return (
@@ -151,7 +154,7 @@ function App() {
           onClick={handlePrevOrNextClick('prev')}>
           PREVIOUS
         </button>
-        
+
         <button 
           disabled={isLoading || !prevAndNext.next.pageInfo}
           onClick={handlePrevOrNextClick('next')}>
