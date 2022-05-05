@@ -18,7 +18,6 @@ function Product(props) {
         style={{ 
           display: 'flex', 
           margin: 'unset',
-          justifyContent: 'center',
           alignItems: 'center'
         }}>
         <p>{title}</p>
