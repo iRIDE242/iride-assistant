@@ -172,7 +172,7 @@ function App() {
         ? <p>Loading</p>
         : localsOutOfStock && (<InventoryInfo localsOutOfStock={localsOutOfStock} />)
       }
-      <h2>{collections[collectionId].name.toUpperCase()}</h2>
+      <h2>{collections[collectionId].name.toUpperCase()} [Counts: {products.length}]</h2>
       {products.length
         ? products.map((product, index) => (
             <Product key={index} product={product} />
