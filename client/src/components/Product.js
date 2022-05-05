@@ -6,9 +6,7 @@ function Product(props) {
   const title = getTitle(product)
 
   return (
-    <div>
-      <p>{title}</p>
-    </div>
+    <p>{title}</p>
   )
 }
 

@@ -31,7 +31,7 @@ function InventoryInfo({ localsOutOfStock }) {
         <div style={{color: 'red'}}>
           <h3>Products out of stock [Counts: {gone.length}]</h3>
           {gone.map((p) => (
-            <p key={p.id}>{p.title}</p>
+            <Product key={p.id} product={p} />
           ))}
         </div>
       )}
@@ -39,7 +39,7 @@ function InventoryInfo({ localsOutOfStock }) {
         <div style={{color: 'orange'}}>
           <h3>Products having out of stock variants [Counts: {partially.length}]</h3>
           {partially.map((p) => (
-            <p key={p.id}>{p.title}</p>
+            <Product key={p.id} product={p} />
           ))}
         </div>
       )}
@@ -50,7 +50,7 @@ function InventoryInfo({ localsOutOfStock }) {
 
 function App() {
   const [products, setPropducts] = useState([])
-  const [localsOutOfStock, setLocalsOutOfStock] = useState([])
+  const [localsOutOfStock, setLocalsOutOfStock] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [collectionId, setCollectionId] = useState('210639487136')
   const [prevAndNext, setPrevAndNext] = useState({
@@ -73,11 +73,6 @@ function App() {
         console.log(res.headerObj.link)
         
         setPrevAndNext(createPrevAndNextFromHeader(res.headerObj))
-        
-        return getLocallyOutOfStockProducts(res.products) // A promise
-      })
-      .then(res => {
-        setLocalsOutOfStock(res)
         setIsLoading(false)
       })
       .catch(err => console.log(err))
@@ -117,6 +112,20 @@ function App() {
     setCollectionId(e.target.value)
   }
 
+  const handleQuery = async (e) => {
+    setIsLoading(true)
+    e.preventDefault()
+
+    try {
+      const locallyOutOfStockProducts = await getLocallyOutOfStockProducts(products)
+      setLocalsOutOfStock(locallyOutOfStockProducts)
+      setIsLoading(false)
+    } catch (error) {
+      console.log(error)
+      setIsLoading(false)
+    }
+  }
+
   return (
     <div className="App">
       <div>
@@ -134,21 +143,29 @@ function App() {
         </select>
       </div>
       
+      <div>
+        <button 
+          disabled={isLoading || !prevAndNext.prev.pageInfo}
+          onClick={handlePrevOrNextClick('prev')}>
+          PREVIOUS
+        </button>
+        
+        <button 
+          disabled={isLoading || !prevAndNext.next.pageInfo}
+          onClick={handlePrevOrNextClick('next')}>
+          NEXT
+        </button>
+      </div>
 
+      <div>
+        <button onClick={handleQuery} disabled={isLoading}>
+          QUERY OUT OF STOCK
+        </button>
+      </div>
 
-      <button 
-        disabled={isLoading || !prevAndNext.prev.pageInfo}
-        onClick={handlePrevOrNextClick('prev')}>
-        PREVIOUS
-      </button>
-      <button 
-        disabled={isLoading || !prevAndNext.next.pageInfo}
-        onClick={handlePrevOrNextClick('next')}>
-        NEXT
-      </button>
       {isLoading 
         ? <p>Loading</p>
-        : <InventoryInfo localsOutOfStock={localsOutOfStock} />
+        : localsOutOfStock && (<InventoryInfo localsOutOfStock={localsOutOfStock} />)
       }
       <h2>{collections[collectionId].name.toUpperCase()}</h2>
       {products.length
