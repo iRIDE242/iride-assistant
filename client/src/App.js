@@ -15,6 +15,14 @@ const collections = {
   '291273015488': {
     id: '291273015488',
     name: '20% Off Fox Gloves'
+  },
+  '291274227904': {
+    id: '291274227904',
+    name: '20% Off Fox Socks'
+  },
+  '291278356672': {
+    id: '291278356672',
+    name: '20% Off Full Face Helmets'
   }
 }
 
