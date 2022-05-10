@@ -3,7 +3,7 @@ import { getTitle } from '../actions/shared'
 
 function Product(props) {
   const [isClicked, setIsClicked] = useState(false)
-  const { product, fromInventory, isPartial } = props
+  const { product, fromInventory, isIgnored, notIgnored, handleAddToIgnored, handleRemoveFromIgnored } = props
   const title = getTitle(product)
 
   const handleClick = e => {
@@ -12,14 +12,12 @@ function Product(props) {
     navigator.clipboard.writeText(title)
   }
 
-  const saveIgnore = e => {
-    e.preventDefault()
-    console.log(product)
-    console.log(typeof product.id) // number
+  const addToIgnored = () => {
+    handleAddToIgnored(product.id)
+  }
 
-    const ignored = window.localStorage.getItem('ignored') ? JSON.parse(window.localStorage.getItem('ignored')) : []
-    ignored.push(product.id)
-    window.localStorage.setItem('ignored', JSON.stringify(ignored))
+  const removeFromIgnored = () => {
+    handleRemoveFromIgnored(product.id)
   }
 
   return (
@@ -32,7 +30,8 @@ function Product(props) {
         }}>
         <p>{title}</p>
         {fromInventory && <button onClick={handleClick}>COPY</button>}
-        {isPartial && <button onClick={saveIgnore}>SET TO IGNORE</button>}
+        {notIgnored && <button onClick={addToIgnored}>ADD TO IGNORED</button>}
+        {isIgnored && <button onClick={removeFromIgnored}>REMOVE FROM IGNORED</button>}
         {isClicked && <p style={{ color: 'green' }}>Title has been copied</p>}
       </div>
       {fromInventory && <hr />}
