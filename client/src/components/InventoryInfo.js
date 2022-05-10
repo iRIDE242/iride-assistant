@@ -71,25 +71,30 @@ export default function InventoryInfo({ localsOutOfStock }) {
               />
             ))}
           </div>
-          <button onClick={toggleIgnored}>
-            {isHidden ? 'SHOW IGNORED' : 'HIDE IGNORED'}
-          </button>
-          <div
-            style={{ color: 'purple', display: isHidden ? 'none' : 'block' }}
-          >
-            <h3>
-              Ignored partially out of stock products [Counts: {ignored.length}]
-            </h3>
-            {ignored.map(p => (
-              <Product
-                key={p.id}
-                product={p}
-                fromInventory={true}
-                isIgnored={true}
-                handleRemoveFromIgnored={handleRemoveFromIgnored}
-              />
-            ))}
-          </div>
+          {ignored.length > 0 && (
+            <>
+              <button onClick={toggleIgnored}>
+                {isHidden ? 'SHOW IGNORED' : 'HIDE IGNORED'}
+              </button>
+              <div
+                style={{ color: 'purple', display: isHidden ? 'none' : 'block' }}
+              >
+                <h3>
+                  Ignored partially out of stock products [Counts: {ignored.length}]
+                </h3>
+                {ignored.map(p => (
+                  <Product
+                    key={p.id}
+                    product={p}
+                    fromInventory={true}
+                    isIgnored={true}
+                    handleRemoveFromIgnored={handleRemoveFromIgnored}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+          
         </>
       )}
     </>
