@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import useLocalStorageState from '../utils/useLocalStorageState'
 import Product from './Product'
 
@@ -6,6 +7,8 @@ export default function InventoryInfo({ localsOutOfStock }) {
     'ignoredProductIds',
     []
   )
+
+  const [isHidden, setIsHidden] = useState(true)
 
   const {
     activeLocallyOutOfStockProducts: gone,
@@ -28,11 +31,17 @@ export default function InventoryInfo({ localsOutOfStock }) {
   }
 
   const handleAddToIgnored = ignoredProductId => {
-    setIgnoredProductIds(prevIds => ([...prevIds, ignoredProductId]))
+    setIgnoredProductIds(prevIds => [...prevIds, ignoredProductId])
   }
 
   const handleRemoveFromIgnored = notIgnoredProductId => {
-    setIgnoredProductIds(prevIds => prevIds.filter(id => id !== notIgnoredProductId))
+    setIgnoredProductIds(prevIds =>
+      prevIds.filter(id => id !== notIgnoredProductId)
+    )
+  }
+
+  const toggleIgnored = () => {
+    setIsHidden(prev => !prev)
   }
 
   return (
@@ -62,7 +71,12 @@ export default function InventoryInfo({ localsOutOfStock }) {
               />
             ))}
           </div>
-          <div style={{ color: 'purple' }}>
+          <button onClick={toggleIgnored}>
+            {isHidden ? 'SHOW IGNORED' : 'HIDE IGNORED'}
+          </button>
+          <div
+            style={{ color: 'purple', display: isHidden ? 'none' : 'block' }}
+          >
             <h3>
               Ignored partially out of stock products [Counts: {ignored.length}]
             </h3>
