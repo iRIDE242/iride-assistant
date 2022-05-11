@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import useLocalStorageState from '../utils/useLocalStorageState'
 import Product from './Product'
 
@@ -9,6 +9,10 @@ export default function InventoryInfo({ localsOutOfStock }) {
   )
 
   const [isHidden, setIsHidden] = useState(true)
+  const [isModified, setIsModified] = useState(false)
+  const [vendorString, setVendorString] = useState('')
+
+  const vendorStringRef = useRef(vendorString)
 
   const {
     activeLocallyOutOfStockProducts: gone,
@@ -44,8 +48,36 @@ export default function InventoryInfo({ localsOutOfStock }) {
     setIsHidden(prev => !prev)
   }
 
+  const handleVendorSubmit = e => {
+    e.preventDefault()
+    vendorStringRef.current = vendorString
+    setIsModified(false)
+  }
+
+  const handleVendorChange = e => {
+    console.log(`event: ${e.target.value}`)
+    console.log(`ref: ${vendorStringRef.current}`)
+    e.target.value !== vendorStringRef.current
+      ? setIsModified(true)
+      : setIsModified(false)
+    setVendorString(e.target.value)
+  }
+
   return (
     <>
+      <form onSubmit={handleVendorSubmit}>
+        <label htmlFor="ignored-vendors">Ignored vendors</label>{' '}
+        <input
+          type="text"
+          id="ignored-vendors"
+          onChange={handleVendorChange}
+          value={vendorString}
+        />
+        <button type="submit" disabled={!isModified}>
+          SUBMIT
+        </button>
+      </form>
+
       {gone.length > 0 && (
         <div style={{ color: 'red' }}>
           <h3>Products out of stock [Counts: {gone.length}]</h3>
@@ -77,10 +109,14 @@ export default function InventoryInfo({ localsOutOfStock }) {
                 {isHidden ? 'SHOW IGNORED' : 'HIDE IGNORED'}
               </button>
               <div
-                style={{ color: 'purple', display: isHidden ? 'none' : 'block' }}
+                style={{
+                  color: 'purple',
+                  display: isHidden ? 'none' : 'block',
+                }}
               >
                 <h3>
-                  Ignored partially out of stock products [Counts: {ignored.length}]
+                  Ignored partially out of stock products [Counts:{' '}
+                  {ignored.length}]
                 </h3>
                 {ignored.map(p => (
                   <Product
@@ -94,7 +130,6 @@ export default function InventoryInfo({ localsOutOfStock }) {
               </div>
             </>
           )}
-          
         </>
       )}
     </>
