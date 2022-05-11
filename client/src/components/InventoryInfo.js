@@ -72,20 +72,32 @@ export default function InventoryInfo({ localsOutOfStock }) {
     setVendorString(e.target.value)
   }
 
+  const handleClearIgnored = () => {
+    setIgnoredProductIds([])
+  }
+
   return (
     <>
-      <form onSubmit={handleVendorSubmit}>
-        <label htmlFor="ignored-vendors">Ignored vendors</label>{' '}
-        <input
-          type="text"
-          id="ignored-vendors"
-          onChange={handleVendorChange}
-          value={vendorString}
-        />
-        <button type="submit" disabled={!isModified}>
-          SUBMIT
+      <div>
+        <form onSubmit={handleVendorSubmit}>
+          <label htmlFor="ignored-vendors">Ignored vendors</label>{' '}
+          <input
+            type="text"
+            id="ignored-vendors"
+            onChange={handleVendorChange}
+            value={vendorString}
+          />
+          <button type="submit" disabled={!isModified}>
+            SUBMIT
+          </button>
+        </form>
+      </div>
+
+      <div>
+        <button onClick={handleClearIgnored}>
+          CLEAR ALL THE IGNORED FROM ITEMS
         </button>
-      </form>
+      </div>
 
       {gone.length > 0 && (
         <div style={{ color: 'red' }}>
