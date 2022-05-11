@@ -10,6 +10,7 @@ function Product(props) {
     notIgnored,
     handleAddToIgnored,
     handleRemoveFromIgnored,
+    from,
   } = props
   const title = getTitle(product)
 
@@ -39,10 +40,20 @@ function Product(props) {
         <p>{title}</p>
         {fromInventory && <button onClick={handleClick}>COPY</button>}
         {notIgnored && <button onClick={addToIgnored}>ADD TO IGNORED</button>}
-        {isIgnored && (
+        {isIgnored && from === 'item' && (
           <button onClick={removeFromIgnored}>REMOVE FROM IGNORED</button>
         )}
-        {isClicked && <p style={{ color: 'green' }}>Title has been copied</p>}
+        <p
+          style={{
+            color: 'green',
+            flex: 1,
+            textAlign: 'left',
+            marginLeft: '16px',
+          }}
+        >
+          {isClicked ? 'Title has been copied.' : ''}
+        </p>
+        {isIgnored && from === 'vendor' && <p>From vendor</p>}
       </div>
       {fromInventory && <hr />}
     </>

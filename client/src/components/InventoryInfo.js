@@ -32,12 +32,12 @@ export default function InventoryInfo({ localsOutOfStock }) {
   let ignored = []
 
   if (partially.length) {
-    partially.forEach(part => {
-      ignoredProductIds.indexOf(part.id) === -1
-        ? ignoredVendors.indexOf(part.vendor) === -1
-          ? notIgnored.push(part)
-          : ignored.push(part)
-        : ignored.push(part)
+    partially.forEach(product => {
+      ignoredProductIds.indexOf(product.id) === -1
+        ? ignoredVendors.indexOf(product.vendor) === -1
+          ? notIgnored.push(product)
+          : ignored.push({ product, from: 'vendor' })
+        : ignored.push({ product, from: 'item' })
     })
   }
 
@@ -127,13 +127,14 @@ export default function InventoryInfo({ localsOutOfStock }) {
                   Ignored partially out of stock products [Counts:{' '}
                   {ignored.length}]
                 </h3>
-                {ignored.map(p => (
+                {ignored.map(({ product, from }) => (
                   <Product
-                    key={p.id}
-                    product={p}
+                    key={product.id}
+                    product={product}
                     fromInventory={true}
                     isIgnored={true}
                     handleRemoveFromIgnored={handleRemoveFromIgnored}
+                    from={from}
                   />
                 ))}
               </div>
