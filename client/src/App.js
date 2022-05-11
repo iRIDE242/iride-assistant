@@ -28,16 +28,25 @@ const collections = {
 }
 
 function App() {
-  const [products, setPropducts] = useState([])
+  const [products, setProducts] = useState([])
   const [localsOutOfStock, setLocalsOutOfStock] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [collectionId, setCollectionId] = useState('210639487136')
   const [prevAndNext, setPrevAndNext] = useState({
+    direction: null,
     prev: {
       limit: '',
       pageInfo: ''
     },
     next: {
+      limit: '',
+      pageInfo: ''
+    },
+    lastPrev:  {
+      limit: '',
+      pageInfo: ''
+    },
+    lastNext:  {
       limit: '',
       pageInfo: ''
     }
@@ -47,11 +56,14 @@ function App() {
     setIsLoading(true)
     callBackendAPI()
       .then(res => {
-        setPropducts(res.products)
+        setProducts(res.products)
         console.log(res)
         console.log(res.headerObj.link)
         
-        setPrevAndNext(createPrevAndNextFromHeader(res.headerObj))
+        setPrevAndNext(prevState => ({
+          ...prevState,
+          ...createPrevAndNextFromHeader(res.headerObj)
+        }))
         setIsLoading(false)
       })
       .catch(err => console.log(err))
@@ -77,8 +89,23 @@ function App() {
         ? await getProductsByPageInfo(prev)
         : await getProductsByPageInfo(next)
 
-      setPropducts(newProducts)
-      setPrevAndNext(createPrevAndNextFromHeader(headerObj))
+      setProducts(newProducts)
+
+      if (direction === 'prev')
+        setPrevAndNext(prevState => ({
+          ...prevState,
+          ...createPrevAndNextFromHeader(headerObj),
+          direction: 'prev',
+          lastPrev: {...prevState.prev}
+        }))
+
+      if (direction === 'next')
+        setPrevAndNext(prevState => ({
+          ...prevState,
+          ...createPrevAndNextFromHeader(headerObj),
+          direction: 'next',
+          lastNext: {...prevState.next}
+        }))
 
       setIsLoading(false)
     } catch (error) {
@@ -97,12 +124,24 @@ function App() {
   }
 
   const handleQuery = async (e) => {
-    setIsLoading(true)
     e.preventDefault()
+    
+    setIsLoading(true)
+    setLocalsOutOfStock(null)
 
     try {
+      const { direction, lastPrev, lastNext } = prevAndNext
+
+      const { products } = !direction
+        ? await callBackendAPI()
+        : direction === 'prev'
+          ? await getProductsByPageInfo(lastPrev)
+          : await getProductsByPageInfo(lastNext)
+      setProducts(products)
+      
       const locallyOutOfStockProducts = await getLocallyOutOfStockProducts(products)
       setLocalsOutOfStock(locallyOutOfStockProducts)
+
       setIsLoading(false)
     } catch (error) {
       console.log(error)
