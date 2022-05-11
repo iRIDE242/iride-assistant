@@ -7,11 +7,16 @@ export default function InventoryInfo({ localsOutOfStock }) {
     'ignoredProductIds',
     []
   )
+  const [ignoredVendors, setIgnoredVendors] = useLocalStorageState(
+    'ignoredVendors',
+    []
+  )
 
   const [isHidden, setIsHidden] = useState(true)
   const [isModified, setIsModified] = useState(false)
-  const [vendorString, setVendorString] = useState('')
+  const [vendorString, setVendorString] = useState(() => ignoredVendors.join())
 
+  // Original vendor string
   const vendorStringRef = useRef(vendorString)
 
   const {
@@ -29,7 +34,9 @@ export default function InventoryInfo({ localsOutOfStock }) {
   if (partially.length) {
     partially.forEach(part => {
       ignoredProductIds.indexOf(part.id) === -1
-        ? notIgnored.push(part)
+        ? ignoredVendors.indexOf(part.vendor) === -1
+          ? notIgnored.push(part)
+          : ignored.push(part)
         : ignored.push(part)
     })
   }
@@ -51,6 +58,8 @@ export default function InventoryInfo({ localsOutOfStock }) {
   const handleVendorSubmit = e => {
     e.preventDefault()
     vendorStringRef.current = vendorString
+
+    setIgnoredVendors(vendorString.split(',').map(str => str.trim()))
     setIsModified(false)
   }
 
