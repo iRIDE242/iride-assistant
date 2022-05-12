@@ -27,30 +27,32 @@ const collections = {
   }
 }
 
+const initialPrevAndNext = {
+  direction: null,
+  prev: {
+    limit: '',
+    pageInfo: ''
+  },
+  next: {
+    limit: '',
+    pageInfo: ''
+  },
+  lastPrev:  {
+    limit: '',
+    pageInfo: ''
+  },
+  lastNext:  {
+    limit: '',
+    pageInfo: ''
+  }
+}
+
 function App() {
   const [products, setProducts] = useState([])
   const [localsOutOfStock, setLocalsOutOfStock] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [collectionId, setCollectionId] = useState('210639487136')
-  const [prevAndNext, setPrevAndNext] = useState({
-    direction: null,
-    prev: {
-      limit: '',
-      pageInfo: ''
-    },
-    next: {
-      limit: '',
-      pageInfo: ''
-    },
-    lastPrev:  {
-      limit: '',
-      pageInfo: ''
-    },
-    lastNext:  {
-      limit: '',
-      pageInfo: ''
-    }
-  })
+  const [prevAndNext, setPrevAndNext] = useState(initialPrevAndNext)
 
   useEffect(() => {
     setIsLoading(true)
@@ -121,6 +123,9 @@ function App() {
   const handleSelectChange = e => {
     setCollectionId(e.target.value)
     setLocalsOutOfStock(null)
+
+    // Reset prevAndNext to make sure no stale data from last collection
+    setPrevAndNext(initialPrevAndNext)
   }
 
   const handleQuery = async (e) => {
