@@ -71,31 +71,22 @@ function App() {
 
   useEffect(() => {
     setIsLoading(true)
-    callBackendAPI()
-      .then(res => {
-        setProducts(res.products)
-        console.log(res)
-        console.log(res.headerObj.link)
+    getProductsByCollectionId(collectionId)
+      .then(({ products, headerObj }) => {
+        setProducts(products)
+        console.log(headerObj.link)
 
         setPrevAndNext(prevState => ({
           ...prevState,
-          ...createPrevAndNextFromHeader(res.headerObj),
+          ...createPrevAndNextFromHeader(headerObj),
         }))
         setIsLoading(false)
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+        setIsLoading(false)
+      })
   }, [collectionId])
-
-  const callBackendAPI = async () => {
-    const { products, headerObj } = await getProductsByCollectionId(
-      collectionId
-    )
-
-    return {
-      products,
-      headerObj,
-    }
-  }
 
   const handlePrevOrNextClick = direction => async e => {
     setIsLoading(true)
@@ -149,7 +140,7 @@ function App() {
       const { direction } = prevAndNext
 
       const { products } = !direction
-        ? await callBackendAPI()
+        ? await getProductsByCollectionId(collectionId)
         : await getProductsByDirection(direction, prevAndNext)
       setProducts(products)
 
