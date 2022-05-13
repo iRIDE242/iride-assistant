@@ -52,6 +52,16 @@ const initialPrevAndNext = {
   },
 }
 
+const getProductsByDirection = async (direction, { prev, next }) => {
+  try {
+    return direction === 'prev'
+      ? await getProductsByPageInfo(prev)
+      : await getProductsByPageInfo(next)
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
 function App() {
   const [products, setProducts] = useState([])
   const [localsOutOfStock, setLocalsOutOfStock] = useState(null)
@@ -91,15 +101,12 @@ function App() {
     setIsLoading(true)
     setLocalsOutOfStock(null)
 
-    const { prev, next } = prevAndNext
-
     try {
-      const { products: newProducts, headerObj } =
-        direction === 'prev'
-          ? await getProductsByPageInfo(prev)
-          : await getProductsByPageInfo(next)
-
-      setProducts(newProducts)
+      const { products, headerObj } = await getProductsByDirection(
+        direction,
+        prevAndNext
+      )
+      setProducts(products)
 
       if (direction === 'prev')
         setPrevAndNext(prevState => ({
@@ -134,20 +141,16 @@ function App() {
     setPrevAndNext(initialPrevAndNext)
   }
 
-  const handleQuery = async e => {
-    e.preventDefault()
-
+  const handleQuery = async () => {
     setIsLoading(true)
     setLocalsOutOfStock(null)
 
     try {
-      const { direction, lastPrev, lastNext } = prevAndNext
+      const { direction } = prevAndNext
 
       const { products } = !direction
         ? await callBackendAPI()
-        : direction === 'prev'
-        ? await getProductsByPageInfo(lastPrev)
-        : await getProductsByPageInfo(lastNext)
+        : await getProductsByDirection(direction, prevAndNext)
       setProducts(products)
 
       const locallyOutOfStockProducts = await getLocallyOutOfStockProducts(
