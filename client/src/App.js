@@ -1,50 +1,55 @@
-import React, { useEffect, useState } from 'react';
-import { createPrevAndNextFromHeader, getLocallyOutOfStockProducts, getProductsByCollectionId, getProductsByPageInfo } from './actions/shared';
-import './App.css';
-import Product from './components/Product';
-import InventoryInfo from './components/InventoryInfo';
+import React, { useEffect, useState } from 'react'
+import {
+  createPrevAndNextFromHeader,
+  getLocallyOutOfStockProducts,
+  getProductsByCollectionId,
+  getProductsByPageInfo,
+} from './actions/shared'
+import './App.css'
+import Product from './components/Product'
+import InventoryInfo from './components/InventoryInfo'
 
 const collections = {
-  '210639487136': {
+  210639487136: {
     id: '210639487136',
-    name: 'Clearance'
+    name: 'Clearance',
   },
-  '291229171904': {
+  291229171904: {
     id: '291229171904',
-    name: '25% Off Riding Tops'
+    name: '25% Off Riding Tops',
   },
-  '291273015488': {
+  291273015488: {
     id: '291273015488',
-    name: '20% Off Fox Gloves'
+    name: '20% Off Fox Gloves',
   },
-  '291274227904': {
+  291274227904: {
     id: '291274227904',
-    name: '20% Off Fox Socks'
+    name: '20% Off Fox Socks',
   },
-  '291278356672': {
+  291278356672: {
     id: '291278356672',
-    name: '20% Off Full Face Helmets'
-  }
+    name: '20% Off Full Face Helmets',
+  },
 }
 
 const initialPrevAndNext = {
   direction: null,
   prev: {
     limit: '',
-    pageInfo: ''
+    pageInfo: '',
   },
   next: {
     limit: '',
-    pageInfo: ''
+    pageInfo: '',
   },
-  lastPrev:  {
+  lastPrev: {
     limit: '',
-    pageInfo: ''
+    pageInfo: '',
   },
-  lastNext:  {
+  lastNext: {
     limit: '',
-    pageInfo: ''
-  }
+    pageInfo: '',
+  },
 }
 
 function App() {
@@ -61,10 +66,10 @@ function App() {
         setProducts(res.products)
         console.log(res)
         console.log(res.headerObj.link)
-        
+
         setPrevAndNext(prevState => ({
           ...prevState,
-          ...createPrevAndNextFromHeader(res.headerObj)
+          ...createPrevAndNextFromHeader(res.headerObj),
         }))
         setIsLoading(false)
       })
@@ -72,11 +77,13 @@ function App() {
   }, [collectionId])
 
   const callBackendAPI = async () => {
-    const { products, headerObj } = await getProductsByCollectionId(collectionId)
-    
+    const { products, headerObj } = await getProductsByCollectionId(
+      collectionId
+    )
+
     return {
       products,
-      headerObj
+      headerObj,
     }
   }
 
@@ -87,9 +94,10 @@ function App() {
     const { prev, next } = prevAndNext
 
     try {
-      const { products: newProducts, headerObj } = direction === 'prev'
-        ? await getProductsByPageInfo(prev)
-        : await getProductsByPageInfo(next)
+      const { products: newProducts, headerObj } =
+        direction === 'prev'
+          ? await getProductsByPageInfo(prev)
+          : await getProductsByPageInfo(next)
 
       setProducts(newProducts)
 
@@ -98,7 +106,7 @@ function App() {
           ...prevState,
           ...createPrevAndNextFromHeader(headerObj),
           direction: 'prev',
-          lastPrev: {...prevState.prev}
+          lastPrev: { ...prevState.prev },
         }))
 
       if (direction === 'next')
@@ -106,7 +114,7 @@ function App() {
           ...prevState,
           ...createPrevAndNextFromHeader(headerObj),
           direction: 'next',
-          lastNext: {...prevState.next}
+          lastNext: { ...prevState.next },
         }))
 
       setIsLoading(false)
@@ -116,9 +124,7 @@ function App() {
     }
   }
 
-  if (!products.length) return (
-    <p>Loading...</p>
-  )
+  if (!products.length) return <p>Loading...</p>
 
   const handleSelectChange = e => {
     setCollectionId(e.target.value)
@@ -128,9 +134,9 @@ function App() {
     setPrevAndNext(initialPrevAndNext)
   }
 
-  const handleQuery = async (e) => {
+  const handleQuery = async e => {
     e.preventDefault()
-    
+
     setIsLoading(true)
     setLocalsOutOfStock(null)
 
@@ -140,11 +146,13 @@ function App() {
       const { products } = !direction
         ? await callBackendAPI()
         : direction === 'prev'
-          ? await getProductsByPageInfo(lastPrev)
-          : await getProductsByPageInfo(lastNext)
+        ? await getProductsByPageInfo(lastPrev)
+        : await getProductsByPageInfo(lastNext)
       setProducts(products)
-      
-      const locallyOutOfStockProducts = await getLocallyOutOfStockProducts(products)
+
+      const locallyOutOfStockProducts = await getLocallyOutOfStockProducts(
+        products
+      )
       setLocalsOutOfStock(locallyOutOfStockProducts)
 
       setIsLoading(false)
@@ -157,30 +165,34 @@ function App() {
   return (
     <div className="App">
       <div>
-        <label htmlFor='collections'>Choose a collection: </label>
-        <select 
-          name="collections" 
-          id="collections" 
+        <label htmlFor="collections">Choose a collection: </label>
+        <select
+          name="collections"
+          id="collections"
           disabled={isLoading}
           value={collectionId}
           onChange={handleSelectChange}
         >
-          {Object.values(collections).map(({id, name}) => 
-            <option key={id} value={id}>{name}</option>)
-          }
+          {Object.values(collections).map(({ id, name }) => (
+            <option key={id} value={id}>
+              {name}
+            </option>
+          ))}
         </select>
       </div>
-      
+
       <div>
-        <button 
+        <button
           disabled={isLoading || !prevAndNext.prev.pageInfo}
-          onClick={handlePrevOrNextClick('prev')}>
+          onClick={handlePrevOrNextClick('prev')}
+        >
           PREVIOUS
         </button>
 
-        <button 
+        <button
           disabled={isLoading || !prevAndNext.next.pageInfo}
-          onClick={handlePrevOrNextClick('next')}>
+          onClick={handlePrevOrNextClick('next')}
+        >
           NEXT
         </button>
       </div>
@@ -191,18 +203,26 @@ function App() {
         </button>
       </div>
 
-      {isLoading 
-        ? <p>Loading</p>
-        : localsOutOfStock && (<InventoryInfo localsOutOfStock={localsOutOfStock} />)
-      }
-      <h2>{collections[collectionId].name.toUpperCase()} [Counts: {products.length}]</h2>
-      {products.length
-        ? products.map((product, index) => (
-            <Product key={index} product={product} />
-          ))
-        : <p>No products from this query</p>}
+      {isLoading ? (
+        <p>Loading</p>
+      ) : (
+        localsOutOfStock && (
+          <InventoryInfo localsOutOfStock={localsOutOfStock} />
+        )
+      )}
+      <h2>
+        {collections[collectionId].name.toUpperCase()} [Counts:{' '}
+        {products.length}]
+      </h2>
+      {products.length ? (
+        products.map((product, index) => (
+          <Product key={index} product={product} />
+        ))
+      ) : (
+        <p>No products from this query</p>
+      )}
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
