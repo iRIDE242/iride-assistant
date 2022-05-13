@@ -52,11 +52,6 @@ export const getProductsByPageInfo = async ({ limit, pageInfo }) => {
  * Response header manipulation
  */
 
-const emptyLink = {
-  limit: '',
-  pageInfo: ''
-}
-
 const regexGeneratorForLink = direction => {
   const base = `<https:\\/\\/[\\w\\d-]+\\.myshopify\\.com\\/admin\\/api\\/[\\d]{4}-[\\d]{2}\\/products\\.json\\?limit=(?<limit>[\\d]+)&page_info=(?<pageInfo>[\\w\\d]+)>;\\srel="${direction}"`
   return new RegExp(base, 'i')
@@ -71,7 +66,11 @@ const getPrevMatched = link => regexPrev.exec(link)
 const getNextMatched = link => regexNext.exec(link)
 
 const getPageLink = matchedResult => {
-  if (matchedResult === null) return emptyLink
+  if (matchedResult === null)
+    return {
+      limit: '',
+      pageInfo: '',
+    }
 
   const { groups: { limit, pageInfo }} = matchedResult
   return {

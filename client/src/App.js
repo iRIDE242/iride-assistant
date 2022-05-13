@@ -32,24 +32,17 @@ const collections = {
   },
 }
 
+const emptyLink = {
+  limit: '',
+  pageInfo: ''
+}
+
 const initialPrevAndNext = {
   direction: null,
-  prev: {
-    limit: '',
-    pageInfo: '',
-  },
-  next: {
-    limit: '',
-    pageInfo: '',
-  },
-  lastPrev: {
-    limit: '',
-    pageInfo: '',
-  },
-  lastNext: {
-    limit: '',
-    pageInfo: '',
-  },
+  prev: emptyLink,
+  next: emptyLink,
+  lastPrev: emptyLink,
+  lastNext: emptyLink,
 }
 
 const getProductsByDirection = async (direction, { prev, next }) => {
