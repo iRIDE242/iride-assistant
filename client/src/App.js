@@ -34,7 +34,7 @@ const collections = {
 
 const emptyLink = {
   limit: '',
-  pageInfo: ''
+  pageInfo: '',
 }
 
 const initialPrevAndNext = {
@@ -43,16 +43,6 @@ const initialPrevAndNext = {
   next: emptyLink,
   lastPrev: emptyLink,
   lastNext: emptyLink,
-}
-
-const getProductsByDirection = async (direction, { prev, next }) => {
-  try {
-    return direction === 'prev'
-      ? await getProductsByPageInfo(prev)
-      : await getProductsByPageInfo(next)
-  } catch (error) {
-    return Promise.reject(error)
-  }
 }
 
 function App() {
@@ -86,10 +76,9 @@ function App() {
     setLocalsOutOfStock(null)
 
     try {
-      const { products, headerObj } = await getProductsByDirection(
-        direction,
-        prevAndNext
-      )
+      const { prev, next } = prevAndNext
+      const link = direction === 'prev' ? prev : next
+      const { products, headerObj } = await getProductsByPageInfo(link)
       setProducts(products)
 
       if (direction === 'prev')
@@ -130,15 +119,20 @@ function App() {
     setLocalsOutOfStock(null)
 
     try {
-      const { direction } = prevAndNext
+      let result
+      const { direction, lastPrev, lastNext } = prevAndNext
 
-      const { products } = !direction
-        ? await getProductsByCollectionId(collectionId)
-        : await getProductsByDirection(direction, prevAndNext)
-      setProducts(products)
+      if (!direction) {
+        result = await getProductsByCollectionId(collectionId)
+      } else {
+        if (direction === 'prev') result = await getProductsByPageInfo(lastPrev)
+        if (direction === 'next') result = await getProductsByPageInfo(lastNext)
+      }
+
+      setProducts(result.products)
 
       const locallyOutOfStockProducts = await getLocallyOutOfStockProducts(
-        products
+        result.products
       )
       setLocalsOutOfStock(locallyOutOfStockProducts)
 
