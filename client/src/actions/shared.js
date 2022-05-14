@@ -24,27 +24,39 @@ export const getLocallyOutOfStockProducts = async products => {
   const activeLocallyOutOfStockProducts = []
   const activeLocallyHavingOutOfStockProducts = []
 
-  for (let index = 0; index < activeProducts.length; index++) {
-    const status = await areLocalNonHiddensOutOfStock(activeProducts[index])
+  try {
+    for (let index = 0; index < activeProducts.length; index++) {
+      const status = await areLocalNonHiddensOutOfStock(activeProducts[index])
 
-    if (status === 'out of stock') activeLocallyOutOfStockProducts.push(activeProducts[index])
-    if (status === 'has variants out of stock') activeLocallyHavingOutOfStockProducts.push(activeProducts[index])
-  }
+      if (status === 'out of stock') activeLocallyOutOfStockProducts.push(activeProducts[index])
+      if (status === 'has variants out of stock') activeLocallyHavingOutOfStockProducts.push(activeProducts[index])
+    }
 
-  return {
-    activeLocallyOutOfStockProducts,
-    activeLocallyHavingOutOfStockProducts
+    return {
+      activeLocallyOutOfStockProducts,
+      activeLocallyHavingOutOfStockProducts
+    }
+  } catch (error) {
+    return Promise.reject(error)
   }
 }
 
 export const getProductsByCollectionId = async collectionId => {
-  const response = await fetch(`/products?collection_id=${collectionId}`)
-  return response.json()
+  try {
+    const response = await fetch(`/products?collection_id=${collectionId}`)
+    return response.json()
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
 export const getProductsByPageInfo = async ({ limit, pageInfo }) => {
-  const response = await fetch(`/products?limit=${limit}&page_info=${pageInfo}`)
-  return response.json()
+  try {
+    const response = await fetch(`/products?limit=${limit}&page_info=${pageInfo}`)
+    return response.json()
+  } catch (error) {
+    return Promise.reject(error)
+  }
 }
 
 
