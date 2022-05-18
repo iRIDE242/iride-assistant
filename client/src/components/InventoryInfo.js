@@ -78,37 +78,35 @@ export default function InventoryInfo({ localsOutOfStock }) {
 
   return (
     <>
-      <div>
-        <form onSubmit={handleVendorSubmit}>
-          <label htmlFor="ignored-vendors">Ignored vendors</label>{' '}
-          <input
-            type="text"
-            id="ignored-vendors"
-            onChange={handleVendorChange}
-            value={vendorString}
-          />
-          <button type="submit" disabled={!isModified}>
-            SUBMIT
-          </button>
-        </form>
-      </div>
-
-      <div>
-        <button onClick={handleClearIgnored}>
-          CLEAR ALL THE IGNORED FROM ITEMS
-        </button>
-      </div>
-
       {gone.length > 0 && (
-        <div style={{ color: 'red' }}>
-          <h3>Products out of stock [Counts: {gone.length}]</h3>
-          {gone.map(p => (
-            <Product key={p.id} product={p} fromInventory={true} />
-          ))}
-        </div>
+        <>
+          <h2>COMPLETELY OUT OF STOCK</h2>
+          <div style={{ color: 'red' }}>
+            <h3>Out of stock products [Counts: {gone.length}]</h3>
+            {gone.map(p => (
+              <Product key={p.id} product={p} fromInventory={true} />
+            ))}
+          </div>
+        </>
       )}
       {partially.length > 0 && (
         <>
+          <h2>PARTIALLY OUT OF STOCK</h2>
+          <div>
+            <form onSubmit={handleVendorSubmit}>
+              <label htmlFor="ignored-vendors">Ignored vendors (case sensitive)</label>{' '}
+              <input
+                type="text"
+                id="ignored-vendors"
+                onChange={handleVendorChange}
+                value={vendorString}
+              />
+              <button type="submit" disabled={!isModified}>
+                SUBMIT
+              </button>
+            </form>
+          </div>
+
           <div style={{ color: 'orange' }}>
             <h3>
               Products having out of stock variants [Counts: {notIgnored.length}
@@ -135,10 +133,7 @@ export default function InventoryInfo({ localsOutOfStock }) {
                   display: isHidden ? 'none' : 'block',
                 }}
               >
-                <h3>
-                  Ignored partially out of stock products [Counts:{' '}
-                  {ignored.length}]
-                </h3>
+                <h3>Ignored list [Counts: {ignored.length}]</h3>
                 {ignored.map(({ product, from }) => (
                   <Product
                     key={product.id}
@@ -149,6 +144,11 @@ export default function InventoryInfo({ localsOutOfStock }) {
                     from={from}
                   />
                 ))}
+                <div>
+                  <button onClick={handleClearIgnored}>
+                    CLEAR IGNORED LIST FOR PARTIALLY OUT OF STOCK
+                  </button>
+                </div>
               </div>
             </>
           )}
