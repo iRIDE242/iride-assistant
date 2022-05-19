@@ -3,6 +3,12 @@ import useLocalStorageState from '../utils/useLocalStorageState'
 import Product from './Product'
 
 export default function InventoryInfo({ localsOutOfStock }) {
+  const [ignoredOutOfStockIds, setIgnoredOutOfStockIds] = useLocalStorageState(
+    'ignoredOutOfStockIds',
+    []
+  )
+
+
   const [ignoredProductIds, setIgnoredProductIds] = useLocalStorageState(
     'ignoredProductIds',
     []
@@ -28,6 +34,23 @@ export default function InventoryInfo({ localsOutOfStock }) {
     return <p>No products are out of stock locally.</p>
   }
 
+
+
+
+  let notIgnoredOutOfStock = []
+  let ignoredOutOfStock = []
+
+  if (gone.length) {
+    gone.forEach(product => {
+      ignoredOutOfStockIds.indexOf(product.id) === -1
+        ? notIgnoredOutOfStock.push(product)
+        : ignoredOutOfStock.push({ product, from: 'item' })
+    })
+  }
+
+
+
+
   let notIgnored = []
   let ignored = []
 
@@ -41,12 +64,12 @@ export default function InventoryInfo({ localsOutOfStock }) {
     })
   }
 
-  const handleAddToIgnored = ignoredProductId => {
-    setIgnoredProductIds(prevIds => [...prevIds, ignoredProductId])
+  const handleAddToIgnored = setIgnored => ignoredProductId => {
+    setIgnored(prevIds => [...prevIds, ignoredProductId])
   }
 
-  const handleRemoveFromIgnored = notIgnoredProductId => {
-    setIgnoredProductIds(prevIds =>
+  const handleRemoveFromIgnored = setIgnored => notIgnoredProductId => {
+    setIgnored(prevIds =>
       prevIds.filter(id => id !== notIgnoredProductId)
     )
   }
@@ -72,8 +95,8 @@ export default function InventoryInfo({ localsOutOfStock }) {
     setVendorString(e.target.value)
   }
 
-  const handleClearIgnored = () => {
-    setIgnoredProductIds([])
+  const handleClearIgnored = setIgnored => () => {
+    setIgnored([])
   }
 
   return (
@@ -118,7 +141,7 @@ export default function InventoryInfo({ localsOutOfStock }) {
                 product={p}
                 fromInventory={true}
                 notIgnored={true}
-                handleAddToIgnored={handleAddToIgnored}
+                handleAddToIgnored={handleAddToIgnored(setIgnoredProductIds)}
               />
             ))}
           </div>
@@ -133,20 +156,20 @@ export default function InventoryInfo({ localsOutOfStock }) {
                   display: isHidden ? 'none' : 'block',
                 }}
               >
-                <h3>Ignored list [Counts: {ignored.length}]</h3>
+                <h3>Ignored [Counts: {ignored.length}]</h3>
                 {ignored.map(({ product, from }) => (
                   <Product
                     key={product.id}
                     product={product}
                     fromInventory={true}
                     isIgnored={true}
-                    handleRemoveFromIgnored={handleRemoveFromIgnored}
+                    handleRemoveFromIgnored={handleRemoveFromIgnored(setIgnoredProductIds)}
                     from={from}
                   />
                 ))}
                 <div>
-                  <button onClick={handleClearIgnored}>
-                    CLEAR IGNORED LIST FOR PARTIALLY OUT OF STOCK
+                  <button onClick={handleClearIgnored(setIgnoredProductIds)}>
+                    CLEAR ALL ITEMS IN THE IGNORED LIST [COUNTS: {ignoredProductIds.length}]
                   </button>
                 </div>
               </div>
