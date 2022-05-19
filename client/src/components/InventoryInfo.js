@@ -96,7 +96,7 @@ export default function InventoryInfo({ localsOutOfStock }) {
         <div style={{ background: 'MistyRose' }}>
           <h2>COMPLETELY OUT OF STOCK</h2>
           <div style={{ color: 'red' }}>
-            <h3>Out of stock products [Counts: {gone.length}]</h3>
+            <h3>Out of stock products [Counts: {notIgnoredOutOfStock.length}]</h3>
             {notIgnoredOutOfStock.map(p => (
               <Product
                 key={p.id}
