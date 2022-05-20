@@ -35,7 +35,7 @@ export default function InfoDetail({
     outOfStockProducts.forEach(product => {
       ignoredProductIds.indexOf(product.id) === -1
         ? localStorageKey === 'ignoredProductIds'
-          ? ignoredProductIds.indexOf(product.vendor) === -1
+          ? ignoredVendors.indexOf(product.vendor) === -1
             ? notIgnored.push(product)
             : ignored.push({ product, from: 'vendor' })
           : notIgnored.push(product)
