@@ -139,8 +139,7 @@ export default function InfoDetail({
             ))}
             <div>
               <button onClick={handleClearIgnored(setIgnoredProductIds)}>
-                CLEAR ALL ITEMS IN THE IGNORED LIST [COUNTS:{' '}
-                {ignored.length}]
+                CLEAR ALL ITEMS IN THE IGNORED LIST [COUNTS: {ignored.length}]
               </button>
             </div>
           </div>
