@@ -13,7 +13,7 @@ export default function InfoDetail({
     mainTitle,
   },
 }) {
-  const [ignoredOutOfStockIds, setIgnoredOutOfStockIds] = useLocalStorageState(
+  const [ignoredProductIds, setIgnoredProductIds] = useLocalStorageState(
     localStorageKey,
     []
   )
@@ -21,25 +21,25 @@ export default function InfoDetail({
     'ignoredVendors',
     []
   )
-  const [isHiddenOutOfStock, setIsHiddenOutOfStock] = useState(true)
+  const [isHidden, setIsHidden] = useState(true)
   const [isModified, setIsModified] = useState(false)
   const [vendorString, setVendorString] = useState(() => ignoredVendors.join())
 
   // Original vendor string
   const vendorStringRef = useRef(vendorString)
 
-  let notIgnoredOutOfStock = []
-  let ignoredOutOfStock = []
+  let notIgnored = []
+  let ignored = []
 
   if (outOfStockProducts.length) {
     outOfStockProducts.forEach(product => {
-      ignoredOutOfStockIds.indexOf(product.id) === -1
+      ignoredProductIds.indexOf(product.id) === -1
         ? localStorageKey === 'ignoredProductIds'
-          ? ignoredOutOfStockIds.indexOf(product.vendor) === -1
-            ? notIgnoredOutOfStock.push(product)
-            : ignoredOutOfStock.push({ product, from: 'vendor' })
-          : notIgnoredOutOfStock.push(product)
-        : ignoredOutOfStock.push({ product, from: 'item' })
+          ? ignoredProductIds.indexOf(product.vendor) === -1
+            ? notIgnored.push(product)
+            : ignored.push({ product, from: 'vendor' })
+          : notIgnored.push(product)
+        : ignored.push({ product, from: 'item' })
     })
   }
 
@@ -101,46 +101,46 @@ export default function InfoDetail({
 
       <div style={{ color: mainColor }}>
         <h3>
-          {mainTitle} [Counts: {notIgnoredOutOfStock.length}]
+          {mainTitle} [Counts: {notIgnored.length}]
         </h3>
-        {notIgnoredOutOfStock.map(p => (
+        {notIgnored.map(p => (
           <Product
             key={p.id}
             product={p}
             fromInventory={true}
             notIgnored={true}
-            handleAddToIgnored={handleAddToIgnored(setIgnoredOutOfStockIds)}
+            handleAddToIgnored={handleAddToIgnored(setIgnoredProductIds)}
           />
         ))}
       </div>
-      {ignoredOutOfStock.length > 0 && (
+      {ignored.length > 0 && (
         <>
-          <button onClick={toggleIgnored(setIsHiddenOutOfStock)}>
-            {isHiddenOutOfStock ? 'SHOW IGNORED' : 'HIDE IGNORED'}
+          <button onClick={toggleIgnored(setIsHidden)}>
+            {isHidden ? 'SHOW IGNORED' : 'HIDE IGNORED'}
           </button>
           <div
             style={{
               color: ignoredColor,
-              display: isHiddenOutOfStock ? 'none' : 'block',
+              display: isHidden ? 'none' : 'block',
             }}
           >
-            <h3>Ignored [Counts: {ignoredOutOfStock.length}]</h3>
-            {ignoredOutOfStock.map(({ product, from }) => (
+            <h3>Ignored [Counts: {ignored.length}]</h3>
+            {ignored.map(({ product, from }) => (
               <Product
                 key={product.id}
                 product={product}
                 fromInventory={true}
                 isIgnored={true}
                 handleRemoveFromIgnored={handleRemoveFromIgnored(
-                  setIgnoredOutOfStockIds
+                  setIgnoredProductIds
                 )}
                 from={from}
               />
             ))}
             <div>
-              <button onClick={handleClearIgnored(setIgnoredOutOfStockIds)}>
+              <button onClick={handleClearIgnored(setIgnoredProductIds)}>
                 CLEAR ALL ITEMS IN THE IGNORED LIST [COUNTS:{' '}
-                {ignoredOutOfStock.length}]
+                {ignored.length}]
               </button>
             </div>
           </div>
