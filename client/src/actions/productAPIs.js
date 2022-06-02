@@ -1,7 +1,7 @@
-import { equals, filter, pipe, prop, reduce } from "ramda";
-import { getVariantLocationInventory } from "../utils/api";
-import { LOCAL_LOCATION_ID } from "../utils/config";
-import { getInventoryItemId, isNonHidden } from "./variantAPIs";
+import { equals, filter, pipe, prop, reduce } from 'ramda'
+import { getVariantLocationInventory } from '../utils/api'
+import { LOCAL_LOCATION_ID } from '../utils/config'
+import { getInventoryItemId, isHidden, isNonHidden } from './variantAPIs'
 
 /**
  * Product properties
@@ -9,17 +9,12 @@ import { getInventoryItemId, isNonHidden } from "./variantAPIs";
 export const getVariants = prop('variants')
 const getStatus = prop('status')
 
-
-
-
 /**
  * Specific requests
  */
 const getNonHiddens = pipe(getVariants, filter(isNonHidden))
+const getHiddens = pipe(getVariants, filter(isHidden))
 export const isActive = pipe(getStatus, equals('active'))
-
-
-
 
 /**
  * API requests
@@ -27,7 +22,7 @@ export const isActive = pipe(getStatus, equals('active'))
 
 /**
  * Check if local non-hidden variants are out of stock
- * @param {Product Object} product 
+ * @param {Product Object} product
  * @returns {Boolean}
  */
 export const areLocalNonHiddensOutOfStock = async product => {
@@ -42,12 +37,17 @@ export const areLocalNonHiddensOutOfStock = async product => {
       ...promiseContainer,
       new Promise(res => {
         setTimeout(async () => {
-          const { inventory: { inventory_levels }} = await getVariantLocationInventory(LOCAL_LOCATION_ID, inventoryItemId)
+          const {
+            inventory: { inventory_levels },
+          } = await getVariantLocationInventory(
+            LOCAL_LOCATION_ID,
+            inventoryItemId
+          )
           const { available } = inventory_levels[0]
-          
+
           res(available)
-        }, 500 * index);
-      })
+        }, 500 * index)
+      }),
     ]
   }
 
@@ -66,6 +66,20 @@ export const areLocalNonHiddensOutOfStock = async product => {
   if (totalNonHiddensInventory <= 0) status = 'out of stock'
   console.log(status)
 
-  // return totalNonHiddensInventory <= 0
+  return status
+}
+
+/**
+ * Check if there are hidden variants
+ * @param {Product Object} product
+ * @returns {Boolean}
+ */
+export const hasHidden = async product => {
+  let status = 'no hidden'
+  const hiddens = getHiddens(product)
+
+  if (hiddens.length > 0) status = 'has hidden'
+  console.log(status)
+
   return status
 }
