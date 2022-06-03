@@ -9,6 +9,7 @@ import {
 import './App.css'
 import Product from './components/Product'
 import InventoryInfo from './components/InventoryInfo'
+import HiddenInfo from './components/HiddenInfo'
 
 const collections = {
   210639487136: {
@@ -36,6 +37,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
   const [collectionId, setCollectionId] = useState('210639487136')
   const [prevAndNext, setPrevAndNext] = useState(initialPrevAndNext)
+  const [productsWithHidden, setProductsWithHidden] = useState(null)
 
   useEffect(() => {
     setIsLoading(true)
@@ -59,6 +61,7 @@ function App() {
   const handlePrevOrNextClick = direction => async e => {
     setIsLoading(true)
     setLocalsOutOfStock(null)
+    setProductsWithHidden(null)
 
     try {
       const { prev, next } = prevAndNext
@@ -143,8 +146,7 @@ function App() {
       }
 
       setProducts(result.products)
-
-      getProductsWithHiddenVariants(result.products)
+      setProductsWithHidden(getProductsWithHiddenVariants(result.products))
 
       setIsLoading(false)
     } catch (error) {
@@ -203,6 +205,13 @@ function App() {
 
       <div>
         <button onClick={findHidden}>FIND HIDDEN</button>
+        {isLoading ? (
+          <p>Loading</p>
+        ) : (
+          productsWithHidden && (
+            <HiddenInfo productsWithHidden={productsWithHidden} />
+          )
+        )}
       </div>
 
       <h2>

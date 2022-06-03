@@ -114,7 +114,5 @@ export const getProductsWithHiddenVariants = products => {
       productsHavingHiddenvariants.push(activeProducts[index])
   }
 
-  return {
-    productsHavingHiddenvariants,
-  }
+  return productsHavingHiddenvariants
 }
