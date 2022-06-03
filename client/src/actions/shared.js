@@ -1,5 +1,9 @@
 import { filter, pipe, prop } from 'ramda'
-import { areLocalNonHiddensOutOfStock, isActive } from './productAPIs'
+import {
+  areLocalNonHiddensOutOfStock,
+  hasHidden,
+  isActive,
+} from './productAPIs'
 
 /**
  * Shared properties
@@ -97,5 +101,20 @@ export const createPrevAndNextFromHeader = header => {
   return {
     prev: pipe(getLink, getPrevMatched, getPageLink)(header),
     next: pipe(getLink, getNextMatched, getPageLink)(header),
+  }
+}
+
+export const getProductsWithHiddenVariants = products => {
+  const activeProducts = filter(isActive)(products)
+
+  const productsHavingHiddenvariants = []
+
+  for (let index = 0; index < activeProducts.length; index++) {
+    hasHidden(activeProducts[index]) === 'has hidden' &&
+      productsHavingHiddenvariants.push(activeProducts[index])
+  }
+
+  return {
+    productsHavingHiddenvariants,
   }
 }

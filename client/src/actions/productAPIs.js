@@ -74,12 +74,12 @@ export const areLocalNonHiddensOutOfStock = async product => {
  * @param {Product Object} product
  * @returns {Boolean}
  */
-export const hasHidden = async product => {
+export const hasHidden = product => {
   let status = 'no hidden'
   const hiddens = getHiddens(product)
 
   if (hiddens.length > 0) status = 'has hidden'
-  console.log(status)
+  console.log(`${product.title}: ${status}`)
 
   return status
 }

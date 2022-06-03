@@ -4,6 +4,7 @@ import {
   getLocallyOutOfStockProducts,
   getProductsByCollectionId,
   getProductsByPageInfo,
+  getProductsWithHiddenVariants,
 } from './actions/shared'
 import './App.css'
 import Product from './components/Product'
@@ -127,6 +128,31 @@ function App() {
     }
   }
 
+  const findHidden = async () => {
+    setIsLoading(true)
+
+    try {
+      let result
+      const { direction, lastPrev, lastNext } = prevAndNext
+
+      if (!direction) {
+        result = await getProductsByCollectionId(collectionId)
+      } else {
+        if (direction === 'prev') result = await getProductsByPageInfo(lastPrev)
+        if (direction === 'next') result = await getProductsByPageInfo(lastNext)
+      }
+
+      setProducts(result.products)
+
+      getProductsWithHiddenVariants(result.products)
+
+      setIsLoading(false)
+    } catch (error) {
+      console.log(error)
+      setIsLoading(false)
+    }
+  }
+
   return (
     <div className="App">
       <div>
@@ -166,15 +192,19 @@ function App() {
         <button onClick={handleQuery} disabled={isLoading}>
           QUERY OUT OF STOCK
         </button>
+        {isLoading ? (
+          <p>Loading</p>
+        ) : (
+          localsOutOfStock && (
+            <InventoryInfo localsOutOfStock={localsOutOfStock} />
+          )
+        )}
       </div>
 
-      {isLoading ? (
-        <p>Loading</p>
-      ) : (
-        localsOutOfStock && (
-          <InventoryInfo localsOutOfStock={localsOutOfStock} />
-        )
-      )}
+      <div>
+        <button onClick={findHidden}>FIND HIDDEN</button>
+      </div>
+
       <h2>
         {collections[collectionId].name.toUpperCase()} [Counts:{' '}
         {products.length}]
