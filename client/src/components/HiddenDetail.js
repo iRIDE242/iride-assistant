@@ -1,4 +1,4 @@
-import { getVariantById } from "../utils/api"
+import { getVariantById, resetVariantWeightById } from "../utils/api"
 
 export default function HiddenDetail({
   productsWithHidden,
@@ -31,6 +31,12 @@ export default function HiddenDetail({
     console.log(variant)
   }
 
+  const handleResetWeight = variantId => async e => {
+    e.preventDefault()
+    const variant = await resetVariantWeightById(variantId)
+    console.log(variant)
+  }
+
   return (
     <div style={{ background: background }}>
       <h2>PRODUCTS WITH HIDDEN VARIANTS</h2>
@@ -50,6 +56,7 @@ export default function HiddenDetail({
                           htmlFor={variant.id}
                         >{`${product.title} - ${variant.title}`}</label>
                         <button onClick={handleGetVariant(variant.id)}>GET VARIANT</button>
+                        <button onClick={handleResetWeight(variant.id)}>RESET WEIGHT</button>
                       </li>
                     )
                 )}

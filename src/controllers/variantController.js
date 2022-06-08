@@ -9,7 +9,7 @@ export const variantController = () => {
 
     try {
       const variant = await queryByVariantId(variantId)
-      debug(variant)
+      debug(`Getting variant ${variantId} done.`)
 
       res.send(variant)
     } catch (error) {
