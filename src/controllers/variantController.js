@@ -1,5 +1,5 @@
 import debugModule from 'debug'
-import { queryByVariantId } from '../shopifyAPIs/variant.js'
+import { queryByVariantId, updateByVariantId } from '../shopifyAPIs/variant.js'
 
 const debug = debugModule('app: variantController')
 
@@ -17,7 +17,28 @@ export const variantController = () => {
     }
   }
 
+  const resetWeightByVariantId = async (req, res) => {
+    const variantId = req.query.variant_id
+
+    const data = {
+      variant: {
+        id: variantId,
+        weight: 0,
+      },
+    }
+
+    try {
+      const variant = await updateByVariantId(variantId, data)
+      debug(`The weight of variant ${variantId} has been reset to 0.`)
+
+      res.send(variant)
+    } catch (error) {
+      debug(error)
+    }
+  }
+
   return {
     getByVariantId,
+    resetWeightByVariantId,
   }
 }
