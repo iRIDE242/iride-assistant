@@ -1,5 +1,6 @@
 import { getVariantById, resetVariantWeightById } from '../utils/api'
-import VariantCheckBox from './VariantCheckBox'
+import HiddenProduct from './HiddenProduct'
+import HiddenVariant from './HiddenVariant'
 
 export default function HiddenDetail({
   productsWithHidden,
@@ -25,19 +26,6 @@ export default function HiddenDetail({
     console.log(variantIds)
   }
 
-  const handleGetVariant = variantId => async e => {
-    e.preventDefault()
-    console.log(variantId)
-    const variant = await getVariantById(variantId)
-    console.log(variant)
-  }
-
-  const handleResetWeight = variantId => async e => {
-    e.preventDefault()
-    const variant = await resetVariantWeightById(variantId)
-    console.log(variant)
-  }
-
   return (
     <div style={{ background: background }}>
       <h2>PRODUCTS WITH HIDDEN VARIANTS</h2>
@@ -45,25 +33,7 @@ export default function HiddenDetail({
       <div style={{ color: mainColor }}>
         <form onSubmit={handleSubmit}>
           {productsWithHidden.map(product => (
-            <div key={product.id}>
-              <h3>{product.title}</h3>
-              <ul>
-                {product.variants.map(
-                  variant =>
-                    variant.weight === 9999 && (
-                      <li key={variant.id}>
-                        <VariantCheckBox product={product} variant={variant} />
-                        <button onClick={handleGetVariant(variant.id)}>
-                          GET VARIANT
-                        </button>
-                        <button onClick={handleResetWeight(variant.id)}>
-                          RESET WEIGHT
-                        </button>
-                      </li>
-                    )
-                )}
-              </ul>
-            </div>
+            <HiddenProduct key={product.id} product={product} />
           ))}
           <button type="submit">REMOVE HIDDEN STATUS</button>
         </form>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-export default function VariantCheckBox({ product, variant }) {
+export default function VariantVariant({ product, variant }) {
   const [checked, setChecked] = useState(false)
 
   const handleChange = () => {
