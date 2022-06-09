@@ -16,6 +16,10 @@ const collections = {
     id: '210639487136',
     name: 'Clearance',
   },
+  72523907138: {
+    id: '72523907138',
+    name: 'Riding Tops',
+  },
 }
 
 const emptyLink = {
