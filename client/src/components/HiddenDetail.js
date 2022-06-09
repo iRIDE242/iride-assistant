@@ -1,4 +1,5 @@
 import { getVariantById, resetVariantWeightById } from '../utils/api'
+import VariantCheckBox from './VariantCheckBox'
 
 export default function HiddenDetail({
   productsWithHidden,
@@ -51,10 +52,7 @@ export default function HiddenDetail({
                   variant =>
                     variant.weight === 9999 && (
                       <li key={variant.id}>
-                        <input type="checkbox" id={variant.id} />
-                        <label
-                          htmlFor={variant.id}
-                        >{`${product.title} - ${variant.title}`}</label>
+                        <VariantCheckBox product={product} variant={variant} />
                         <button onClick={handleGetVariant(variant.id)}>
                           GET VARIANT
                         </button>
