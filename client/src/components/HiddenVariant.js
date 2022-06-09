@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react'
 export default function VariantVariant({
   product,
   variant,
-  checked: checkedFromProduct,
+  checkedFromProduct,
+  checkedFromInfo,
 }) {
   const [checked, setChecked] = useState(false)
 
@@ -14,6 +15,10 @@ export default function VariantVariant({
   useEffect(() => {
     setChecked(checkedFromProduct)
   }, [checkedFromProduct])
+
+  useEffect(() => {
+    setChecked(checkedFromInfo)
+  }, [checkedFromInfo])
 
   return (
     <>

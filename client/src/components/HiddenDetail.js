@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import HiddenProduct from './HiddenProduct'
 
 const regex = /^\d/
@@ -13,6 +14,12 @@ export default function HiddenDetail({
     mainTitle,
   },
 }) {
+  const [checked, setChecked] = useState(false)
+
+  const handleChange = () => {
+    setChecked(prev => !prev)
+  }
+
   const handleSubmit = e => {
     e.preventDefault()
 
@@ -32,12 +39,20 @@ export default function HiddenDetail({
 
   return (
     <div style={{ background: background }}>
-      <h2>PRODUCTS WITH HIDDEN VARIANTS</h2>
+      <input
+        type="checkbox"
+        id="hidden-product-info"
+        checked={checked}
+        onChange={handleChange}
+      />
+      <label htmlFor="hidden-product-info">
+        <h2 style={{ display: 'inline-block' }}>PRODUCTS WITH HIDDEN VARIANTS</h2>
+      </label>
 
       <div style={{ color: mainColor }}>
         <form onSubmit={handleSubmit}>
           {productsWithHidden.map(product => (
-            <HiddenProduct key={product.id} product={product} />
+            <HiddenProduct key={product.id} product={product} checked={checked} />
           ))}
           <button type="submit">REMOVE HIDDEN STATUS</button>
         </form>
