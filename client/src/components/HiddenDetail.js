@@ -1,6 +1,6 @@
-import { getVariantById, resetVariantWeightById } from '../utils/api'
 import HiddenProduct from './HiddenProduct'
-import HiddenVariant from './HiddenVariant'
+
+const regex = /^\d/
 
 export default function HiddenDetail({
   productsWithHidden,
@@ -19,7 +19,11 @@ export default function HiddenDetail({
     const variantIds = []
 
     for (let index = 0; index < e.target.length; index++) {
-      if (e.target[index].nodeName === 'INPUT' && e.target[index].checked)
+      if (
+        e.target[index].nodeName === 'INPUT' &&
+        e.target[index].checked &&
+        regex.test(e.target[index].id)
+      )
         variantIds.push(e.target[index].id)
     }
 
