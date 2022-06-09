@@ -1,11 +1,19 @@
 import { useEffect, useState } from 'react'
 
-export default function VariantVariant({ product, variant }) {
+export default function VariantVariant({
+  product,
+  variant,
+  checked: checkedFromProduct,
+}) {
   const [checked, setChecked] = useState(false)
 
   const handleChange = () => {
     setChecked(prev => !prev)
   }
+
+  useEffect(() => {
+    setChecked(checkedFromProduct)
+  }, [checkedFromProduct])
 
   return (
     <>

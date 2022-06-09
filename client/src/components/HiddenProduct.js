@@ -1,7 +1,10 @@
+import { useState } from 'react'
 import { getVariantById, resetVariantWeightById } from '../utils/api'
 import HiddenVariant from './HiddenVariant'
 
 export default function HiddenProduct({ product }) {
+  const [checked, setChecked] = useState(false)
+
   const handleGetVariant = variantId => async e => {
     e.preventDefault()
     console.log(variantId)
@@ -15,15 +18,31 @@ export default function HiddenProduct({ product }) {
     console.log(variant)
   }
 
+  const handleChange = () => {
+    setChecked(prev => !prev)
+  }
+
   return (
     <>
-      <h3>{product.title}</h3>
+      <input
+        type="checkbox"
+        id={`hidden-product-${product.id}`}
+        checked={checked}
+        onChange={handleChange}
+      />
+      <label htmlFor={`hidden-product-${product.id}`}>
+        <h3 style={{ display: 'inline-block' }}>{product.title}</h3>
+      </label>
       <ul>
         {product.variants.map(
           variant =>
             variant.weight === 9999 && (
               <li key={variant.id}>
-                <HiddenVariant product={product} variant={variant} />
+                <HiddenVariant
+                  product={product}
+                  variant={variant}
+                  checked={checked}
+                />
                 <button onClick={handleGetVariant(variant.id)}>
                   GET VARIANT
                 </button>
