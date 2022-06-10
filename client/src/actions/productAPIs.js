@@ -16,26 +16,27 @@ const getNonHiddens = pipe(getVariants, filter(isNonHidden))
 const getHiddens = pipe(getVariants, filter(isHidden))
 export const isActive = pipe(getStatus, equals('active'))
 
-const createSequenceForPromise = (delay, index) => promise => {
+const createSequenceForPromise = (delay, index) => passPromiseParams => {
   return new Promise((res, rej) => {
     setTimeout(() => {
-      return promise(res, rej)
+      passPromiseParams(res, rej)
     }, delay * index)
   })
 }
 
-const getSequencedPromises = (arr, createPromise, delaySetting = 500) => {
+const getSequencedPromises = (arr, createPromiseRelay, delaySetting = 500) => {
   const delay = delaySetting < 500 ? 500 : delaySetting
 
   let promiseContainer = []
   let legidIndex = 0
 
   for (let index = 0; index < arr.length; index++) {
-    const promise = createPromise(arr[index])
-    if (!promise) continue
+    const passPromiseParams = createPromiseRelay(arr[index])
 
-    const addSequenceToPromise = createSequenceForPromise(delay, legidIndex)
-    const sequencedPromise = addSequenceToPromise(promise)
+    if (!passPromiseParams) continue
+
+    const receiveRelayToPassParams = createSequenceForPromise(delay, legidIndex)
+    const sequencedPromise = receiveRelayToPassParams(passPromiseParams)
 
     promiseContainer.push(sequencedPromise)
     legidIndex++
@@ -44,7 +45,7 @@ const getSequencedPromises = (arr, createPromise, delaySetting = 500) => {
   return promiseContainer
 }
 
-const getLocallyNonHiddenInventoryFromVariant = variant => {
+const getLocallyNonHiddenInventoryRelayByVariant = variant => {
   if (isHidden(variant)) return false
 
   const inventoryItemId = getInventoryItemId(variant)
@@ -77,7 +78,7 @@ export const areLocalNonHiddensOutOfStock = async product => {
 
   const promiseContainer = getSequencedPromises(
     getVariants(product),
-    getLocallyNonHiddenInventoryFromVariant
+    getLocallyNonHiddenInventoryRelayByVariant
   )
 
   try {
@@ -99,7 +100,7 @@ export const areLocalNonHiddensOutOfStock = async product => {
 
     return status
   } catch (error) {
-    throw error
+    return Promise.reject(error)
   }
 }
 
