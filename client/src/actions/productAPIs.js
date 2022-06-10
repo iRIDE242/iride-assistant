@@ -16,6 +16,53 @@ const getNonHiddens = pipe(getVariants, filter(isNonHidden))
 const getHiddens = pipe(getVariants, filter(isHidden))
 export const isActive = pipe(getStatus, equals('active'))
 
+const createSequenceForPromise = (delay, index) => promise => {
+  return new Promise((res, rej) => {
+    setTimeout(() => {
+      return promise(res, rej)
+    }, delay * index)
+  })
+}
+
+const getSequencedPromises = (arr, createPromise, delaySetting = 500) => {
+  const delay = delaySetting < 500 ? 500 : delaySetting
+
+  let promiseContainer = []
+  let legidIndex = 0
+
+  for (let index = 0; index < arr.length; index++) {
+    const promise = createPromise(arr[index])
+    if (!promise) continue
+
+    const addSequenceToPromise = createSequenceForPromise(delay, legidIndex)
+    const sequencedPromise = addSequenceToPromise(promise)
+
+    promiseContainer.push(sequencedPromise)
+    legidIndex++
+  }
+
+  return promiseContainer
+}
+
+const getLocallyNonHiddenInventoryFromVariant = variant => {
+  if (isHidden(variant)) return false
+
+  const inventoryItemId = getInventoryItemId(variant)
+
+  return async (res, rej) => {
+    try {
+      const {
+        inventory: { inventory_levels },
+      } = await getVariantLocationInventory(LOCAL_LOCATION_ID, inventoryItemId)
+      const { available } = inventory_levels[0]
+
+      res(available)
+    } catch (error) {
+      rej(error)
+    }
+  }
+}
+
 /**
  * API requests
  */
@@ -27,46 +74,33 @@ export const isActive = pipe(getStatus, equals('active'))
  */
 export const areLocalNonHiddensOutOfStock = async product => {
   let status = 'in stock'
-  let promiseContainer = []
-  const nonHiddens = getNonHiddens(product)
 
-  for (let index = 0; index < nonHiddens.length; index++) {
-    const inventoryItemId = getInventoryItemId(nonHiddens[index])
+  const promiseContainer = getSequencedPromises(
+    getVariants(product),
+    getLocallyNonHiddenInventoryFromVariant
+  )
 
-    promiseContainer = [
-      ...promiseContainer,
-      new Promise(res => {
-        setTimeout(async () => {
-          const {
-            inventory: { inventory_levels },
-          } = await getVariantLocationInventory(
-            LOCAL_LOCATION_ID,
-            inventoryItemId
-          )
-          const { available } = inventory_levels[0]
+  try {
+    const inventories = await Promise.all(promiseContainer)
 
-          res(available)
-        }, 500 * index)
-      }),
-    ]
+    const processAdd = (acc, cur) => {
+      if (cur <= 0 && status === 'in stock')
+        status = 'has variants out of stock'
+      return acc + cur
+    }
+
+    const totalNonHiddensInventory = reduce(processAdd, 0)(inventories)
+    // Note, reduce from Ramda needs to give the initial value
+
+    console.log(`${product.title}: ${totalNonHiddensInventory}`)
+
+    if (totalNonHiddensInventory <= 0) status = 'out of stock'
+    console.log(status)
+
+    return status
+  } catch (error) {
+    throw error
   }
-
-  const inventories = await Promise.all(promiseContainer)
-
-  const processAdd = (acc, cur) => {
-    if (cur <= 0 && status === 'in stock') status = 'has variants out of stock'
-    return acc + cur
-  }
-
-  const totalNonHiddensInventory = reduce(processAdd, 0)(inventories)
-  // Note, reduce from Ramda needs to give the initial value
-
-  console.log(`${product.title}: ${totalNonHiddensInventory}`)
-
-  if (totalNonHiddensInventory <= 0) status = 'out of stock'
-  console.log(status)
-
-  return status
 }
 
 /**
