@@ -1,7 +1,8 @@
 import { equals, filter, pipe, prop, reduce } from 'ramda'
 import { getVariantLocationInventory } from '../utils/api'
 import { LOCAL_LOCATION_ID } from '../utils/config'
-import { getInventoryItemId, isHidden, isNonHidden } from './variantAPIs'
+import { getInventoryItemId, isHidden } from './variantAPIs'
+import { createSequencedPromises } from '../utils/helper'
 
 /**
  * Product properties
@@ -12,40 +13,19 @@ const getStatus = prop('status')
 /**
  * Specific requests
  */
-const getNonHiddens = pipe(getVariants, filter(isNonHidden))
 const getHiddens = pipe(getVariants, filter(isHidden))
 export const isActive = pipe(getStatus, equals('active'))
 
-const createSequenceForPromise = (delay, index) => passPromiseParams => {
-  return new Promise((res, rej) => {
-    setTimeout(() => {
-      passPromiseParams(res, rej)
-    }, delay * index)
-  })
-}
+/**
+ * API requests
+ */
 
-const getSequencedPromises = (arr, createPromiseRelay, delaySetting = 500) => {
-  const delay = delaySetting < 500 ? 500 : delaySetting
+/**
+ * Check if local non-hidden variants are out of stock
+ */
 
-  let promiseContainer = []
-  let legidIndex = 0
-
-  for (let index = 0; index < arr.length; index++) {
-    const passPromiseParams = createPromiseRelay(arr[index])
-
-    if (!passPromiseParams) continue
-
-    const receiveRelayToPassParams = createSequenceForPromise(delay, legidIndex)
-    const sequencedPromise = receiveRelayToPassParams(passPromiseParams)
-
-    promiseContainer.push(sequencedPromise)
-    legidIndex++
-  }
-
-  return promiseContainer
-}
-
-const getLocallyNonHiddenInventoryRelayByVariant = variant => {
+// Assistant function
+const createLocallyNonHiddenInventoryRelayByVariant = variant => {
   if (isHidden(variant)) return false
 
   const inventoryItemId = getInventoryItemId(variant)
@@ -64,21 +44,13 @@ const getLocallyNonHiddenInventoryRelayByVariant = variant => {
   }
 }
 
-/**
- * API requests
- */
-
-/**
- * Check if local non-hidden variants are out of stock
- * @param {Product Object} product
- * @returns {Boolean}
- */
+// Main function
 export const areLocalNonHiddensOutOfStock = async product => {
   let status = 'in stock'
 
-  const promiseContainer = getSequencedPromises(
+  const promiseContainer = createSequencedPromises(
     getVariants(product),
-    getLocallyNonHiddenInventoryRelayByVariant
+    createLocallyNonHiddenInventoryRelayByVariant
   )
 
   try {
