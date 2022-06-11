@@ -9,17 +9,7 @@ import InventoryInfo from './components/InventoryInfo'
 import HiddenInfo from './components/HiddenInfo'
 import { getProductsByCollectionId, getProductsByPageInfo } from './utils/api'
 import { getLocallyOutOfStockProducts } from './actions/productAPIs'
-
-const collections = {
-  210639487136: {
-    id: '210639487136',
-    name: 'Clearance',
-  },
-  72523907138: {
-    id: '72523907138',
-    name: 'Riding Tops',
-  },
-}
+import { collections } from './utils/config'
 
 const emptyLink = {
   limit: '',
