@@ -1,17 +1,5 @@
 import { filter, pipe, prop } from 'ramda'
-import {
-  hasHidden,
-  isActive,
-} from './productAPIs'
-
-/**
- * Shared properties
- */
-export const getTitle = prop('title')
-
-/**
- * API requests
- */
+import { hasHidden, isActive } from './productAPIs'
 
 /**
  * Response header manipulation

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { getTitle } from '../actions/shared'
+import { getTitle } from '../utils/helper'
 
 function Product(props) {
   const [isClicked, setIsClicked] = useState(false)

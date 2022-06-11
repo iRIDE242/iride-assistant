@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {
   createPrevAndNextFromHeader,
   getProductsWithHiddenVariants,
-} from './actions/shared'
+} from './actions/headerAPIs'
 import './App.css'
 import Product from './components/Product'
 import InventoryInfo from './components/InventoryInfo'

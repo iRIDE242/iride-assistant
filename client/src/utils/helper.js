@@ -1,3 +1,10 @@
+import { prop } from 'ramda'
+
+/**
+ * Shared methods
+ */
+const getTitle = prop('title')
+
 /**
  * Create sequenced promises
  */
@@ -37,4 +44,4 @@ const createSequencedPromises = (
   return promiseContainer
 }
 
-export { createSequencedPromises }
+export { getTitle, createSequencedPromises }
