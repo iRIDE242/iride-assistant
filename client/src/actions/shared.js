@@ -1,6 +1,5 @@
 import { filter, pipe, prop } from 'ramda'
 import {
-  areLocalNonHiddensOutOfStock,
   hasHidden,
   isActive,
 } from './productAPIs'
@@ -13,56 +12,6 @@ export const getTitle = prop('title')
 /**
  * API requests
  */
-
-/**
- * Get products that are active and locally out of stock
- * @param {Array} products
- * @returns {Array}
- */
-export const getLocallyOutOfStockProducts = async products => {
-  const activeProducts = filter(isActive)(products)
-
-  const activeLocallyOutOfStockProducts = []
-  const activeLocallyHavingOutOfStockProducts = []
-
-  try {
-    for (let index = 0; index < activeProducts.length; index++) {
-      const status = await areLocalNonHiddensOutOfStock(activeProducts[index])
-
-      if (status === 'out of stock')
-        activeLocallyOutOfStockProducts.push(activeProducts[index])
-      if (status === 'has variants out of stock')
-        activeLocallyHavingOutOfStockProducts.push(activeProducts[index])
-    }
-
-    return {
-      activeLocallyOutOfStockProducts,
-      activeLocallyHavingOutOfStockProducts,
-    }
-  } catch (error) {
-    return Promise.reject(error)
-  }
-}
-
-export const getProductsByCollectionId = async collectionId => {
-  try {
-    const response = await fetch(`/products?collection_id=${collectionId}`)
-    return response.json()
-  } catch (error) {
-    return Promise.reject(error)
-  }
-}
-
-export const getProductsByPageInfo = async ({ limit, pageInfo }) => {
-  try {
-    const response = await fetch(
-      `/products?limit=${limit}&page_info=${pageInfo}`
-    )
-    return response.json()
-  } catch (error) {
-    return Promise.reject(error)
-  }
-}
 
 /**
  * Response header manipulation

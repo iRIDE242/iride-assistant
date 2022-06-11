@@ -21,10 +21,10 @@ export const isActive = pipe(getStatus, equals('active'))
  */
 
 /**
- * Check if local non-hidden variants are out of stock
+ * Get products that are active and locally out of stock
  */
 
-// Assistant function
+// Create promise relay
 const createLocallyNonHiddenInventoryRelayByVariant = variant => {
   if (isHidden(variant)) return false
 
@@ -44,7 +44,7 @@ const createLocallyNonHiddenInventoryRelayByVariant = variant => {
   }
 }
 
-// Main function
+// Use relay to create a promise to check if local non-hidden variants are out of stock
 export const areLocalNonHiddensOutOfStock = async product => {
   let status = 'in stock'
 
@@ -71,6 +71,32 @@ export const areLocalNonHiddensOutOfStock = async product => {
     console.log(status)
 
     return status
+  } catch (error) {
+    return Promise.reject(error)
+  }
+}
+
+// Get the result
+export const getLocallyOutOfStockProducts = async products => {
+  const activeProducts = filter(isActive)(products)
+
+  const activeLocallyOutOfStockProducts = []
+  const activeLocallyHavingOutOfStockProducts = []
+
+  try {
+    for (let index = 0; index < activeProducts.length; index++) {
+      const status = await areLocalNonHiddensOutOfStock(activeProducts[index])
+
+      if (status === 'out of stock')
+        activeLocallyOutOfStockProducts.push(activeProducts[index])
+      if (status === 'has variants out of stock')
+        activeLocallyHavingOutOfStockProducts.push(activeProducts[index])
+    }
+
+    return {
+      activeLocallyOutOfStockProducts,
+      activeLocallyHavingOutOfStockProducts,
+    }
   } catch (error) {
     return Promise.reject(error)
   }

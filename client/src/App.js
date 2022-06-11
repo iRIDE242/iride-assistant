@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import {
   createPrevAndNextFromHeader,
-  getLocallyOutOfStockProducts,
-  getProductsByCollectionId,
-  getProductsByPageInfo,
   getProductsWithHiddenVariants,
 } from './actions/shared'
 import './App.css'
 import Product from './components/Product'
 import InventoryInfo from './components/InventoryInfo'
 import HiddenInfo from './components/HiddenInfo'
+import { getProductsByCollectionId, getProductsByPageInfo } from './utils/api'
+import { getLocallyOutOfStockProducts } from './actions/productAPIs'
 
 const collections = {
   210639487136: {
