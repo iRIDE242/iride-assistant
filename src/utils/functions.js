@@ -1,4 +1,4 @@
-import { pipe, prop } from "ramda";
+import { pipe, prop } from 'ramda'
 
 const getQuery = prop('query')
 const getCollectionId = prop('collection_id')
@@ -15,4 +15,19 @@ export const handleHeaders = headers => {
     headerObj[pair[0]] = pair[1]
   }
   return headerObj
+}
+
+export const getRequestOptions = (method, data) => {
+  const body = data ? JSON.stringify(data) : null
+  const headers = {
+    'Content-Type': 'application/json',
+    'X-Shopify-Access-Token': process.env.API_SECRET_KEY,
+  }
+
+  const baseRequest = {
+    method,
+    headers,
+  }
+
+  return body ? { ...baseRequest, body } : baseRequest
 }

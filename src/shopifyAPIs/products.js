@@ -1,17 +1,17 @@
 import fetch from 'node-fetch'
-import { options, BASE_REQUEST_URL } from '../utils/shopifyConfig.js'
+import { OPTIONS_GET, BASE_REQUEST_URL } from '../utils/shopifyConfig.js'
 
 const PRODUCT_REQUEST_URL = `${BASE_REQUEST_URL}products.json`
 
 export const queryProducts = async () => {
-  const response = await fetch(PRODUCT_REQUEST_URL, options)
+  const response = await fetch(PRODUCT_REQUEST_URL, OPTIONS_GET)
   return response.json()
 }
 
 export const queryByCollectionId = async collectionId => {
   const response = await fetch(
     `${PRODUCT_REQUEST_URL}?collection_id=${collectionId}`,
-    options
+    OPTIONS_GET
   )
   const products = await response.json()
 
@@ -28,7 +28,7 @@ export const queryByCollectionId = async collectionId => {
 export const queryByPageInfo = async (limit, pageInfo) => {
   const response = await fetch(
     `${PRODUCT_REQUEST_URL}?limit=${limit}&page_info=${pageInfo}`,
-    options
+    OPTIONS_GET
   )
   const products = await response.json()
 
