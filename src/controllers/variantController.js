@@ -33,6 +33,9 @@ export const variantController = () => {
 
       res.send(variant)
     } catch (error) {
+      debug('IN ERROR')
+      debug(error)
+
       // Send to handle error middleware
       next(error)
     }
