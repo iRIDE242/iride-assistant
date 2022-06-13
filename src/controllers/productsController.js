@@ -1,7 +1,15 @@
 import debugModule from 'debug'
 import { prop } from 'ramda'
-import { queryByCollectionId, queryByPageInfo } from '../shopifyAPIs/products.js'
-import { getQueryCollectionId, getQueryLimit, getQueryPageInfo, handleHeaders } from '../utils/functions.js'
+import {
+  queryByCollectionId,
+  queryByPageInfo,
+} from '../shopifyAPIs/products.js'
+import {
+  getQueryCollectionId,
+  getQueryLimit,
+  getQueryPageInfo,
+  handleHeaders,
+} from '../utils/functions.js'
 
 const debug = debugModule('app: productsController')
 
@@ -31,26 +39,33 @@ export const productsController = () => {
 
       // queryFunc's return is a promise,
       // So it needs 'await' to get the result from the promise.
-      const { responseHeaders, products: { products }} = await queryFunc()
+      const {
+        response: { headers },
+        result: { products },
+      } = await queryFunc()
       debug('Succeeded getting products and response header')
       // debug(products)
 
-      // The original headers is not normal object, 
+      // The original headers is not normal object,
       // need to be formatted into the readable object.
-      const headerObj = handleHeaders(responseHeaders)
+      const headerObj = handleHeaders(headers)
       // debug(headerObj)
 
       res.send({
         products,
-        headerObj
+        headerObj,
       })
     } catch (error) {
+      debug('IN ERROR')
       debug(error)
+
+      // Send to handle error middleware
+      next(error)
     }
   }
 
   return {
     middleware,
-    getProductsAndResponseHeader
+    getProductsAndResponseHeader,
   }
 }
