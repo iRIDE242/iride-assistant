@@ -1,6 +1,6 @@
 import debugModule from 'debug'
 import fetch from 'node-fetch'
-import { getRequestOptions } from '../utils/functions.js'
+import { getFetchReturn, getRequestOptions } from '../utils/functions.js'
 import { OPTIONS_GET, BASE_REQUEST_URL } from '../utils/shopifyConfig.js'
 
 const debug = debugModule('app: variantAPI')
@@ -16,8 +16,18 @@ export const queryByVariantId = async variantId => {
 
 export const updateByVariantId = async (variantId, data) => {
   const options = getRequestOptions('PUT', data)
-  
-  const response = await fetch(createVariantRequestUrl(variantId), options)
 
-  return response.json()
+  try {
+    const response = await fetch(createVariantRequestUrl(variantId), options)
+    const jsonResponse = await response.json()
+
+    // When the return is not valid, it will be a promise reject. Promise reject won't lead to an error, but just a normal return. So it will stick to try, but not fall into catch.
+    const fetchReturn = getFetchReturn(response, jsonResponse)
+
+    return fetchReturn
+  } catch (error) {
+    debug('in error')
+    debug(error)
+    throw error
+  }
 }

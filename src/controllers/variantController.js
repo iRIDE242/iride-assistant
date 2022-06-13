@@ -17,7 +17,7 @@ export const variantController = () => {
     }
   }
 
-  const resetWeightByVariantId = async (req, res) => {
+  const resetWeightByVariantId = async (req, res, next) => {
     const variantId = req.query.variant_id
 
     const data = {
@@ -34,6 +34,9 @@ export const variantController = () => {
       res.send(variant)
     } catch (error) {
       debug(error)
+      // throw error
+      debug('in error')
+      next(error)
     }
   }
 
