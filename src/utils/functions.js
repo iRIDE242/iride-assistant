@@ -1,5 +1,6 @@
 import { pipe, prop } from 'ramda'
 import debugModule from 'debug'
+import fetch from 'node-fetch'
 
 const debug = debugModule('app: functions')
 
@@ -35,15 +36,21 @@ export const getRequestOptions = (method, data) => {
   return body ? { ...baseRequest, body } : baseRequest
 }
 
-export const getFetchReturn = (response, jsonResponse) => {
-  if (response.ok) {
-    return jsonResponse
-  } else {
-    // The parameter in reject method needs to be an Error object
-    const error = new Error(jsonResponse.errors)
-    error.status = response.status
+export const handleFetch = async (url, options) => {
+  try {
+    const response = await fetch(url, options)
+    const jsonResponse = await response.json()
 
-    // Note, promise reject won't lead to an error. It is just a normal return.
-    return Promise.reject(error)
+    // Handle all the errors except network errors
+    if (!response.ok) {
+      const error = new Error(jsonResponse.errors)
+      error.status = response.status
+
+      throw error
+    }
+
+    return jsonResponse
+  } catch (error) {
+    throw error
   }
 }

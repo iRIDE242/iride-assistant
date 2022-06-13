@@ -19,7 +19,7 @@ app.use((error, req, res, next) => {
   debug('Error Handling Middleware called')
   debug('Path: ', req.path)
 
-  // Note, need to use error.message for the error string content
+  // Note, need to use error.message for the error text content
   res.status(error.status).send(JSON.stringify(error.message))
 })
 
