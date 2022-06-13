@@ -39,17 +39,17 @@ export const getRequestOptions = (method, data) => {
 export const handleFetch = async (url, options) => {
   try {
     const response = await fetch(url, options)
-    const jsonResponse = await response.json()
+    const result = await response.json()
 
     // Handle all the errors except network errors
     if (!response.ok) {
-      const error = new Error(jsonResponse.errors)
+      const error = new Error(result.errors)
       error.status = response.status
 
       throw error
     }
 
-    return jsonResponse
+    return { result, response }
   } catch (error) {
     throw error
   }

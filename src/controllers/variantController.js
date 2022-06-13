@@ -8,10 +8,10 @@ export const variantController = () => {
     const variantId = req.query.variant_id
 
     try {
-      const variant = await queryByVariantId(variantId)
+      const { result } = await queryByVariantId(variantId)
       debug(`Getting variant ${variantId} done.`)
 
-      res.send(variant)
+      res.send(result)
     } catch (error) {
       debug(error)
     }
@@ -28,10 +28,10 @@ export const variantController = () => {
     }
 
     try {
-      const variant = await updateByVariantId(variantId, data)
+      const { result } = await updateByVariantId(variantId, data)
       debug(`The weight of variant ${variantId} has been reset to 0.`)
 
-      res.send(variant)
+      res.send(result)
     } catch (error) {
       debug('IN ERROR')
       debug(error)
