@@ -9,16 +9,23 @@ export const inventoryController = () => {
     const locationIds = req.query.location_ids
 
     try {
-      const inventory = await queryByItemAndLocation(inventoryItemIds, locationIds)
+      const { result } = await queryByItemAndLocation(
+        inventoryItemIds,
+        locationIds
+      )
       // debug(inventory)
-      
-      res.send({ inventory })
+
+      res.send({ inventory: result })
     } catch (error) {
+      debug('IN ERROR')
       debug(error)
+
+      // Send to handle error middleware
+      next(error)
     }
   }
 
   return {
-    getByItemAndLocation
+    getByItemAndLocation,
   }
 }
