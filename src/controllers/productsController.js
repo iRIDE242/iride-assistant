@@ -33,7 +33,7 @@ export const productsController = () => {
     }
   }
 
-  const getProductsAndResponseHeader = async (req, res) => {
+  const getProductsAndResponseHeader = async (req, res, next) => {
     try {
       const queryFunc = prop('queryFunc')(req)
 

@@ -15,9 +15,16 @@ app.use('/products', productsRouter)
 app.use('/variant', variantRouter)
 
 // Ths async error handling needs to be after routes since this happens after api requests
-app.use((error, req, res, next) => {
+app.use((err, req, res, next) => {
   debug('Error Handling Middleware called')
   debug('Path: ', req.path)
+  debug(err.message)
+
+  let error = err
+  if (err.name === 'FetchError') {
+    error = new Error(err.message)
+    error.status = 500
+  }
 
   // Note, need to use error.message for the error text content
   res.status(error.status).send(JSON.stringify(error.message))

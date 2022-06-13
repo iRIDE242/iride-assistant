@@ -4,7 +4,7 @@ import { queryByItemAndLocation } from '../shopifyAPIs/inventory.js'
 const debug = debugModule('app: inventoryController')
 
 export const inventoryController = () => {
-  const getByItemAndLocation = async (req, res) => {
+  const getByItemAndLocation = async (req, res, next) => {
     const inventoryItemIds = req.query.inventory_item_ids
     const locationIds = req.query.location_ids
 
@@ -19,6 +19,8 @@ export const inventoryController = () => {
     } catch (error) {
       debug('IN ERROR')
       debug(error)
+      debug(error.message)
+      debug(error.name)
 
       // Send to handle error middleware
       next(error)
