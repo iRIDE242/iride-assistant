@@ -14,15 +14,7 @@ export const queryByCollectionId = collectionId => {
   return handleFetch(url, OPTIONS_GET)
 }
 
-export const queryByPageInfo = async (limit, pageInfo) => {
-  const response = await fetch(
-    `${PRODUCT_REQUEST_URL}?limit=${limit}&page_info=${pageInfo}`,
-    OPTIONS_GET
-  )
-  const products = await response.json()
-
-  return {
-    responseHeaders: response.headers,
-    products,
-  }
+export const queryByPageInfo = (limit, pageInfo) => {
+  const url = `${PRODUCT_REQUEST_URL}?limit=${limit}&page_info=${pageInfo}`
+  return handleFetch(url, OPTIONS_GET)
 }
