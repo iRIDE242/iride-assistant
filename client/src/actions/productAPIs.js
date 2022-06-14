@@ -44,8 +44,8 @@ const createLocallyNonHiddenInventoryRelayByVariant = variant => {
   }
 }
 
-// Use relay to create a promise to check if local non-hidden variants are out of stock
-export const areLocalNonHiddensOutOfStock = async product => {
+// Use relay to create all the variants' promises to check if local non-hidden variants are out of stock
+const areLocalNonHiddensOutOfStock = async product => {
   let status = 'in stock'
 
   const promiseContainer = createSequencedPromises(
@@ -76,7 +76,7 @@ export const areLocalNonHiddensOutOfStock = async product => {
   }
 }
 
-// Get the result
+// Get the out of stock results for products
 export const getLocallyOutOfStockProducts = async products => {
   const activeProducts = filter(isActive)(products)
 
