@@ -60,7 +60,7 @@ export default function ProductWithHiddenVariants({ product, checked: checkedFro
                   GET VARIANT
                 </button>
                 <button onClick={handleResetWeight(variant.id)}>
-                  RESET WEIGHT
+                  SHOW VARIANT
                 </button>
               </li>
             )

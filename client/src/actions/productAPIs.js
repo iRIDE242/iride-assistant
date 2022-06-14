@@ -112,7 +112,7 @@ export const hasHidden = product => {
   const hiddens = getHiddens(product)
 
   if (hiddens.length > 0) status = 'has hidden'
-  console.log(`${product.title}: ${status}`)
+  // console.log(`${product.title}: ${status}`)
 
   return status
 }

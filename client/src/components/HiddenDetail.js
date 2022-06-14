@@ -54,7 +54,7 @@ export default function HiddenDetail({
           {productsWithHidden.map(product => (
             <ProductWithHiddenVariants key={product.id} product={product} checked={checked} />
           ))}
-          <button type="submit">REMOVE HIDDEN STATUS</button>
+          <button type="submit">SHOW SELECTED VARIANTS</button>
         </form>
       </div>
     </div>
