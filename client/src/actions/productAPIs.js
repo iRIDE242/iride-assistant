@@ -72,7 +72,7 @@ const areLocalNonHiddensOutOfStock = async product => {
 
     return status
   } catch (error) {
-    return Promise.reject(error)
+    throw error
   }
 }
 
@@ -98,7 +98,7 @@ export const getLocallyOutOfStockProducts = async products => {
       activeLocallyHavingOutOfStockProducts,
     }
   } catch (error) {
-    return Promise.reject(error)
+    throw error
   }
 }
 

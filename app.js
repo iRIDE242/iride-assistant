@@ -21,6 +21,8 @@ app.use((err, req, res, next) => {
   debug(err.message)
 
   let error = err
+
+  // This is for network error
   if (err.name === 'FetchError') {
     error = new Error(err.message)
     error.status = 500
