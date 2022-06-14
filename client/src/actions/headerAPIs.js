@@ -40,16 +40,3 @@ export const createPrevAndNextFromHeader = header => {
     next: pipe(getLink, getNextMatched, getPageLink)(header),
   }
 }
-
-export const getProductsWithHiddenVariants = products => {
-  const activeProducts = filter(isActive)(products)
-
-  const productsHavingHiddenvariants = []
-
-  for (let index = 0; index < activeProducts.length; index++) {
-    hasHidden(activeProducts[index]) === 'has hidden' &&
-      productsHavingHiddenvariants.push(activeProducts[index])
-  }
-
-  return productsHavingHiddenvariants
-}

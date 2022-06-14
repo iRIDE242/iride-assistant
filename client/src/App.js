@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import {
-  createPrevAndNextFromHeader,
-  getProductsWithHiddenVariants,
-} from './actions/headerAPIs'
+import { createPrevAndNextFromHeader } from './actions/headerAPIs'
 import './App.css'
 import Product from './components/Product'
 import InventoryInfo from './components/InventoryInfo'
 import HiddenInfo from './components/HiddenInfo'
 import { getProductsByCollectionId, getProductsByPageInfo } from './utils/api'
-import { getLocallyOutOfStockProducts } from './actions/productAPIs'
+import {
+  getLocallyOutOfStockProducts,
+  getProductsWithHiddenVariants,
+} from './actions/productAPIs'
 import { collections } from './utils/config'
 
 const emptyLink = {

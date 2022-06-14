@@ -116,3 +116,19 @@ export const hasHidden = product => {
 
   return status
 }
+
+/**
+ * Get products with hidden variants
+ */
+export const getProductsWithHiddenVariants = products => {
+  const activeProducts = filter(isActive)(products)
+
+  const productsHavingHiddenvariants = []
+
+  for (let index = 0; index < activeProducts.length; index++) {
+    hasHidden(activeProducts[index]) === 'has hidden' &&
+      productsHavingHiddenvariants.push(activeProducts[index])
+  }
+
+  return productsHavingHiddenvariants
+}
