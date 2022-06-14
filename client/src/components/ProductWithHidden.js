@@ -6,7 +6,7 @@ import {
 } from '../utils/api'
 import HiddenVariant from './HiddenVariant'
 
-export default function ProductWithHiddenVariants({
+export default function ProductWithHidden({
   product,
   checked: checkedFromInfo,
 }) {
