@@ -1,3 +1,5 @@
+import { handleFetch } from './helper'
+
 export const getVariantLocationInventory = async (
   locationIds,
   inventoryItemIds
@@ -21,13 +23,9 @@ export const getVariantById = async variantId => {
   }
 }
 
-export const resetVariantWeightById = async variantId => {
-  try {
-    const response = await fetch(`/variant/weight?variant_id=${variantId}`)
-    return response.json()
-  } catch (error) {
-    return Promise.reject(error)
-  }
+export const resetVariantWeightById = variantId => {
+  const url = `/variant/weight?variant_id=${variantId}`
+  return handleFetch(url)
 }
 
 export const getProductsByCollectionId = async collectionId => {

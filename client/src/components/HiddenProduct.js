@@ -14,8 +14,12 @@ export default function HiddenProduct({ product, checked: checkedFromInfo }) {
 
   const handleResetWeight = variantId => async e => {
     e.preventDefault()
-    const variant = await resetVariantWeightById(variantId)
-    console.log(variant)
+    try {
+      const variant = await resetVariantWeightById(variantId)
+      console.log(variant)
+    } catch (error) {
+      throw error
+    }
   }
 
   const handleChange = () => {

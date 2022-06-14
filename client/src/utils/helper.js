@@ -44,4 +44,20 @@ const createSequencedPromises = (
   return promiseContainer
 }
 
-export { getTitle, createSequencedPromises }
+const handleFetch = async url => {
+  try {
+    // response is a fetch report file describing how this fetch goes,
+    // with properties like status, ok, statusText,
+    // and json method to get the returned data.
+    const response = await fetch(url)
+    const result = await response.json()
+
+    if (!response.ok) throw new Error(result)
+
+    return result
+  } catch (error) {
+    throw error
+  }
+}
+
+export { getTitle, createSequencedPromises, handleFetch }

@@ -26,7 +26,9 @@ app.use((err, req, res, next) => {
     error.status = 500
   }
 
-  // Note, need to use error.message for the error text content
+  // Note, need to use error.message for the error text content.
+  // Since the client side uses fetch, the sent target needs to be either an object
+  // or a json stringified primitive value to match with response.json() method.
   res.status(error.status).send(JSON.stringify(error.message))
 })
 
