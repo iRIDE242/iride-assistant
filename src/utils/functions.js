@@ -23,14 +23,14 @@ export const handleHeaders = headers => {
 
 export const getRequestOptions = (method, data) => {
   const body = data ? JSON.stringify(data) : null
-  const header = {
+  const headers = {
     'Content-Type': 'application/json',
     'X-Shopify-Access-Token': process.env.API_SECRET_KEY,
   }
 
   const baseRequest = {
     method,
-    header,
+    headers,
   }
 
   return body ? { ...baseRequest, body } : baseRequest
