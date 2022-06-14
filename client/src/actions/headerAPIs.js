@@ -1,5 +1,4 @@
-import { filter, pipe, prop } from 'ramda'
-import { hasHidden, isActive } from './productAPIs'
+import { pipe, prop } from 'ramda'
 
 /**
  * Response header manipulation
