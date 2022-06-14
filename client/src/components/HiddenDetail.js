@@ -5,6 +5,7 @@ const regex = /^\d/
 
 export default function HiddenDetail({
   productsWithHidden,
+  setProductsWithHidden,
   settings: {
     localStorageKey,
     background,
@@ -46,13 +47,19 @@ export default function HiddenDetail({
         onChange={handleChange}
       />
       <label htmlFor="hidden-product-info">
-        <h2 style={{ display: 'inline-block' }}>PRODUCTS WITH HIDDEN VARIANTS</h2>
+        <h2 style={{ display: 'inline-block' }}>
+          PRODUCTS WITH HIDDEN VARIANTS
+        </h2>
       </label>
 
       <div style={{ color: mainColor }}>
         <form onSubmit={handleSubmit}>
           {productsWithHidden.map(product => (
-            <ProductWithHiddenVariants key={product.id} product={product} checked={checked} />
+            <ProductWithHiddenVariants
+              key={product.id}
+              product={product}
+              checked={checked}
+            />
           ))}
           <button type="submit">SHOW SELECTED VARIANTS</button>
         </form>

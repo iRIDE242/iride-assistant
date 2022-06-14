@@ -15,12 +15,17 @@ export const resetVariantWeightById = variantId => {
   return handleFetch(url)
 }
 
-export const getProductsByCollectionId = async collectionId => {
+export const getProductsByCollectionId = collectionId => {
   const url = `/products?collection_id=${collectionId}`
   return handleFetch(url)
 }
 
-export const getProductsByPageInfo = async ({ limit, pageInfo }) => {
+export const getProductsByPageInfo = ({ limit, pageInfo }) => {
   const url = `/products?limit=${limit}&page_info=${pageInfo}`
+  return handleFetch(url)
+}
+
+export const getProductById = productId => {
+  const url = `/products?product_id=${productId}`
   return handleFetch(url)
 }

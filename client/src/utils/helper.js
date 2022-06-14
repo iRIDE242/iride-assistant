@@ -1,4 +1,5 @@
 import { prop } from 'ramda'
+import { createContext, useContext } from 'react'
 
 /**
  * Shared methods
@@ -60,4 +61,22 @@ const handleFetch = async url => {
   }
 }
 
-export { getTitle, createSequencedPromises, handleFetch }
+function createCtx(providerName, displayName) {
+  const ctx = createContext(undefined)
+
+  if (ctx && displayName) {
+    ctx.displayName = displayName
+  }
+
+  function useCtx(componentName = 'Consumer components') {
+    const c = useContext(ctx)
+    if (c === undefined)
+      throw new Error(
+        `${componentName} must be inside ${providerName} with a value`
+      )
+    return c
+  }
+  return [useCtx, ctx.Provider]
+}
+
+export { getTitle, createSequencedPromises, handleFetch, createCtx }

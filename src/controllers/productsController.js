@@ -3,11 +3,13 @@ import { prop } from 'ramda'
 import {
   queryByCollectionId,
   queryByPageInfo,
+  queryByProductId,
 } from '../shopifyAPIs/products.js'
 import {
   getQueryCollectionId,
   getQueryLimit,
   getQueryPageInfo,
+  getQueryProductId,
   handleHeaders,
 } from '../utils/functions.js'
 
@@ -31,6 +33,14 @@ export const productsController = () => {
       req.queryFunc = () => queryByPageInfo(limit, pageInfo)
       next()
     }
+
+    if (getQueryProductId(req)) {
+      const productId = getQueryProductId(req)
+      debug(`Product ID: ${productId}`)
+
+      req.queryFunc = () => queryByProductId(productId)
+      next()
+    }
   }
 
   const getProductsAndResponseHeader = async (req, res, next) => {
@@ -41,9 +51,9 @@ export const productsController = () => {
       // So it needs 'await' to get the result from the promise.
       const {
         response: { headers },
-        result: { products },
+        result,
       } = await queryFunc()
-      debug('Succeeded getting products and response header')
+      debug('Succeeded getting product(s) and response header')
       // debug(products)
 
       // The original headers is not normal object,
@@ -51,10 +61,12 @@ export const productsController = () => {
       const headerObj = handleHeaders(headers)
       // debug(headerObj)
 
-      res.send({
-        products,
-        headerObj,
-      })
+      let data = { headerObj }
+      data = result.products
+        ? { ...data, products: result.products }
+        : { ...data, product: result.product }
+
+      res.send(data)
     } catch (error) {
       debug('IN ERROR')
       debug(error)
