@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { getVariantById, resetVariantWeightById } from '../utils/api'
 import HiddenVariant from './HiddenVariant'
 
-export default function HiddenProduct({ product, checked: checkedFromInfo }) {
+export default function ProductWithHiddenVariants({ product, checked: checkedFromInfo }) {
   const [checked, setChecked] = useState(false)
 
   const handleGetVariant = variantId => async e => {

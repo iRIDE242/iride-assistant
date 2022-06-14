@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import HiddenProduct from './HiddenProduct'
+import ProductWithHiddenVariants from './ProductWithHiddenVariants'
 
 const regex = /^\d/
 
@@ -52,7 +52,7 @@ export default function HiddenDetail({
       <div style={{ color: mainColor }}>
         <form onSubmit={handleSubmit}>
           {productsWithHidden.map(product => (
-            <HiddenProduct key={product.id} product={product} checked={checked} />
+            <ProductWithHiddenVariants key={product.id} product={product} checked={checked} />
           ))}
           <button type="submit">REMOVE HIDDEN STATUS</button>
         </form>
