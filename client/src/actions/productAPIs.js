@@ -13,7 +13,7 @@ const getStatus = prop('status')
 /**
  * Specific requests
  */
-const getHiddens = pipe(getVariants, filter(isHidden))
+export const getHiddens = pipe(getVariants, filter(isHidden))
 export const isActive = pipe(getStatus, equals('active'))
 
 /**
@@ -107,7 +107,7 @@ export const getLocallyOutOfStockProducts = async products => {
  * @param {Product Object} product
  * @returns {Boolean}
  */
-export const hasHidden = product => {
+const getHiddenStatus = product => {
   let status = 'no hidden'
   const hiddens = getHiddens(product)
 
@@ -126,7 +126,7 @@ export const getProductsWithHiddenVariants = products => {
   const productsHavingHiddenvariants = []
 
   for (let index = 0; index < activeProducts.length; index++) {
-    hasHidden(activeProducts[index]) === 'has hidden' &&
+    getHiddenStatus(activeProducts[index]) === 'has hidden' &&
       productsHavingHiddenvariants.push(activeProducts[index])
   }
 

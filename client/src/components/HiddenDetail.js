@@ -1,10 +1,12 @@
 import { useState } from 'react'
+import { useProducts } from '../context/products'
+import { getAllFilters } from '../utils/filterFunctions'
 import ProductWithHidden from './ProductWithHidden'
 
 const regex = /^\d/
 
 export default function HiddenDetail({
-  productsWithHidden,
+  filteredProducts,
   setProductsWithHidden,
   settings: {
     localStorageKey,
@@ -16,6 +18,9 @@ export default function HiddenDetail({
   },
 }) {
   const [checked, setChecked] = useState(false)
+
+  const [products, ] = useProducts()
+  console.log(products)
 
   const handleChange = () => {
     setChecked(prev => !prev)
@@ -54,7 +59,7 @@ export default function HiddenDetail({
 
       <div style={{ color: mainColor }}>
         <form onSubmit={handleSubmit}>
-          {productsWithHidden.map(product => (
+          {filteredProducts.map(product => (
             <ProductWithHidden
               key={product.id}
               product={product}

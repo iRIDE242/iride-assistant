@@ -9,15 +9,16 @@ const settingsForGone = {
   mainTitle: 'Out of stock products ',
 }
 
-export default function HiddenInfo({ productsWithHidden }) {
-  if (!productsWithHidden.length) {
+export default function HiddenInfo({ filteredProducts }) {
+
+  if (!filteredProducts.length) {
     return <p>No products have hidden variants.</p>
   }
 
   return (
     <>
-      {productsWithHidden.length > 0 && (
-        <HiddenDetail productsWithHidden={productsWithHidden} settings={settingsForGone} />
+      {filteredProducts.length > 0 && (
+        <HiddenDetail filteredProducts={filteredProducts} settings={settingsForGone} />
       )}
     </>
   )
