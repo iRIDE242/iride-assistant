@@ -148,6 +148,10 @@ function App() {
     }
   }
 
+  const handleHiddenVariants = () => {
+    
+  }
+
   return (
     <div className="App">
       <div>
@@ -197,7 +201,11 @@ function App() {
       </div>
 
       <div>
-        <button onClick={findHidden}>FIND HIDDEN</button>
+        <button disabled onClick={findHidden}>FIND HIDDEN</button>
+        <input id="products-with-hidden" type="checkbox" onChange={handleHiddenVariants}/>
+        <label htmlFor="products-with-hidden">
+          hidden variants
+        </label>
         {isLoading ? (
           <p>Loading</p>
         ) : (
