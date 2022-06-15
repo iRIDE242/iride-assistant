@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { ProductsProvider, productsReducer } from './context/products';
+
+function Products ({ children }) {
+  const [state, dispatch] = useReducer(productsReducer, [])
+
+  return (
+    <ProductsProvider value={[state, dispatch]}>
+      {children}
+    </ProductsProvider>
+  )
+}
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Products>
+      <App />
+    </Products>
   </React.StrictMode>,
   document.getElementById('root')
 );

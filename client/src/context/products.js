@@ -5,7 +5,7 @@ const GET_PRODUCTS = 'GET_PRODUCTS'
 
 const [useProducts, ProductsProvider] = createCtx('<Products />', 'Products')
 
-const productsReducer = (state = [], action) => {
+const productsReducer = (state, action) => {
   switch (action.type) {
     case GET_PRODUCTS:
       return action.products
