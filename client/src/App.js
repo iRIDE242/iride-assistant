@@ -10,6 +10,7 @@ import {
   getProductsWithHiddenVariants,
 } from './actions/productAPIs'
 import { collections } from './utils/config'
+import { getProducts, useProducts } from './context/products'
 
 const emptyLink = {
   limit: '',
@@ -25,7 +26,8 @@ const initialPrevAndNext = {
 }
 
 function App() {
-  const [products, setProducts] = useState([])
+  const [products, dispatch] = useProducts()
+  
   const [localsOutOfStock, setLocalsOutOfStock] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [collectionId, setCollectionId] = useState('210639487136')
@@ -36,7 +38,7 @@ function App() {
     setIsLoading(true)
     getProductsByCollectionId(collectionId)
       .then(({ products, headerObj }) => {
-        setProducts(products)
+        getProducts(dispatch, products)
         console.log(headerObj.link)
 
         setPrevAndNext(prevState => ({
@@ -49,7 +51,7 @@ function App() {
         console.log(err)
         setIsLoading(false)
       })
-  }, [collectionId])
+  }, [collectionId, dispatch])
 
   const handlePrevOrNextClick = direction => async e => {
     setIsLoading(true)
@@ -60,7 +62,7 @@ function App() {
       const { prev, next } = prevAndNext
       const link = direction === 'prev' ? prev : next
       const { products, headerObj } = await getProductsByPageInfo(link)
-      setProducts(products)
+      getProducts(dispatch, products)
 
       if (direction === 'prev')
         setPrevAndNext(prevState => ({
@@ -110,7 +112,7 @@ function App() {
         if (direction === 'next') result = await getProductsByPageInfo(lastNext)
       }
 
-      setProducts(result.products)
+      getProducts(dispatch, products)
 
       const locallyOutOfStockProducts = await getLocallyOutOfStockProducts(
         result.products
@@ -138,7 +140,7 @@ function App() {
         if (direction === 'next') result = await getProductsByPageInfo(lastNext)
       }
 
-      setProducts(result.products)
+      getProducts(dispatch, products)
       setProductsWithHidden(getProductsWithHiddenVariants(result.products))
 
       setIsLoading(false)
@@ -149,7 +151,7 @@ function App() {
   }
 
   const handleHiddenVariants = () => {
-    
+
   }
 
   return (
