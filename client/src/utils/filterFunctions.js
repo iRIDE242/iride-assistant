@@ -9,7 +9,11 @@ const hasHidden = product => {
 }
 
 const getAllFilters = filterFuncs => {
-  return filterFuncs.length > 0 ? pipe(...filterFuncs.map(filter)) : filter(filterAll)
+  return filterFuncs.length > 0
+    ? filterFuncs.length > 1
+      ? pipe(...filterFuncs.map(filter))
+      : filter(filterFuncs[0])
+    : filter(filterAll)
 }
 
 export { filterAll, hasHidden, getAllFilters }

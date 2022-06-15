@@ -11,7 +11,7 @@ import {
 } from './actions/productAPIs'
 import { collections } from './utils/config'
 import { getProducts, useProducts } from './context/products'
-import { getAllFilters } from './utils/filterFunctions'
+import { getAllFilters, hasHidden } from './utils/filterFunctions'
 
 const emptyLink = {
   limit: '',
@@ -35,7 +35,10 @@ function App() {
   const [prevAndNext, setPrevAndNext] = useState(initialPrevAndNext)
   const [productsWithHidden, setProductsWithHidden] = useState(null)
 
-  const filteredProducts = getAllFilters([])(products)
+  const [filters, setFilters] = useState([])
+  const [showHidden, setShowHidden] = useState(false)
+
+  const filteredProducts = getAllFilters(filters)(products)
 
   useEffect(() => {
     setIsLoading(true)
@@ -89,8 +92,6 @@ function App() {
       setIsLoading(false)
     }
   }
-
-  if (!products.length) return <p>Loading...</p>
 
   const handleSelectChange = e => {
     setCollectionId(e.target.value)
@@ -153,7 +154,18 @@ function App() {
     }
   }
 
-  const handleHiddenVariants = () => {}
+  const handleHiddenVariants = () => {
+    setShowHidden(prev => !prev)
+  }
+
+  useEffect(() => {
+    const newFilters = []
+
+    if (showHidden) newFilters.push(hasHidden)
+    setFilters(newFilters)
+  }, [showHidden])
+
+  if (!products.length) return <p>Loading...</p>
 
   return (
     <div className="App">
@@ -210,6 +222,7 @@ function App() {
         <input
           id="products-with-hidden"
           type="checkbox"
+          checked={showHidden}
           onChange={handleHiddenVariants}
         />
         <label htmlFor="products-with-hidden">hidden variants</label>
