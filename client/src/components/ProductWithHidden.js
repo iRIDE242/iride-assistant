@@ -5,12 +5,15 @@ import {
   resetVariantWeightById,
 } from '../utils/api'
 import HiddenVariant from './HiddenVariant'
+import { isHidden } from '../actions/variantAPIs'
 
 export default function ProductWithHidden({
   product,
   checked: checkedFromInfo,
 }) {
   const [checked, setChecked] = useState(false)
+  const [hiddenVariants, setHiddenVariants] = useState([])
+   
 
   const handleGetVariant = variantId => async e => {
     e.preventDefault()
@@ -44,6 +47,10 @@ export default function ProductWithHidden({
   useEffect(() => {
     setChecked(checkedFromInfo)
   }, [checkedFromInfo])
+
+  useEffect(() => {
+    setHiddenVariants(product.variants.filter(isHidden))
+  }, [product.variants])
 
   return (
     <>
