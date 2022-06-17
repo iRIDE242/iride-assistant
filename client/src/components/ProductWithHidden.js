@@ -58,6 +58,9 @@ export default function ProductWithHidden({
         checkedFromInfo={checkedFromInfo}
         checked={checked}
         setChecked={setChecked}
+        inputId={`hidden-product-${product.id}`}
+        inputTitle={product.title}
+        headerSize="h3"
       />
 
       {hiddenVariants.length > 0 && (

@@ -1,11 +1,26 @@
 import { useEffect, useRef } from 'react'
 
+function SizedHeader({ headerSize, children }) {
+  const style = {
+    display: 'inline-block',
+  }
+
+  return (
+    <>
+      {headerSize === 'h2' && (<h2 style={style}>{children}</h2>)}
+      {headerSize === 'h3' && (<h3 style={style}>{children}</h3>)}
+    </>
+  )
+}
+
 export default function TitleCheckbox({
   selected,
   hiddenVariants,
-  product,
   checked,
   setChecked,
+  inputId,
+  inputTitle,
+  headerSize,
 }) {
   const inputRef = useRef()
 
@@ -32,13 +47,13 @@ export default function TitleCheckbox({
     <>
       <input
         type="checkbox"
-        id={`hidden-product-${product.id}`}
+        id={inputId}
         checked={checked}
         ref={inputRef}
         onChange={handleChange}
       />
-      <label htmlFor={`hidden-product-${product.id}`}>
-        <h3 style={{ display: 'inline-block' }}>{product.title}</h3>
+      <label htmlFor={inputId}>
+        <SizedHeader headerSize={headerSize}>{inputTitle}</SizedHeader>
       </label>
     </>
   )
