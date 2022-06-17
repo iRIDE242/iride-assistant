@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   getProductById,
   getVariantById,
@@ -13,7 +13,9 @@ export default function ProductWithHidden({
 }) {
   const [checked, setChecked] = useState(false)
   const [hiddenVariants, setHiddenVariants] = useState([])
-   
+  const [selected, setSelected] = useState(0)
+
+  const inputRef = useRef()
 
   const handleGetVariant = variantId => async e => {
     e.preventDefault()
@@ -52,38 +54,55 @@ export default function ProductWithHidden({
     setHiddenVariants(product.variants.filter(isHidden))
   }, [product.variants])
 
+  useEffect(() => {
+    if (!selected) {
+      setChecked(false)
+      inputRef.current.indeterminate = false
+    }
+
+    if (selected > 0 && selected < hiddenVariants.length)
+      inputRef.current.indeterminate = true
+
+    if (selected === hiddenVariants.length) {
+      setChecked(true)
+      inputRef.current.indeterminate = false
+    }
+  }, [hiddenVariants.length, selected])
+
   return (
     <>
       <input
         type="checkbox"
         id={`hidden-product-${product.id}`}
         checked={checked}
+        ref={inputRef}
         onChange={handleChange}
       />
       <label htmlFor={`hidden-product-${product.id}`}>
         <h3 style={{ display: 'inline-block' }}>{product.title}</h3>
       </label>
-      <ul>
-        {product.variants.map(
-          variant =>
-            variant.weight === 9999 && (
-              <li key={variant.id}>
-                <HiddenVariant
-                  product={product}
-                  variant={variant}
-                  checkedFromProduct={checked}
-                  checkedFromInfo={checkedFromInfo}
-                />
-                <button onClick={handleGetVariant(variant.id)}>
-                  GET VARIANT
-                </button>
-                <button onClick={handleResetWeight(variant.id)}>
-                  SHOW VARIANT
-                </button>
-              </li>
-            )
-        )}
-      </ul>
+
+      {hiddenVariants.length > 0 && (
+        <ul>
+          {hiddenVariants.map(variant => (
+            <li key={variant.id}>
+              <HiddenVariant
+                product={product}
+                variant={variant}
+                checkedFromProduct={checked}
+                checkedFromInfo={checkedFromInfo}
+                setSelected={setSelected}
+              />
+              <button onClick={handleGetVariant(variant.id)}>
+                GET VARIANT
+              </button>
+              <button onClick={handleResetWeight(variant.id)}>
+                SHOW VARIANT
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </>
   )
 }

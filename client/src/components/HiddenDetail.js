@@ -19,9 +19,6 @@ export default function HiddenDetail({
 }) {
   const [checked, setChecked] = useState(false)
 
-  const [products, ] = useProducts()
-  console.log(products)
-
   const handleChange = () => {
     setChecked(prev => !prev)
   }

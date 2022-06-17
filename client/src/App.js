@@ -33,7 +33,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
   const [collectionId, setCollectionId] = useState('210639487136')
   const [prevAndNext, setPrevAndNext] = useState(initialPrevAndNext)
-  const [productsWithHidden, setProductsWithHidden] = useState(null)
 
   const [filters, setFilters] = useState([])
   const [showHidden, setShowHidden] = useState(false)
@@ -62,7 +61,6 @@ function App() {
   const handlePrevOrNextClick = direction => async e => {
     setIsLoading(true)
     setLocalsOutOfStock(null)
-    setProductsWithHidden(null)
 
     try {
       const { prev, next } = prevAndNext
@@ -145,7 +143,6 @@ function App() {
       }
 
       getProducts(dispatch, products)
-      setProductsWithHidden(getProductsWithHiddenVariants(result.products))
 
       setIsLoading(false)
     } catch (error) {

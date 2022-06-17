@@ -5,6 +5,7 @@ export default function HiddenVariant({
   variant,
   checkedFromProduct,
   checkedFromInfo,
+  setSelected,
 }) {
   const [checked, setChecked] = useState(false)
 
@@ -19,6 +20,15 @@ export default function HiddenVariant({
   useEffect(() => {
     setChecked(checkedFromInfo)
   }, [checkedFromInfo])
+
+  useEffect(() => {
+    checked
+      ? setSelected(prev => prev + 1)
+      : setSelected(prev => {
+          if (!prev) return prev
+          return prev - 1
+        })
+  }, [checked, setSelected])
 
   return (
     <>
