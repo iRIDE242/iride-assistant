@@ -15,7 +15,7 @@ function SizedHeader({ headerSize, children }) {
 
 export default function TitleCheckbox({
   selected,
-  hiddenVariants,
+  length,
   checked,
   setChecked,
   inputId,
@@ -34,14 +34,14 @@ export default function TitleCheckbox({
       inputRef.current.indeterminate = false
     }
 
-    if (selected > 0 && selected < hiddenVariants.length)
+    if (selected > 0 && selected < length)
       inputRef.current.indeterminate = true
 
-    if (selected === hiddenVariants.length) {
+    if (selected === length) {
       setChecked(true)
       inputRef.current.indeterminate = false
     }
-  }, [hiddenVariants.length, selected, setChecked])
+  }, [length, selected, setChecked])
 
   return (
     <>

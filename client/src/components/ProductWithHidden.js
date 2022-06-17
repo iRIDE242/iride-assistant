@@ -53,7 +53,7 @@ export default function ProductWithHidden({
     <>
       <TitleCheckbox
         selected={selected}
-        hiddenVariants={hiddenVariants}
+        length={hiddenVariants.length}
         product={product}
         checkedFromInfo={checkedFromInfo}
         checked={checked}
