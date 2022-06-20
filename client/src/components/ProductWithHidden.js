@@ -7,6 +7,7 @@ import {
 import HiddenVariant from './HiddenVariant'
 import { isHidden } from '../actions/variantAPIs'
 import TitleCheckbox from './TitleCheckbox'
+import { updateProduct, useProducts } from '../context/products'
 
 export default function ProductWithHidden({
   product,
@@ -17,16 +18,14 @@ export default function ProductWithHidden({
   const [hiddenVariants, setHiddenVariants] = useState([])
   const [selected, setSelected] = useState(0)
 
+  const [, dispatch] = useProducts()
+
   const handleGetVariant = variantId => async e => {
     e.preventDefault()
     console.log(variantId)
     try {
       const variant = await getVariantById(variantId)
       console.log(variant)
-
-      console.log(product.id)
-      const updatedProduct = await getProductById(product.id)
-      console.log(updatedProduct)
     } catch (error) {
       throw error
     }
@@ -37,6 +36,12 @@ export default function ProductWithHidden({
     try {
       const variant = await resetVariantWeightById(variantId)
       console.log(variant)
+
+      console.log(product.id)
+      const { product: updatedProduct } = await getProductById(product.id)
+      console.log(updatedProduct)
+
+      updateProduct(dispatch, updatedProduct)
     } catch (error) {
       throw error
     }
