@@ -5,13 +5,10 @@ import Product from './components/Product'
 import InventoryInfo from './components/InventoryInfo'
 import HiddenInfo from './components/HiddenInfo'
 import { getProductsByCollectionId, getProductsByPageInfo } from './utils/api'
-import {
-  getLocallyOutOfStockProducts,
-  getProductsWithHiddenVariants,
-} from './actions/productAPIs'
+import { getLocallyOutOfStockProducts } from './actions/productAPIs'
 import { collections } from './utils/config'
 import { getProducts, toggleHiddens, useProducts } from './context/products'
-import { getAllFilters, hasHidden } from './utils/filterFunctions'
+import { getAllFilters } from './utils/filterFunctions'
 
 const emptyLink = {
   limit: '',
@@ -33,9 +30,6 @@ function App() {
   const [isLoading, setIsLoading] = useState(true)
   const [collectionId, setCollectionId] = useState('210639487136')
   const [prevAndNext, setPrevAndNext] = useState(initialPrevAndNext)
-
-  // const [filters, setFilters] = useState([])
-  // const [showHidden, setShowHidden] = useState(false)
 
   const filteredProducts = getAllFilters(filters)(products)
 
@@ -128,40 +122,10 @@ function App() {
     }
   }
 
-  const findHidden = async () => {
-    setIsLoading(true)
-
-    try {
-      let result
-      const { direction, lastPrev, lastNext } = prevAndNext
-
-      if (!direction) {
-        result = await getProductsByCollectionId(collectionId)
-      } else {
-        if (direction === 'prev') result = await getProductsByPageInfo(lastPrev)
-        if (direction === 'next') result = await getProductsByPageInfo(lastNext)
-      }
-
-      getProducts(dispatch, products)
-
-      setIsLoading(false)
-    } catch (error) {
-      console.log(error)
-      setIsLoading(false)
-    }
-  }
-
+  // This filter is based on the result of current products
   const handleHiddenVariants = () => {
-    // setShowHidden(prev => !prev)
     toggleHiddens(dispatch)
   }
-
-  // useEffect(() => {
-  //   const newFilters = []
-
-  //   if (showHidden) newFilters.push(hasHidden)
-  //   setFilters(newFilters)
-  // }, [showHidden])
 
   if (!products.length) return <p>Loading...</p>
 
@@ -214,9 +178,6 @@ function App() {
       </div>
 
       <div>
-        <button disabled onClick={findHidden}>
-          FIND HIDDEN
-        </button>
         <input
           id="products-with-hidden"
           type="checkbox"
