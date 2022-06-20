@@ -33,6 +33,10 @@ export default function ProductWithHidden({
 
   const handleResetWeight = variantId => async e => {
     e.preventDefault()
+
+    const li = document.querySelector(`#variant-${variantId}`)
+    li.style.display = 'none'
+
     try {
       const variant = await resetVariantWeightById(variantId)
       console.log(variant)
@@ -43,6 +47,7 @@ export default function ProductWithHidden({
 
       updateProduct(dispatch, updatedProduct)
     } catch (error) {
+      li.style.display = 'list-item'
       throw error
     }
   }
@@ -71,7 +76,7 @@ export default function ProductWithHidden({
       {hiddenVariants.length > 0 && (
         <ul>
           {hiddenVariants.map(variant => (
-            <li key={variant.id}>
+            <li key={variant.id} id={`variant-${variant.id}`}>
               <HiddenVariant
                 product={product}
                 variant={variant}
