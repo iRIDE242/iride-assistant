@@ -5,6 +5,7 @@ import { createContext, useContext } from 'react'
  * Shared methods
  */
 const getTitle = prop('title')
+export const getLength = prop('length')
 
 /**
  * Create sequenced promises

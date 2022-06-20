@@ -1,7 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useProducts } from '../context/products'
 import { getAllFilters } from '../utils/filterFunctions'
 import ProductWithHidden from './ProductWithHidden'
+import { getHiddens } from '../actions/productAPIs'
+import { add, map, pipe, prop, reduce } from 'ramda'
+import { getLength } from '../utils/helper'
+import TitleCheckbox from './TitleCheckbox'
 
 const regex = /^\d/
 
@@ -18,10 +22,8 @@ export default function HiddenDetail({
   },
 }) {
   const [checked, setChecked] = useState(false)
-
-  const handleChange = () => {
-    setChecked(prev => !prev)
-  }
+  const [selected, setSelected] = useState(0)
+  const [variantsCounts, setVariantsCounts] = useState(0)
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -40,9 +42,22 @@ export default function HiddenDetail({
     console.log(variantIds)
   }
 
+  useEffect(() => {
+    const getHiddenVariantsLengthsFromProducts = pipe(
+      map(getHiddens),
+      map(getLength)
+    )
+    const hiddenVariantsLengthsFromProducts =
+      getHiddenVariantsLengthsFromProducts(filteredProducts)
+
+    const getVariantCounts = reduce(add, 0)
+
+    setVariantsCounts(getVariantCounts(hiddenVariantsLengthsFromProducts))
+  }, [filteredProducts])
+
   return (
     <div style={{ background: background }}>
-      <input
+      {/* <input
         type="checkbox"
         id="hidden-product-info"
         checked={checked}
@@ -52,7 +67,17 @@ export default function HiddenDetail({
         <h2 style={{ display: 'inline-block' }}>
           PRODUCTS WITH HIDDEN VARIANTS
         </h2>
-      </label>
+      </label> */}
+
+      <TitleCheckbox
+        selected={selected}
+        length={variantsCounts}
+        checked={checked}
+        setChecked={setChecked}
+        inputId="hidden-product-info"
+        inputTitle="PRODUCTS WITH HIDDEN VARIANTS"
+        headerSize="h2"
+      />
 
       <div style={{ color: mainColor }}>
         <form onSubmit={handleSubmit}>
@@ -61,6 +86,7 @@ export default function HiddenDetail({
               key={product.id}
               product={product}
               checked={checked}
+              setSelected={setSelected}
             />
           ))}
           <button type="submit">SHOW SELECTED VARIANTS</button>

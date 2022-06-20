@@ -7,8 +7,8 @@ function SizedHeader({ headerSize, children }) {
 
   return (
     <>
-      {headerSize === 'h2' && (<h2 style={style}>{children}</h2>)}
-      {headerSize === 'h3' && (<h3 style={style}>{children}</h3>)}
+      {headerSize === 'h2' && <h2 style={style}>{children}</h2>}
+      {headerSize === 'h3' && <h3 style={style}>{children}</h3>}
     </>
   )
 }
@@ -29,15 +29,15 @@ export default function TitleCheckbox({
   }
 
   useEffect(() => {
+    // The conditon here can avoid the loop bug
+    // when both selected and length are 0.
     if (!selected) {
       setChecked(false)
       inputRef.current.indeterminate = false
-    }
-
-    if (selected > 0 && selected < length)
+    } else if (selected > 0 && selected < length) {
       inputRef.current.indeterminate = true
-
-    if (selected === length) {
+    } else if (selected === length) {
+      // This should be only for when length is not 0
       setChecked(true)
       inputRef.current.indeterminate = false
     }

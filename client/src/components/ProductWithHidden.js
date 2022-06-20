@@ -11,6 +11,7 @@ import TitleCheckbox from './TitleCheckbox'
 export default function ProductWithHidden({
   product,
   checked: checkedFromInfo,
+  setSelected: setSelectedFromAbove,
 }) {
   const [checked, setChecked] = useState(false)
   const [hiddenVariants, setHiddenVariants] = useState([])
@@ -54,8 +55,6 @@ export default function ProductWithHidden({
       <TitleCheckbox
         selected={selected}
         length={hiddenVariants.length}
-        product={product}
-        checkedFromInfo={checkedFromInfo}
         checked={checked}
         setChecked={setChecked}
         inputId={`hidden-product-${product.id}`}
@@ -73,6 +72,7 @@ export default function ProductWithHidden({
                 checkedFromProduct={checked}
                 checkedFromInfo={checkedFromInfo}
                 setSelected={setSelected}
+                setSelectedFromAbove={setSelectedFromAbove}
               />
               <button onClick={handleGetVariant(variant.id)}>
                 GET VARIANT

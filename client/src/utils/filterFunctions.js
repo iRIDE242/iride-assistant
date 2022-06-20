@@ -1,4 +1,4 @@
-import { filter, pipe } from 'ramda'
+import { filter, pipe, prop } from 'ramda'
 import { getHiddens } from '../actions/productAPIs'
 
 const filterAll = () => false
@@ -8,12 +8,19 @@ const hasHidden = product => {
   return hiddens.length > 0
 }
 
-const getAllFilters = filterFuncs => {
+const getAllFilters = filters => {
+  const isTrue = val => val === true
+  const statusIsTrue = pipe(prop('status'), isTrue)
+
+  const getFilter = prop('filter')
+  const values = Object.values(filters)
+  const filterFuncs = values.filter(statusIsTrue).map(getFilter)
+
   return filterFuncs.length > 0
-    // Note, in map, the ramda 'filter' actually will return a function that receive an array as paramter to be invoked.
-    // It is equal to arr => arr.filter(func) shown below.
-    // So it cannot be written as 'filterFuncs.map(filter)'.
-    ? pipe(...filterFuncs.map(filterFunc => filter(filterFunc)))
+    ? // Note, in map, the ramda 'filter' actually will return a function that receive an array as paramter to be invoked.
+      // It is equal to arr => arr.filter(func) shown below.
+      // So it cannot be written as 'filterFuncs.map(filter)'.
+      pipe(...filterFuncs.map(filterFunc => filter(filterFunc)))
     : filter(filterAll)
 }
 

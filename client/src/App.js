@@ -10,7 +10,7 @@ import {
   getProductsWithHiddenVariants,
 } from './actions/productAPIs'
 import { collections } from './utils/config'
-import { getProducts, useProducts } from './context/products'
+import { getProducts, toggleHiddens, useProducts } from './context/products'
 import { getAllFilters, hasHidden } from './utils/filterFunctions'
 
 const emptyLink = {
@@ -27,15 +27,15 @@ const initialPrevAndNext = {
 }
 
 function App() {
-  const [products, dispatch] = useProducts()
+  const [{ products, filters }, dispatch] = useProducts()
 
   const [localsOutOfStock, setLocalsOutOfStock] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [collectionId, setCollectionId] = useState('210639487136')
   const [prevAndNext, setPrevAndNext] = useState(initialPrevAndNext)
 
-  const [filters, setFilters] = useState([])
-  const [showHidden, setShowHidden] = useState(false)
+  // const [filters, setFilters] = useState([])
+  // const [showHidden, setShowHidden] = useState(false)
 
   const filteredProducts = getAllFilters(filters)(products)
 
@@ -152,15 +152,16 @@ function App() {
   }
 
   const handleHiddenVariants = () => {
-    setShowHidden(prev => !prev)
+    // setShowHidden(prev => !prev)
+    toggleHiddens(dispatch)
   }
 
-  useEffect(() => {
-    const newFilters = []
+  // useEffect(() => {
+  //   const newFilters = []
 
-    if (showHidden) newFilters.push(hasHidden)
-    setFilters(newFilters)
-  }, [showHidden])
+  //   if (showHidden) newFilters.push(hasHidden)
+  //   setFilters(newFilters)
+  // }, [showHidden])
 
   if (!products.length) return <p>Loading...</p>
 
@@ -219,7 +220,7 @@ function App() {
         <input
           id="products-with-hidden"
           type="checkbox"
-          checked={showHidden}
+          checked={filters.hiddenVariants.status}
           onChange={handleHiddenVariants}
         />
         <label htmlFor="products-with-hidden">hidden variants</label>
