@@ -8,6 +8,8 @@ import HiddenVariant from './HiddenVariant'
 import { isHidden } from '../actions/variantAPIs'
 import TitleCheckbox from './TitleCheckbox'
 import { updateProduct, useProducts } from '../context/products'
+import CopyButton from './CopyButton'
+import CopyHint from './CopyHint'
 
 export default function ProductWithHidden({
   product,
@@ -17,6 +19,7 @@ export default function ProductWithHidden({
   const [checked, setChecked] = useState(false)
   const [hiddenVariants, setHiddenVariants] = useState([])
   const [selected, setSelected] = useState(0)
+  const [isCopied, setIsCopied] = useState(false)
 
   const [, dispatch] = useProducts()
 
@@ -72,6 +75,8 @@ export default function ProductWithHidden({
         inputTitle={product.title}
         headerSize="h3"
       />
+      <CopyButton title={product.title} setIsCopied={setIsCopied} />
+      <CopyHint isCopied={isCopied} />
 
       {hiddenVariants.length > 0 && (
         <ul>

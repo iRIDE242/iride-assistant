@@ -1,4 +1,4 @@
-export default function CopyButton({ title, showCopy, setIsCopied }) {
+export default function CopyButton({ title, showCopy = true, setIsCopied } = {}) {
   const handleClick = e => {
     e.preventDefault()
     setIsCopied(true)
