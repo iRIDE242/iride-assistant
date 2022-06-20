@@ -4,7 +4,7 @@ export default function HiddenVariant({
   product,
   variant,
   checkedFromProduct,
-  checkedFromInfo,
+  checkedFromSection,
   setSelected,
   setSelectedFromAbove,
 }) {
@@ -19,8 +19,8 @@ export default function HiddenVariant({
   }, [checkedFromProduct])
 
   useEffect(() => {
-    setChecked(checkedFromInfo)
-  }, [checkedFromInfo])
+    setChecked(checkedFromSection)
+  }, [checkedFromSection])
 
   useEffect(() => {
     if (checked) {

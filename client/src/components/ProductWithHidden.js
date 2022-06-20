@@ -10,7 +10,7 @@ import TitleCheckbox from './TitleCheckbox'
 
 export default function ProductWithHidden({
   product,
-  checked: checkedFromInfo,
+  checked: checkedFromSection,
   setSelected: setSelectedFromAbove,
 }) {
   const [checked, setChecked] = useState(false)
@@ -42,9 +42,10 @@ export default function ProductWithHidden({
     }
   }
 
+  // Keep synced with section checkbox
   useEffect(() => {
-    setChecked(checkedFromInfo)
-  }, [checkedFromInfo])
+    setChecked(checkedFromSection)
+  }, [checkedFromSection])
 
   useEffect(() => {
     setHiddenVariants(product.variants.filter(isHidden))
@@ -70,7 +71,7 @@ export default function ProductWithHidden({
                 product={product}
                 variant={variant}
                 checkedFromProduct={checked}
-                checkedFromInfo={checkedFromInfo}
+                checkedFromSection={checkedFromSection}
                 setSelected={setSelected}
                 setSelectedFromAbove={setSelectedFromAbove}
               />
