@@ -37,7 +37,7 @@ export default function TitleCheckbox({
     } else if (selected > 0 && selected < length) {
       inputRef.current.indeterminate = true
     } else if (selected === length) {
-      // This should be only for when length is not 0
+      // This condition should be only for when length is not 0
       setChecked(true)
       inputRef.current.indeterminate = false
     }
