@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useProducts } from '../context/products'
-import { getAllFilters } from '../utils/filterFunctions'
 import ProductWithHidden from './ProductWithHidden'
 import { getHiddens } from '../actions/productAPIs'
-import { add, map, pipe, prop, reduce } from 'ramda'
+import { add, map, pipe, reduce } from 'ramda'
 import { getLength } from '../utils/helper'
 import TitleCheckbox from './TitleCheckbox'
 
@@ -11,15 +9,7 @@ const regex = /^\d/
 
 export default function HiddenDetail({
   filteredProducts,
-  setProductsWithHidden,
-  settings: {
-    localStorageKey,
-    background,
-    mainColor,
-    ignoredColor,
-    detailTitle,
-    mainTitle,
-  },
+  settings: { background, mainColor },
 }) {
   const [checked, setChecked] = useState(false)
   const [selected, setSelected] = useState(0)
@@ -57,18 +47,6 @@ export default function HiddenDetail({
 
   return (
     <div style={{ background: background }}>
-      {/* <input
-        type="checkbox"
-        id="hidden-product-info"
-        checked={checked}
-        onChange={handleChange}
-      />
-      <label htmlFor="hidden-product-info">
-        <h2 style={{ display: 'inline-block' }}>
-          PRODUCTS WITH HIDDEN VARIANTS
-        </h2>
-      </label> */}
-
       <TitleCheckbox
         selected={selected}
         length={variantsCounts}

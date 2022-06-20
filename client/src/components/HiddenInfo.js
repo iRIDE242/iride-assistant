@@ -2,8 +2,8 @@ import HiddenDetail from './HiddenDetail'
 
 const settingsForGone = {
   localStorageKey: 'ignoredOutOfStockIds',
-  background: 'MistyRose',
-  mainColor: 'red',
+  background: 'lightgreen',
+  mainColor: 'darkgreen',
   ignoredColor: 'navy',
   detailTitle: 'COMPLETELY OUT OF STOCK',
   mainTitle: 'Out of stock products ',
