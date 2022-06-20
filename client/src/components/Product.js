@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { getTitle } from '../utils/helper'
+import CopyButton from './CopyButton'
+import CopyHint from './CopyHint'
 
 function Product(props) {
-  const [isClicked, setIsClicked] = useState(false)
+  const [isCopied, setIsCopied] = useState(false)
   const {
     product,
     fromInventory,
@@ -13,12 +15,6 @@ function Product(props) {
     from,
   } = props
   const title = getTitle(product)
-
-  const handleClick = e => {
-    e.preventDefault()
-    setIsClicked(true)
-    navigator.clipboard.writeText(title)
-  }
 
   const addToIgnored = () => {
     handleAddToIgnored(product.id)
@@ -38,21 +34,12 @@ function Product(props) {
         }}
       >
         <p>{title}</p>
-        {fromInventory && <button onClick={handleClick}>COPY</button>}
+        <CopyButton title={title} showCopy={fromInventory} setIsCopied={setIsCopied} />
         {notIgnored && <button onClick={addToIgnored}>ADD TO IGNORED</button>}
         {isIgnored && from === 'item' && (
           <button onClick={removeFromIgnored}>REMOVE FROM IGNORED</button>
         )}
-        <p
-          style={{
-            color: 'green',
-            flex: 1,
-            textAlign: 'left',
-            marginLeft: '16px',
-          }}
-        >
-          {isClicked ? 'Title has been copied.' : ''}
-        </p>
+        <CopyHint isCopied={isCopied} />
         {isIgnored && from === 'vendor' && <p>From vendor</p>}
       </div>
       {fromInventory && <hr />}
