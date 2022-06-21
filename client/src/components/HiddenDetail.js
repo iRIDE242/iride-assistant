@@ -67,7 +67,7 @@ export default function HiddenDetail({
               setSelected={setSelected}
             />
           ))}
-          <button type="submit">SHOW SELECTED VARIANTS</button>
+          <button type="submit">REMOVE HIDDEN STATUS FROM ALL SELECTED</button>
         </form>
       </div>
     </div>

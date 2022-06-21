@@ -1,5 +1,9 @@
 import { equals, filter, pipe, prop, reduce } from 'ramda'
-import { getVariantLocationInventory } from '../utils/api'
+import {
+  getProductById,
+  getVariantLocationInventory,
+  resetVariantWeightById,
+} from '../utils/api'
 import { LOCAL_LOCATION_ID } from '../utils/config'
 import { getInventoryItemId, isHidden } from './variantAPIs'
 import { createSequencedPromises } from '../utils/helper'
@@ -131,4 +135,23 @@ export const getProductsWithHiddenVariants = products => {
   }
 
   return productsHavingHiddenvariants
+}
+
+/**
+ * Promise relay for removing hidden status
+ */
+const createRemoveHiddenStatusRelayByVariantAndProductIds = (
+  variantId,
+  productId
+) => {
+  return async (res, rej) => {
+    try {
+      await resetVariantWeightById(variantId)
+      const { product: updatedProduct } = await getProductById(productId)
+
+      res(updatedProduct)
+    } catch (error) {
+      rej(error)
+    }
+  }
 }
