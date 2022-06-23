@@ -9,6 +9,7 @@ import { getLocallyOutOfStockProducts } from './actions/productAPIs'
 import { collections } from './utils/config'
 import { getProducts, toggleHiddens, useProducts } from './context/products'
 import { getAllFilters } from './utils/filterFunctions'
+import { arrayToMapWithIdAsKey, mapValueToArray } from './utils/helper'
 
 const emptyLink = {
   limit: '',
@@ -24,20 +25,22 @@ const initialPrevAndNext = {
 }
 
 function App() {
-  const [{ products, filters }, dispatch] = useProducts()
+  const [{ products: productsMap, filters }, dispatch] = useProducts()
 
   const [localsOutOfStock, setLocalsOutOfStock] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [collectionId, setCollectionId] = useState('210639487136')
   const [prevAndNext, setPrevAndNext] = useState(initialPrevAndNext)
 
+  const products = mapValueToArray(productsMap)
   const filteredProducts = getAllFilters(filters)(products)
 
   useEffect(() => {
     setIsLoading(true)
     getProductsByCollectionId(collectionId)
       .then(({ products, headerObj }) => {
-        getProducts(dispatch, products)
+        const productsMap = arrayToMapWithIdAsKey(products)
+        getProducts(dispatch, productsMap)
         console.log(headerObj.link)
 
         setPrevAndNext(prevState => ({
@@ -60,7 +63,9 @@ function App() {
       const { prev, next } = prevAndNext
       const link = direction === 'prev' ? prev : next
       const { products, headerObj } = await getProductsByPageInfo(link)
-      getProducts(dispatch, products)
+
+      const productsMap = arrayToMapWithIdAsKey(products)
+      getProducts(dispatch, productsMap)
 
       if (direction === 'prev')
         setPrevAndNext(prevState => ({
@@ -108,6 +113,7 @@ function App() {
         if (direction === 'next') result = await getProductsByPageInfo(lastNext)
       }
 
+      const products = arrayToMapWithIdAsKey(result.products)
       getProducts(dispatch, products)
 
       const locallyOutOfStockProducts = await getLocallyOutOfStockProducts(

@@ -80,4 +80,19 @@ function createCtx(providerName, displayName) {
   return [useCtx, ctx.Provider]
 }
 
-export { getTitle, createSequencedPromises, handleFetch, createCtx }
+const mapValueToArray = map => [...map.values()]
+
+const arrayToMapWithIdAsKey = arr => {
+  const map = new Map()
+  arr.map(a => map.set(a.id.toString(), a))
+  return map
+}
+
+export {
+  getTitle,
+  createSequencedPromises,
+  handleFetch,
+  createCtx,
+  mapValueToArray,
+  arrayToMapWithIdAsKey,
+}
