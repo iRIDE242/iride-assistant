@@ -80,11 +80,13 @@ function createCtx(providerName, displayName) {
   return [useCtx, ctx.Provider]
 }
 
+const numberToString = num => num.toString()
+
 const mapValueToArray = map => [...map.values()]
 
 const arrayToMapWithIdAsKey = arr => {
   const map = new Map()
-  arr.map(a => map.set(a.id.toString(), a))
+  arr.map(a => map.set(numberToString(a.id), a))
   return map
 }
 
@@ -95,4 +97,5 @@ export {
   createCtx,
   mapValueToArray,
   arrayToMapWithIdAsKey,
+  numberToString,
 }
