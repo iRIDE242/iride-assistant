@@ -32,6 +32,7 @@ function App() {
   const [collectionId, setCollectionId] = useState('210639487136')
   const [prevAndNext, setPrevAndNext] = useState(initialPrevAndNext)
 
+  // Convert products map to array
   const products = mapValueToArray(productsMap)
   const filteredProducts = getAllFilters(filters)(products)
 
@@ -39,6 +40,7 @@ function App() {
     setIsLoading(true)
     getProductsByCollectionId(collectionId)
       .then(({ products, headerObj }) => {
+        // Convert products array to map preparing for products state
         const productsMap = arrayToMapWithIdAsKey(products)
         getProducts(dispatch, productsMap)
         console.log(headerObj.link)

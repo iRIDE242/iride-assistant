@@ -7,7 +7,7 @@ import { ProductsProvider, productsReducer } from './context/products'
 import { hasHidden } from './utils/filterFunctions'
 
 const intialProducts = {
-  products: [],
+  products: new Map(), // products is a map
   filters: {
     hiddenVariants: {
       status: false,
