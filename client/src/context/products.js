@@ -1,4 +1,4 @@
-import { createCtx } from '../utils/helper'
+import { createCtx, numberToString } from '../utils/helper'
 
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 const GET_PRODUCTS = 'GET_PRODUCTS'
@@ -16,11 +16,7 @@ const productsReducer = (state, action) => {
     case UPDATE_PRODUCT:
       return {
         ...state,
-        products: state.products.map(product => {
-          if (product.id === action.updatedProduct.id)
-            return action.updatedProduct
-          return product
-        }),
+        products: new Map(state.products.set(action.key, action.updatedProduct)),
       }
     case TOGGLE_HIDDENS:
       return {
@@ -43,7 +39,8 @@ const getProducts = (dispatch, products) => {
 }
 
 const updateProduct = (dispatch, updatedProduct) => {
-  dispatch({ type: UPDATE_PRODUCT, updatedProduct })
+  const key = numberToString(updatedProduct.id)
+  dispatch({ type: UPDATE_PRODUCT, updatedProduct, key })
 }
 
 const toggleHiddens = dispatch => {
