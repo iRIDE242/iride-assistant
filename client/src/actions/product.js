@@ -9,19 +9,19 @@ import { getInventoryItemId, isHidden } from './variantAPIs'
 import { createSequencedPromises } from '../utils/helper'
 
 /**
- * Product properties
+ * Properties requests
  */
 export const getVariants = prop('variants')
 const getStatus = prop('status')
 
 /**
- * Specific requests
+ * Composite requests
  */
 export const getHiddens = pipe(getVariants, filter(isHidden))
 export const isActive = pipe(getStatus, equals('active'))
 
 /**
- * API requests
+ * Async requests
  */
 
 /**
@@ -49,7 +49,7 @@ const createLocallyNonHiddenInventoryRelayByVariant = variant => {
 }
 
 // Use relay to create all the variants' promises to check if local non-hidden variants are out of stock
-const areLocalNonHiddensOutOfStock = async product => {
+const areLocalNonHiddenOutOfStock = async product => {
   let status = 'in stock'
 
   const promiseContainer = createSequencedPromises(
@@ -80,7 +80,7 @@ const areLocalNonHiddensOutOfStock = async product => {
   }
 }
 
-// Get the out of stock results for products
+// Get the results related to locally out of stock products
 export const getLocallyOutOfStockProducts = async products => {
   const activeProducts = filter(isActive)(products)
 
@@ -89,7 +89,7 @@ export const getLocallyOutOfStockProducts = async products => {
 
   try {
     for (let index = 0; index < activeProducts.length; index++) {
-      const status = await areLocalNonHiddensOutOfStock(activeProducts[index])
+      const status = await areLocalNonHiddenOutOfStock(activeProducts[index])
 
       if (status === 'out of stock')
         activeLocallyOutOfStockProducts.push(activeProducts[index])
