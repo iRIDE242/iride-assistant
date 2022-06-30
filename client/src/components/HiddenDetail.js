@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import ProductWithHidden from './ProductWithHidden'
-import { getHiddens, removeSelectedHiddenStatus } from '../actions/productAPIs'
+import { getHiddens, removeSelectedHiddenStatus } from '../actions/product'
 import { add, map, pipe, reduce } from 'ramda'
 import { bulkyVisuallyToggleVariants, getLength } from '../utils/helper'
 import TitleCheckbox from './TitleCheckbox'

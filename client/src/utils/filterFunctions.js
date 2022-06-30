@@ -1,5 +1,5 @@
 import { filter, pipe, prop } from 'ramda'
-import { getHiddens } from '../actions/productAPIs'
+import { getHiddens } from '../actions/product'
 
 const filterAll = () => false
 
