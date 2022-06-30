@@ -1,9 +1,5 @@
 import { pipe, prop } from 'ramda'
 
-/**
- * Response header manipulation
- */
-
 const regexGeneratorForLink = direction => {
   const base = `<https:\\/\\/[\\w\\d-]+\\.myshopify\\.com\\/admin\\/api\\/[\\d]{4}-[\\d]{2}\\/products\\.json\\?limit=(?<limit>[\\d]+)&page_info=(?<pageInfo>[\\w\\d]+)>;\\srel="${direction}"`
   return new RegExp(base, 'i')
@@ -18,21 +14,15 @@ const getPrevMatched = link => regexPrev.exec(link)
 const getNextMatched = link => regexNext.exec(link)
 
 const getPageLink = matchedResult => {
-  if (matchedResult === null)
-    return {
-      limit: '',
-      pageInfo: '',
-    }
+  if (matchedResult === null) return { limit: '', pageInfo: '' }
 
   const {
     groups: { limit, pageInfo },
   } = matchedResult
-  return {
-    limit,
-    pageInfo,
-  }
+  return { limit, pageInfo }
 }
 
+// Get prev and next page info from the response header
 export const createPrevAndNextFromHeader = header => {
   return {
     prev: pipe(getLink, getPrevMatched, getPageLink)(header),
