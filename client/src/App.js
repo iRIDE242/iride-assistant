@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { createPrevAndNextFromHeader } from './actions/headerAPIs'
+import { createPrevAndNextFromHeader } from './actions/header'
 import './App.css'
 import Product from './components/Product'
 import InventoryInfo from './components/InventoryInfo'
