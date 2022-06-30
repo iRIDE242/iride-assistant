@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
 import ProductWithHidden from './ProductWithHidden'
-import { getHiddens } from '../actions/productAPIs'
+import { getHiddens, removeSelectedHiddenStatus } from '../actions/productAPIs'
 import { add, map, pipe, reduce } from 'ramda'
-import { getLength } from '../utils/helper'
+import { bulkyVisuallyToggleVariants, getLength } from '../utils/helper'
 import TitleCheckbox from './TitleCheckbox'
+import { updateProducts, useProducts } from '../context/products'
 
-const regex = /^\d/
+const variantInputRegex = /^\d/ // Digid leading the string
+const productInputRegex = /hidden-product-(\d+)/
+const replacer = (match, p1) => p1
 
 export default function HiddenDetail({
   filteredProducts,
@@ -15,21 +18,38 @@ export default function HiddenDetail({
   const [selected, setSelected] = useState(0)
   const [variantsCounts, setVariantsCounts] = useState(0)
 
-  const handleSubmit = e => {
+  const [, dispatch] = useProducts()
+
+  const handleSubmit = async e => {
     e.preventDefault()
 
     const variantIds = []
+    const productIds = []
 
     for (let index = 0; index < e.target.length; index++) {
-      if (
-        e.target[index].nodeName === 'INPUT' &&
-        e.target[index].checked &&
-        regex.test(e.target[index].id)
-      )
-        variantIds.push(e.target[index].id)
+      if (e.target[index].nodeName === 'INPUT' && e.target[index].checked) {
+        if (variantInputRegex.test(e.target[index].id)) {
+          variantIds.push(e.target[index].id)
+        } else if (productInputRegex.test(e.target[index].id)) {
+          productIds.push(
+            e.target[index].id.replace(productInputRegex, replacer)
+          )
+        }
+      }
     }
 
-    console.log(variantIds)
+    bulkyVisuallyToggleVariants(variantIds, 'remove')
+
+    try {
+      const updatedProducts = await removeSelectedHiddenStatus(
+        variantIds,
+        productIds
+      )
+      updateProducts(dispatch, updatedProducts)
+    } catch (error) {
+      bulkyVisuallyToggleVariants(variantIds, 'resume')
+      console.log(error)
+    }
   }
 
   useEffect(() => {

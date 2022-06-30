@@ -90,6 +90,15 @@ const arrayToMapWithIdAsKey = arr => {
   return map
 }
 
+const bulkyVisuallyToggleVariants = (variantIds, action) => {
+  for (let index = 0; index < variantIds.length; index++) {
+    const li = document.querySelector(`#variant-${variantIds[index]}`)
+    action === 'remove'
+      ? (li.style.display = 'none')
+      : (li.style.display = 'list-item')
+  }
+}
+
 export {
   getTitle,
   createSequencedPromises,
@@ -98,4 +107,5 @@ export {
   mapValueToArray,
   arrayToMapWithIdAsKey,
   numberToString,
+  bulkyVisuallyToggleVariants,
 }

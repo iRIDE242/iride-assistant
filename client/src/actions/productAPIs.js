@@ -140,18 +140,47 @@ export const getProductsWithHiddenVariants = products => {
 /**
  * Promise relay for removing hidden status
  */
-const createRemoveHiddenStatusRelayByVariantAndProductIds = (
-  variantId,
-  productId
-) => {
+const createRemoveHiddenStatusRelayByVariantId = variantId => {
   return async (res, rej) => {
     try {
-      await resetVariantWeightById(variantId)
-      const { product: updatedProduct } = await getProductById(productId)
+      const { variant } = await resetVariantWeightById(variantId)
+      res(variant)
+    } catch (error) {
+      rej(error)
+    }
+  }
+}
 
+const createGetProductRelayByProductId = productId => {
+  return async (res, rej) => {
+    try {
+      const { product: updatedProduct } = await getProductById(productId)
       res(updatedProduct)
     } catch (error) {
       rej(error)
     }
+  }
+}
+
+export const removeSelectedHiddenStatus = async (variantIds, productIds) => {
+  const variantsPromiseContainer = createSequencedPromises(
+    variantIds,
+    createRemoveHiddenStatusRelayByVariantId
+  )
+
+  try {
+    const variants = await Promise.all(variantsPromiseContainer)
+    console.log(variants)
+
+    // This promise needs to be after the updating variants action to get the updated products
+    const productsPromiseContainer = createSequencedPromises(
+      productIds,
+      createGetProductRelayByProductId
+    )
+
+    const updatedProducts = await Promise.all(productsPromiseContainer)
+    return updatedProducts
+  } catch (error) {
+    throw error
   }
 }
