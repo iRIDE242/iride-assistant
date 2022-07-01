@@ -18,16 +18,8 @@ const getStatus = prop('status')
 export const getHiddens = pipe(getVariants, filter(isHidden))
 export const isActive = pipe(getStatus, equals('active'))
 
-/**
- * Async requests
- */
-
-/**
- * Check if there are hidden variants
- * @param {Product Object} product
- * @returns {Boolean}
- */
-const getHiddenStatus = product => {
+// Check if there are hidden variants and return text info
+ const getHiddenStatus = product => {
   let status = 'no hidden'
   const hiddens = getHiddens(product)
 
@@ -36,6 +28,10 @@ const getHiddenStatus = product => {
 
   return status
 }
+
+/**
+ * Async requests
+ */
 
 /**
  * Get products with hidden variants
