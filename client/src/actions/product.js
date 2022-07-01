@@ -1,8 +1,5 @@
 import { equals, filter, pipe, prop } from 'ramda'
-import {
-  getProductById,
-  resetVariantWeightById,
-} from '../utils/api'
+import { getProductById, resetVariantWeightById } from '../utils/api'
 import { isHidden } from './variantAPIs'
 import { createSequencedPromises } from '../utils/helper'
 
@@ -19,7 +16,7 @@ export const getHiddens = pipe(getVariants, filter(isHidden))
 export const isActive = pipe(getStatus, equals('active'))
 
 // Check if there are hidden variants and return text info
- const getHiddenStatus = product => {
+export const getHiddenStatus = product => {
   let status = 'no hidden'
   const hiddens = getHiddens(product)
 
@@ -32,22 +29,6 @@ export const isActive = pipe(getStatus, equals('active'))
 /**
  * Async requests
  */
-
-/**
- * Get products with hidden variants
- */
-export const getProductsWithHiddenVariants = products => {
-  const activeProducts = filter(isActive)(products)
-
-  const productsHavingHiddenvariants = []
-
-  for (let index = 0; index < activeProducts.length; index++) {
-    getHiddenStatus(activeProducts[index]) === 'has hidden' &&
-      productsHavingHiddenvariants.push(activeProducts[index])
-  }
-
-  return productsHavingHiddenvariants
-}
 
 /**
  * Promise relay for removing hidden status
