@@ -5,7 +5,7 @@ import {
   resetVariantWeightById,
 } from '../utils/api'
 import HiddenVariant from './HiddenVariant'
-import { isHidden } from '../actions/variantAPIs'
+import { isHidden } from '../actions/variant'
 import TitleCheckbox from './TitleCheckbox'
 import { updateProduct, useProducts } from '../context/products'
 import CopyButton from './CopyButton'

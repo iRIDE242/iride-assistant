@@ -1,5 +1,5 @@
 import { equals, filter, pipe, prop } from 'ramda'
-import { isHidden } from './variantAPIs'
+import { isHidden } from './variant'
 
 /**
  * Properties requests
