@@ -7,7 +7,7 @@ import {
 } from '../utils/api'
 import { LOCAL_LOCATION_ID } from '../utils/config'
 import { createSequencedPromises } from '../utils/helper'
-import { getVariants, isActive, getHiddenStatus } from './product'
+import { getVariants, isActive, getHiddens } from './product'
 
 /**
  * Get active products with hidden variants
@@ -18,7 +18,7 @@ const getActiveProductsWithHiddenVariants = products => {
   const activeProductsWithHiddenvariants = []
 
   for (let index = 0; index < activeProducts.length; index++) {
-    getHiddenStatus(activeProducts[index]) === 'has hidden' &&
+    getHiddens(activeProducts[index]) === 'has hidden' &&
       activeProductsWithHiddenvariants.push(activeProducts[index])
   }
 
