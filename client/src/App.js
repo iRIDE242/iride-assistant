@@ -8,7 +8,7 @@ import { getProductsByCollectionId, getProductsByPageInfo } from './utils/api'
 import { getLocallyOutOfStockProducts } from './actions/products'
 import { collections } from './utils/config'
 import { getProducts, toggleHiddens, useProducts } from './context/products'
-import { getAllFilters } from './utils/filterFunctions'
+import { getAllFilters } from './utils/filters'
 import { arrayToMapWithIdAsKey, mapValueToArray } from './utils/helper'
 
 const emptyLink = {

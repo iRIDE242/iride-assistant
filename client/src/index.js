@@ -4,7 +4,7 @@ import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { ProductsProvider, productsReducer } from './context/products'
-import { hasHidden } from './utils/filterFunctions'
+import { hasHidden } from './utils/filters'
 
 const intialProducts = {
   products: new Map(), // products is a map
