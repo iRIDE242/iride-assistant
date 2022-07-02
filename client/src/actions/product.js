@@ -10,9 +10,10 @@ const getStatus = prop('status')
 /**
  * Composite requests
  */
-export const getHiddens = pipe(getVariants, filter(isHidden))
+
 export const isActive = pipe(getStatus, equals('active'))
 
+export const getHiddens = pipe(getVariants, filter(isHidden))
 // Check if there are hidden variants and return text info
 export const getHiddenStatus = product => {
   let status = 'no hidden'
@@ -22,4 +23,8 @@ export const getHiddenStatus = product => {
   // console.log(`${product.title}: ${status}`)
 
   return status
+}
+export const hasHidden = product => {
+  const hiddens = getHiddens(product)
+  return hiddens.length > 0
 }

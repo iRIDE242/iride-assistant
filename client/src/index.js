@@ -4,7 +4,8 @@ import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import { ProductsProvider, productsReducer } from './context/products'
-import { hasHidden } from './utils/filters'
+import { isHidden } from './actions/variant'
+import { hasHidden } from './actions/product'
 
 const intialProducts = {
   products: new Map(), // products is a map
@@ -12,6 +13,7 @@ const intialProducts = {
     hiddenVariants: {
       status: false,
       filter: hasHidden,
+      variantFilter: isHidden,
     },
   },
 }
