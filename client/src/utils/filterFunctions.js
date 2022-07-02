@@ -1,14 +1,14 @@
 import { filter, pipe, prop } from 'ramda'
 import { getHiddens } from '../actions/product'
 
-const filterAll = () => false
+export const filterAll = () => false
 
-const hasHidden = product => {
+export const hasHidden = product => {
   const hiddens = getHiddens(product)
   return hiddens.length > 0
 }
 
-const getAllFilters = filters => {
+export const getAllFilters = filters => {
   const isTrue = val => val === true
   const statusIsTrue = pipe(prop('status'), isTrue)
 
@@ -30,5 +30,3 @@ const getAllFilters = filters => {
 //     ? pipe(...filterFuncs.map(func => arr => arr.filter(func)))
 //     : filter(filterAll)
 // }
-
-export { filterAll, hasHidden, getAllFilters }
