@@ -1,13 +1,13 @@
 import { pipe, prop } from 'ramda'
 
 /**
- * Variant properties
+ * Property requests
  */
 const getWeight = prop('weight')
 export const getInventoryItemId = prop('inventory_item_id')
 
 /**
- * Specific requests
+ * Composite requests
  */
 
 // Non-hidden variant

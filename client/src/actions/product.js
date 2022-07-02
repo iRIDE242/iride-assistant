@@ -2,7 +2,7 @@ import { equals, filter, pipe, prop } from 'ramda'
 import { isHidden } from './variant'
 
 /**
- * Properties requests
+ * Property requests
  */
 export const getVariants = prop('variants')
 const getStatus = prop('status')
