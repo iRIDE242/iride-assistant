@@ -11,7 +11,7 @@ import CopyButton from './CopyButton'
 import CopyHint from './CopyHint'
 import { getAllFilters } from '../utils/filters'
 
-export default function ProductWithHidden({
+export default function FilteredProduct({
   product,
   checked: checkedFromSection,
   setSelected: setSelectedFromAbove,

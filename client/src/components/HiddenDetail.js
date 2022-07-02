@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import ProductWithHidden from './ProductWithHidden'
+import FilteredProduct from './FilteredProduct'
 import { removeSelectedHiddenStatus } from '../actions/products'
 import { getHiddens } from '../actions/product'
 import { add, map, pipe, reduce } from 'ramda'
@@ -95,7 +95,7 @@ export default function HiddenDetail({
       <div style={{ color: mainColor }}>
         <form onSubmit={handleSubmit}>
           {filteredProducts.map(product => (
-            <ProductWithHidden
+            <FilteredProduct
               key={product.id}
               product={product}
               checked={checked}
