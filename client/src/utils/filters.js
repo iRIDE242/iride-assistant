@@ -1,6 +1,7 @@
 import { filter, pipe, prop } from 'ramda'
 import { getHiddens } from '../actions/product'
 
+const filterAll = () => false
 const bypass = any => any
 
 export const hasHidden = product => {
