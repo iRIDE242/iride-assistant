@@ -3,7 +3,7 @@ import { createPrevAndNextFromHeader } from './actions/header'
 import './App.css'
 import Product from './components/Product'
 import InventoryInfo from './components/InventoryInfo'
-import HiddenInfo from './components/HiddenInfo'
+import FilteredSection from './components/FilteredSection'
 import { getProductsByCollectionId, getProductsByPageInfo } from './utils/api'
 import { getLocallyOutOfStockProducts } from './actions/products'
 import { collections } from './utils/config'
@@ -191,7 +191,7 @@ function App() {
           onChange={handleHiddenVariants}
         />
         <label htmlFor="products-with-hidden">hidden variants</label>
-        {isLoading ? <p>Loading</p> : <HiddenInfo />}
+        {isLoading ? <p>Loading</p> : <FilteredSection />}
       </div>
 
       <h2>

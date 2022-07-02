@@ -12,7 +12,7 @@ const settingsForGone = {
   mainTitle: 'Out of stock products ',
 }
 
-export default function HiddenInfo() {
+export default function FilteredSection() {
   const [{ products: productsMap, filters }] = useProducts()
 
   const products = mapValueToArray(productsMap)
