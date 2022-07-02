@@ -28,7 +28,12 @@ export default function HiddenDetail({
   const [selected, setSelected] = useState(0)
   const [variantsCounts, setVariantsCounts] = useState(0)
 
-  const [, dispatch] = useProducts()
+  const [
+    {
+      filters: { hiddenVariants },
+    },
+    dispatch,
+  ] = useProducts()
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -97,7 +102,11 @@ export default function HiddenDetail({
               setSelected={setSelected}
             />
           ))}
-          <button type="submit">REMOVE HIDDEN STATUS FROM ALL SELECTED</button>
+          {hiddenVariants.status && (
+            <button type="submit">
+              REMOVE HIDDEN STATUS FROM ALL SELECTED
+            </button>
+          )}
         </form>
       </div>
     </div>
