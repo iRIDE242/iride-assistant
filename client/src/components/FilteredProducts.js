@@ -20,7 +20,7 @@ const bulkyVisuallyToggleVariants = (variantIds, action) => {
   }
 }
 
-export default function HiddenDetail({
+export default function FilteredProducts({
   filteredProducts,
   settings: { background, mainColor },
 }) {

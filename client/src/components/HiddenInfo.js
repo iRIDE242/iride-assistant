@@ -1,7 +1,7 @@
 import { useProducts } from '../context/products'
 import { getAllFilters } from '../utils/filters'
 import { mapValueToArray } from '../utils/helper'
-import HiddenDetail from './HiddenDetail'
+import FilteredProducts from './FilteredProducts'
 
 const settingsForGone = {
   localStorageKey: 'ignoredOutOfStockIds',
@@ -29,7 +29,7 @@ export default function HiddenInfo() {
   return (
     <>
       {filteredProducts.length > 0 && (
-        <HiddenDetail
+        <FilteredProducts
           filteredProducts={filteredProducts}
           settings={settingsForGone}
         />
