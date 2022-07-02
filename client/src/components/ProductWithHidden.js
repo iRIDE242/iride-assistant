@@ -10,6 +10,7 @@ import TitleCheckbox from './TitleCheckbox'
 import { updateProduct, useProducts } from '../context/products'
 import CopyButton from './CopyButton'
 import CopyHint from './CopyHint'
+import { getAllFilters } from '../utils/filters'
 
 export default function ProductWithHidden({
   product,
@@ -62,8 +63,9 @@ export default function ProductWithHidden({
 
   // Get the filtered products from all the products
   useEffect(() => {
-    setHiddenVariants(product.variants.filter(isHidden))
-  }, [product.variants])
+    const filterVariants = getAllFilters(filters, false)
+    setHiddenVariants(filterVariants(product.variants))
+  }, [filters, product.variants])
 
   return (
     <div>
