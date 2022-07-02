@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-export default function HiddenVariant({
+export default function FilteredVariant({
   product,
   variant,
   checkedFromProduct,

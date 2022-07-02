@@ -4,7 +4,7 @@ import {
   getVariantById,
   resetVariantWeightById,
 } from '../utils/api'
-import HiddenVariant from './HiddenVariant'
+import FilteredVariant from './FilteredVariant'
 import TitleCheckbox from './TitleCheckbox'
 import { updateProduct, useProducts } from '../context/products'
 import CopyButton from './CopyButton'
@@ -84,7 +84,7 @@ export default function FilteredProduct({
         <ul>
           {filteredVariants.map(variant => (
             <li key={variant.id} id={`variant-${variant.id}`}>
-              <HiddenVariant
+              <FilteredVariant
                 product={product}
                 variant={variant}
                 checkedFromProduct={checked}
