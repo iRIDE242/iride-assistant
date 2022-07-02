@@ -21,7 +21,7 @@ export default function ProductWithHidden({
   const [selected, setSelected] = useState(0)
   const [isCopied, setIsCopied] = useState(false)
 
-  const [, dispatch] = useProducts()
+  const [{ filters }, dispatch] = useProducts()
 
   const handleGetVariant = variantId => async e => {
     e.preventDefault()
@@ -60,6 +60,7 @@ export default function ProductWithHidden({
     setChecked(checkedFromSection)
   }, [checkedFromSection])
 
+  // Get the filtered products from all the products
   useEffect(() => {
     setHiddenVariants(product.variants.filter(isHidden))
   }, [product.variants])
@@ -93,9 +94,11 @@ export default function ProductWithHidden({
               <button onClick={handleGetVariant(variant.id)}>
                 GET VARIANT
               </button>
-              <button onClick={handleResetWeight(variant.id)}>
-                SHOW VARIANT
-              </button>
+              {filters.hiddenVariants.status && (
+                <button onClick={handleResetWeight(variant.id)}>
+                  REMOVE HIDDEN STATUS
+                </button>
+              )}
             </li>
           ))}
         </ul>
