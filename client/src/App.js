@@ -8,7 +8,6 @@ import { getProductsByCollectionId, getProductsByPageInfo } from './utils/api'
 import { getLocallyOutOfStockProducts } from './actions/products'
 import { collections } from './utils/config'
 import { getProducts, toggleHiddens, useProducts } from './context/products'
-import { getAllFilters } from './utils/filters'
 import { arrayToMapWithIdAsKey, mapValueToArray } from './utils/helper'
 
 const emptyLink = {
@@ -34,7 +33,6 @@ function App() {
 
   // Convert products map to array
   const products = mapValueToArray(productsMap)
-  const filteredProducts = getAllFilters(filters)(products)
 
   useEffect(() => {
     setIsLoading(true)
@@ -193,13 +191,7 @@ function App() {
           onChange={handleHiddenVariants}
         />
         <label htmlFor="products-with-hidden">hidden variants</label>
-        {isLoading ? (
-          <p>Loading</p>
-        ) : (
-          filteredProducts.length > 0 && (
-            <HiddenInfo filteredProducts={filteredProducts} />
-          )
-        )}
+        {isLoading ? <p>Loading</p> : <HiddenInfo />}
       </div>
 
       <h2>

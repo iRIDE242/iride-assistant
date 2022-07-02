@@ -1,3 +1,6 @@
+import { useProducts } from '../context/products'
+import { getAllFilters } from '../utils/filters'
+import { mapValueToArray } from '../utils/helper'
 import HiddenDetail from './HiddenDetail'
 
 const settingsForGone = {
@@ -9,16 +12,27 @@ const settingsForGone = {
   mainTitle: 'Out of stock products ',
 }
 
-export default function HiddenInfo({ filteredProducts }) {
+export default function HiddenInfo() {
+  const [{ products: productsMap, filters }] = useProducts()
+
+  const products = mapValueToArray(productsMap)
+  const filteredProducts = getAllFilters(filters)(products)
 
   if (!filteredProducts.length) {
-    return <p>No products have hidden variants.</p>
+    return (
+      <div style={{ background: settingsForGone.background }}>
+        <p>No products have hidden variants.</p>
+      </div>
+    )
   }
 
   return (
     <>
       {filteredProducts.length > 0 && (
-        <HiddenDetail filteredProducts={filteredProducts} settings={settingsForGone} />
+        <HiddenDetail
+          filteredProducts={filteredProducts}
+          settings={settingsForGone}
+        />
       )}
     </>
   )
