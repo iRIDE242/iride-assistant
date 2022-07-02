@@ -3,13 +3,13 @@ import {
   getProductById,
   getVariantById,
   resetVariantWeightById,
-} from '../utils/api'
+} from '../../utils/api'
 import FilteredVariant from './FilteredVariant'
-import TitleCheckbox from './TitleCheckbox'
-import { updateProduct, useProducts } from '../context/products'
-import CopyButton from './CopyButton'
-import CopyHint from './CopyHint'
-import { getAllFilters } from '../utils/filters'
+import TitleCheckbox from '../TitleCheckbox'
+import { updateProduct, useProducts } from '../../context/products'
+import CopyButton from '../CopyButton'
+import CopyHint from '../CopyHint'
+import { getAllFilters } from '../../utils/filters'
 
 export default function FilteredProduct({
   product,

@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import FilteredProduct from './FilteredProduct'
-import { removeSelectedHiddenStatus } from '../actions/products'
-import { getHiddens } from '../actions/product'
 import { add, map, pipe, reduce } from 'ramda'
-import { getLength } from '../utils/helper'
-import TitleCheckbox from './TitleCheckbox'
-import { updateProducts, useProducts } from '../context/products'
+import FilteredProduct from './FilteredProduct'
+import { removeSelectedHiddenStatus } from '../../actions/products'
+import { getHiddens } from '../../actions/product'
+import { getLength } from '../../utils/helper'
+import TitleCheckbox from '../TitleCheckbox'
+import { updateProducts, useProducts } from '../../context/products'
 
 const variantInputRegex = /^\d/ // Digid leading the string
 const productInputRegex = /hidden-product-(\d+)/

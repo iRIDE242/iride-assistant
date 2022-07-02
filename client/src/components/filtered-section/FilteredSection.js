@@ -1,6 +1,6 @@
-import { useProducts } from '../context/products'
-import { getAllFilters } from '../utils/filters'
-import { mapValueToArray } from '../utils/helper'
+import { useProducts } from '../../context/products'
+import { getAllFilters } from '../../utils/filters'
+import { mapValueToArray } from '../../utils/helper'
 import FilteredProducts from './FilteredProducts'
 
 const settingsForGone = {
