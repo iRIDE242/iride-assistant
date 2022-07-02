@@ -106,3 +106,55 @@ export const getLocallyOutOfStockProducts = async products => {
     throw error
   }
 }
+
+/**
+ * Bulky remove hidden status for variants
+ */
+
+// Promise relay to remove hidden status for a variant
+const createRemoveHiddenStatusRelayByVariantId = variantId => {
+  return async (res, rej) => {
+    try {
+      const { variant } = await resetVariantWeightById(variantId)
+      res(variant)
+    } catch (error) {
+      rej(error)
+    }
+  }
+}
+
+// Promise relay to get a product
+const createGetProductRelayByProductId = productId => {
+  return async (res, rej) => {
+    try {
+      const { product: updatedProduct } = await getProductById(productId)
+      res(updatedProduct)
+    } catch (error) {
+      rej(error)
+    }
+  }
+}
+
+// Bulky remove hidden status for variants then get the updated products
+export const removeSelectedHiddenStatus = async (variantIds, productIds) => {
+  const variantsPromiseContainer = createSequencedPromises(
+    variantIds,
+    createRemoveHiddenStatusRelayByVariantId
+  )
+
+  try {
+    const variants = await Promise.all(variantsPromiseContainer)
+    console.log(variants)
+
+    // This promise needs to be after the updating variants action to get the updated products
+    const productsPromiseContainer = createSequencedPromises(
+      productIds,
+      createGetProductRelayByProductId
+    )
+
+    const updatedProducts = await Promise.all(productsPromiseContainer)
+    return updatedProducts
+  } catch (error) {
+    throw error
+  }
+}
