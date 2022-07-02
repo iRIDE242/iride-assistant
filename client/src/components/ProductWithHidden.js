@@ -17,7 +17,7 @@ export default function ProductWithHidden({
   setSelected: setSelectedFromAbove,
 }) {
   const [checked, setChecked] = useState(false)
-  const [hiddenVariants, setHiddenVariants] = useState([])
+  const [filteredVariants, setFilteredVariants] = useState([])
   const [selected, setSelected] = useState(0)
   const [isCopied, setIsCopied] = useState(false)
 
@@ -63,14 +63,14 @@ export default function ProductWithHidden({
   // Get the filtered products from all the products
   useEffect(() => {
     const filterVariants = getAllFilters(filters, false)
-    setHiddenVariants(filterVariants(product.variants))
+    setFilteredVariants(filterVariants(product.variants))
   }, [filters, product.variants])
 
   return (
     <div>
       <TitleCheckbox
         selected={selected}
-        length={hiddenVariants.length}
+        length={filteredVariants.length}
         checked={checked}
         setChecked={setChecked}
         inputId={`hidden-product-${product.id}`}
@@ -80,9 +80,9 @@ export default function ProductWithHidden({
       <CopyButton title={product.title} setIsCopied={setIsCopied} />
       <CopyHint isCopied={isCopied} />
 
-      {hiddenVariants.length > 0 && (
+      {filteredVariants.length > 0 && (
         <ul>
-          {hiddenVariants.map(variant => (
+          {filteredVariants.map(variant => (
             <li key={variant.id} id={`variant-${variant.id}`}>
               <HiddenVariant
                 product={product}
