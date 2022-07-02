@@ -3,11 +3,11 @@ import { filter, pipe, prop } from 'ramda'
 const filterAll = () => false
 const bypass = any => any
 
-export const getAllFilters = filters => {
+export const getAllFilters = (filters, onProduct = true) => {
   const isTrue = val => val === true
   const statusIsTrue = pipe(prop('status'), isTrue)
 
-  const getFilter = prop('filter')
+  const getFilter = onProduct ? prop('filter') : prop('variantFilter')
   const values = Object.values(filters)
   const filterFuncs = values.filter(statusIsTrue).map(getFilter)
 
