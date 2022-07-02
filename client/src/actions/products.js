@@ -1,4 +1,4 @@
-import { equals, filter, pipe, prop, reduce } from 'ramda'
+import { filter, reduce } from 'ramda'
 import { getInventoryItemId, isHidden } from './variantAPIs'
 import {
   getProductById,

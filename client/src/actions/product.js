@@ -1,7 +1,5 @@
 import { equals, filter, pipe, prop } from 'ramda'
-import { getProductById, resetVariantWeightById } from '../utils/api'
 import { isHidden } from './variantAPIs'
-import { createSequencedPromises } from '../utils/helper'
 
 /**
  * Properties requests
