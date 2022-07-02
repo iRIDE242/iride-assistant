@@ -1,10 +1,8 @@
 import { prop } from 'ramda'
 import { createContext, useContext } from 'react'
 
-/**
- * Shared methods
- */
-const getTitle = prop('title')
+export const getTitle = prop('title')
+
 export const getLength = prop('length')
 
 /**
@@ -18,7 +16,7 @@ const createDelayByIndexForPromise = (delay, index) => passPromiseParams => {
   })
 }
 
-const createSequencedPromises = (
+export const createSequencedPromises = (
   arr,
   createPromiseRelay,
   delaySetting = 500
@@ -46,7 +44,10 @@ const createSequencedPromises = (
   return promiseContainer
 }
 
-const handleFetch = async url => {
+/**
+ * Helper function for fetch to solve no error response except network error
+ */
+export const handleFetch = async url => {
   try {
     // response is a fetch report file describing how this fetch goes,
     // with properties like status, ok, statusText,
@@ -54,6 +55,7 @@ const handleFetch = async url => {
     const response = await fetch(url)
     const result = await response.json()
 
+    // Error from requests
     if (!response.ok) throw new Error(result)
 
     return result
@@ -62,7 +64,11 @@ const handleFetch = async url => {
   }
 }
 
-function createCtx(providerName, displayName) {
+/**
+ * Helper function to create context.
+ * Will show error if content is out of context.
+ */
+export function createCtx(providerName, displayName) {
   const ctx = createContext(undefined)
 
   if (ctx && displayName) {
@@ -80,11 +86,11 @@ function createCtx(providerName, displayName) {
   return [useCtx, ctx.Provider]
 }
 
-const numberToString = num => num.toString()
+export const numberToString = num => num.toString()
 
-const mapValueToArray = map => [...map.values()]
+export const mapValueToArray = map => [...map.values()]
 
-const arrayToMapWithIdAsKey = arr => {
+export const arrayToMapWithIdAsKey = arr => {
   const map = new Map()
   arr.map(a => map.set(numberToString(a.id), a))
   return map
@@ -99,13 +105,4 @@ const bulkyVisuallyToggleVariants = (variantIds, action) => {
   }
 }
 
-export {
-  getTitle,
-  createSequencedPromises,
-  handleFetch,
-  createCtx,
-  mapValueToArray,
-  arrayToMapWithIdAsKey,
-  numberToString,
-  bulkyVisuallyToggleVariants,
-}
+export { bulkyVisuallyToggleVariants }
