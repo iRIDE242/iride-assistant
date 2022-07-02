@@ -66,7 +66,7 @@ export default function ProductWithHidden({
   }, [product.variants])
 
   return (
-    <>
+    <div>
       <TitleCheckbox
         selected={selected}
         length={hiddenVariants.length}
@@ -103,6 +103,6 @@ export default function ProductWithHidden({
           ))}
         </ul>
       )}
-    </>
+    </div>
   )
 }
