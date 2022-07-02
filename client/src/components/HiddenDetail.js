@@ -3,13 +3,22 @@ import ProductWithHidden from './ProductWithHidden'
 import { removeSelectedHiddenStatus } from '../actions/products'
 import { getHiddens } from '../actions/product'
 import { add, map, pipe, reduce } from 'ramda'
-import { bulkyVisuallyToggleVariants, getLength } from '../utils/helper'
+import { getLength } from '../utils/helper'
 import TitleCheckbox from './TitleCheckbox'
 import { updateProducts, useProducts } from '../context/products'
 
 const variantInputRegex = /^\d/ // Digid leading the string
 const productInputRegex = /hidden-product-(\d+)/
 const replacer = (match, p1) => p1
+
+const bulkyVisuallyToggleVariants = (variantIds, action) => {
+  for (let index = 0; index < variantIds.length; index++) {
+    const li = document.querySelector(`#variant-${variantIds[index]}`)
+    action === 'remove'
+      ? (li.style.display = 'none')
+      : (li.style.display = 'list-item')
+  }
+}
 
 export default function HiddenDetail({
   filteredProducts,
