@@ -73,6 +73,18 @@ export default function FilteredProduct({
     setShowVariants(showVariantsFromSection)
   }, [showVariantsFromSection])
 
+  // Manipulate upper lever indeterminate state of checkbox
+  useEffect(() => {
+    if (showVariants) {
+      setSelectedChildren(prev => prev + 1)
+    } else {
+      setSelectedChildren(prev => {
+        if (!prev) return prev
+        return prev - 1
+      })
+    }
+  }, [setSelectedChildren, showVariants])
+
   // Get the filtered variants from product
   useEffect(() => {
     const filterVariants = getAllFilters(filters, false)
