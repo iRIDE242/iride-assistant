@@ -25,7 +25,19 @@ export function createCtx(providerName, displayName) {
 /**
  * Indeterminate checkbox
  */
-export const useCheckbox = (checkedFromSection, setSelectedFromSection) => {
+
+const incrementSelected = selected => selected + 1
+const decrementSelected = selected => {
+  if (!selected) return selected
+  return selected - 1
+}
+
+export const useCheckbox = (
+  checkedFromSection,
+  setSelectedFromSection,
+  checkedFromProduct,
+  setSelectedFromProduct
+) => {
   const [checked, setChecked] = useState(false)
 
   const handleChange = () => {
@@ -37,17 +49,21 @@ export const useCheckbox = (checkedFromSection, setSelectedFromSection) => {
     setChecked(checkedFromSection)
   }, [checkedFromSection])
 
-  // Manipulate the indeterminate state of section checkbox
+  // Synced with product checkbox state
+  useEffect(() => {
+    if (checkedFromProduct) setChecked(checkedFromProduct)
+  }, [checkedFromProduct])
+
+  // Manipulate the indeterminate state of section and product checkboxes
   useEffect(() => {
     if (checked) {
-      setSelectedFromSection(prev => prev + 1)
+      setSelectedFromSection(incrementSelected)
+      if (setSelectedFromProduct) setSelectedFromProduct(incrementSelected)
     } else {
-      setSelectedFromSection(prev => {
-        if (!prev) return prev
-        return prev - 1
-      })
+      setSelectedFromSection(decrementSelected)
+      if (setSelectedFromProduct) setSelectedFromProduct(decrementSelected)
     }
-  }, [checked, setSelectedFromSection])
+  }, [checked, setSelectedFromProduct, setSelectedFromSection])
 
   return [checked, handleChange]
 }
