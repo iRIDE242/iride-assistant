@@ -60,7 +60,7 @@ export default function FilteredProduct({
     setChecked(checkedFromSection)
   }, [checkedFromSection])
 
-  // Get the filtered products from all the products
+  // Get the filtered variants from product
   useEffect(() => {
     const filterVariants = getAllFilters(filters, false)
     setFilteredVariants(filterVariants(product.variants))
