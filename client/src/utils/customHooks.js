@@ -57,13 +57,13 @@ export const useCheckbox = (
   // Manipulate the indeterminate state of section and product checkboxes
   useEffect(() => {
     if (checked) {
-      setSelectedFromSection(incrementSelected)
+      if (setSelectedFromSection) setSelectedFromSection(incrementSelected)
       if (setSelectedFromProduct) setSelectedFromProduct(incrementSelected)
     } else {
-      setSelectedFromSection(decrementSelected)
+      if (setSelectedFromSection) setSelectedFromSection(decrementSelected)
       if (setSelectedFromProduct) setSelectedFromProduct(decrementSelected)
     }
   }, [checked, setSelectedFromProduct, setSelectedFromSection])
 
-  return [checked, handleChange]
+  return [checked, setChecked, handleChange]
 }
