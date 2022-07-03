@@ -14,10 +14,12 @@ export default function FilteredVariant({
     setChecked(prev => !prev)
   }
 
+  // Sync with product checkbox
   useEffect(() => {
     setChecked(checkedFromProduct)
   }, [checkedFromProduct])
 
+  // Sync with section checkbox
   useEffect(() => {
     setChecked(checkedFromSection)
   }, [checkedFromSection])
