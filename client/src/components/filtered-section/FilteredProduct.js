@@ -23,7 +23,10 @@ export default function FilteredProduct({
   const [selected, setSelected] = useState(0)
   const [isCopied, setIsCopied] = useState(false)
 
+  // Title checkbox
   const [checked, setChecked] = useCheckbox(checkedFromSection)
+
+  // Show variants checkbox
   const [showVariants, , handleShowVariants] = useCheckbox(
     showVariantsFromSection,
     setSelectedChildren
