@@ -25,29 +25,29 @@ export function createCtx(providerName, displayName) {
 /**
  * Indeterminate checkbox
  */
-export const useCheckbox = (checkedFromAbove, setSelectedFromAbove) => {
+export const useCheckbox = (checkedFromSection, setSelectedFromSection) => {
   const [checked, setChecked] = useState(false)
 
   const handleChange = () => {
     setChecked(prev => !prev)
   }
 
-  // Synced with parent checkbox state
+  // Synced with section checkbox state
   useEffect(() => {
-    setChecked(checkedFromAbove)
-  }, [checkedFromAbove])
+    setChecked(checkedFromSection)
+  }, [checkedFromSection])
 
-  // Manipulate the indeterminate state of parent checkbox
+  // Manipulate the indeterminate state of section checkbox
   useEffect(() => {
     if (checked) {
-      setSelectedFromAbove(prev => prev + 1)
+      setSelectedFromSection(prev => prev + 1)
     } else {
-      setSelectedFromAbove(prev => {
+      setSelectedFromSection(prev => {
         if (!prev) return prev
         return prev - 1
       })
     }
-  }, [checked, setSelectedFromAbove])
+  }, [checked, setSelectedFromSection])
 
   return [checked, handleChange]
 }
