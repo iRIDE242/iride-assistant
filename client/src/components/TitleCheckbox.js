@@ -9,10 +9,12 @@ function SizedHeader({ headerSize, children }) {
     <>
       {headerSize === 'h2' && <h2 style={style}>{children}</h2>}
       {headerSize === 'h3' && <h3 style={style}>{children}</h3>}
+      {!headerSize && <p style={style}>{children}</p>}
     </>
   )
 }
 
+// For checkbox needed to show indeterminate state
 export default function TitleCheckbox({
   selected,
   length,

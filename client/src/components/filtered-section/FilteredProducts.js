@@ -30,6 +30,9 @@ export default function FilteredProducts({
   const [selected, setSelected] = useState(0)
   const [variantsCounts, setVariantsCounts] = useState(0)
 
+  const [showVariants, setShowVariants] = useState(false)
+  const [selectedChildren, setSelectedChildren] = useState(0)
+
   const [
     {
       filters: { hiddenVariants },
@@ -95,6 +98,15 @@ export default function FilteredProducts({
         inputId="hidden-product-info"
         inputTitle={inputTitle}
         headerSize="h2"
+      />
+
+      <TitleCheckbox
+        selected={selectedChildren}
+        length={filteredProducts.length}
+        checked={showVariants}
+        setChecked={setShowVariants}
+        inputId={`show-variants--section-${collectionId}`}
+        inputTitle="Show variants"
       />
 
       <div style={{ color: mainColor }}>
