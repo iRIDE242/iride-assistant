@@ -19,11 +19,11 @@ export default function FilteredProduct({
   showVariants: showVariantsFromSection,
   setSelectedChildren,
 }) {
-  const [checked, setChecked] = useState(false)
   const [filteredVariants, setFilteredVariants] = useState([])
   const [selected, setSelected] = useState(0)
   const [isCopied, setIsCopied] = useState(false)
 
+  const [checked, setChecked] = useCheckbox(checkedFromSection)
   const [showVariants, , handleShowVariants] = useCheckbox(
     showVariantsFromSection,
     setSelectedChildren
@@ -62,11 +62,6 @@ export default function FilteredProduct({
       throw error
     }
   }
-
-  // Keep synced with section checkbox
-  useEffect(() => {
-    setChecked(checkedFromSection)
-  }, [checkedFromSection])
 
   // Get the filtered variants from product
   useEffect(() => {

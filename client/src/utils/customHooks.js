@@ -51,17 +51,21 @@ export const useCheckbox = (
 
   // Synced with product checkbox state
   useEffect(() => {
-    if (checkedFromProduct) setChecked(checkedFromProduct)
+    if (checkedFromProduct !== undefined) setChecked(checkedFromProduct)
   }, [checkedFromProduct])
 
   // Manipulate the indeterminate state of section and product checkboxes
   useEffect(() => {
     if (checked) {
-      if (setSelectedFromSection) setSelectedFromSection(incrementSelected)
-      if (setSelectedFromProduct) setSelectedFromProduct(incrementSelected)
+      if (setSelectedFromSection !== undefined)
+        setSelectedFromSection(incrementSelected)
+      if (setSelectedFromProduct !== undefined)
+        setSelectedFromProduct(incrementSelected)
     } else {
-      if (setSelectedFromSection) setSelectedFromSection(decrementSelected)
-      if (setSelectedFromProduct) setSelectedFromProduct(decrementSelected)
+      if (setSelectedFromSection !== undefined)
+        setSelectedFromSection(decrementSelected)
+      if (setSelectedFromProduct !== undefined)
+        setSelectedFromProduct(decrementSelected)
     }
   }, [checked, setSelectedFromProduct, setSelectedFromSection])
 

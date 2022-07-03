@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCheckbox } from '../../utils/customHooks'
 
 export default function FilteredVariant({
   product,
@@ -8,38 +8,12 @@ export default function FilteredVariant({
   setSelectedFromProduct,
   setSelectedFromSection,
 }) {
-  const [checked, setChecked] = useState(false)
-
-  const handleChange = () => {
-    setChecked(prev => !prev)
-  }
-
-  // Sync with product checkbox
-  useEffect(() => {
-    setChecked(checkedFromProduct)
-  }, [checkedFromProduct])
-
-  // Sync with section checkbox
-  useEffect(() => {
-    setChecked(checkedFromSection)
-  }, [checkedFromSection])
-
-  // Manipulate upper lever selected states for the indeterminate state of checkbox
-  useEffect(() => {
-    if (checked) {
-      setSelectedFromProduct(prev => prev + 1)
-      setSelectedFromSection(prev => prev + 1)
-    } else {
-      setSelectedFromProduct(prev => {
-        if (!prev) return prev
-        return prev - 1
-      })
-      setSelectedFromSection(prev => {
-        if (!prev) return prev
-        return prev - 1
-      })
-    }
-  }, [checked, setSelectedFromProduct, setSelectedFromSection])
+  const [checked, , handleChange] = useCheckbox(
+    checkedFromSection,
+    setSelectedFromSection,
+    checkedFromProduct,
+    setSelectedFromProduct
+  )
 
   return (
     <>
