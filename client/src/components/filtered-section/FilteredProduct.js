@@ -10,6 +10,7 @@ import { updateProduct, useProducts } from '../../context/products'
 import CopyButton from '../CopyButton'
 import CopyHint from '../CopyHint'
 import { getAllFilters } from '../../utils/filters'
+import { useCheckbox } from '../../utils/customHooks'
 
 export default function FilteredProduct({
   product,
@@ -23,7 +24,10 @@ export default function FilteredProduct({
   const [selected, setSelected] = useState(0)
   const [isCopied, setIsCopied] = useState(false)
 
-  const [showVariants, setShowVariants] = useState(false)
+  const [showVariants, handleShowVariants] = useCheckbox(
+    showVariantsFromSection,
+    setSelectedChildren
+  )
 
   const [{ filters }, dispatch] = useProducts()
 
@@ -59,31 +63,10 @@ export default function FilteredProduct({
     }
   }
 
-  const handleShowVariants = () => {
-    setShowVariants(prev => !prev)
-  }
-
   // Keep synced with section checkbox
   useEffect(() => {
     setChecked(checkedFromSection)
   }, [checkedFromSection])
-
-  // Keep synced with section show variants checkbox
-  useEffect(() => {
-    setShowVariants(showVariantsFromSection)
-  }, [showVariantsFromSection])
-
-  // Manipulate upper lever indeterminate state of checkbox
-  useEffect(() => {
-    if (showVariants) {
-      setSelectedChildren(prev => prev + 1)
-    } else {
-      setSelectedChildren(prev => {
-        if (!prev) return prev
-        return prev - 1
-      })
-    }
-  }, [setSelectedChildren, showVariants])
 
   // Get the filtered variants from product
   useEffect(() => {
