@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { createPrevAndNextFromHeader } from './actions/header'
 import './App.css'
-import Product from './components/Product'
+// import Product from './components/Product'
 import InventoryInfo from './components/InventoryInfo'
 import FilteredSection from './components/filtered-section/FilteredSection'
 import { getProductsByCollectionId, getProductsByPageInfo } from './utils/api'
@@ -191,10 +191,14 @@ function App() {
           onChange={handleHiddenVariants}
         />
         <label htmlFor="products-with-hidden">hidden variants</label>
-        {isLoading ? <p>Loading</p> : <FilteredSection />}
+        {isLoading ? (
+          <p>Loading</p>
+        ) : (
+          <FilteredSection collectionId={collectionId} />
+        )}
       </div>
 
-      <h2>
+      {/* <h2>
         {collections[collectionId].name.toUpperCase()} [Counts:{' '}
         {products.length}]
       </h2>
@@ -204,7 +208,7 @@ function App() {
         ))
       ) : (
         <p>No products from this query</p>
-      )}
+      )} */}
     </div>
   )
 }

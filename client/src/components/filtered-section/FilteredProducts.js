@@ -6,6 +6,7 @@ import { getHiddens } from '../../actions/product'
 import { getLength } from '../../utils/helper'
 import TitleCheckbox from '../TitleCheckbox'
 import { updateProducts, useProducts } from '../../context/products'
+import { collections } from '../../utils/config'
 
 const variantInputRegex = /^\d/ // Digid leading the string
 const productInputRegex = /hidden-product-(\d+)/
@@ -23,6 +24,7 @@ const bulkyVisuallyToggleVariants = (variantIds, action) => {
 export default function FilteredProducts({
   filteredProducts,
   settings: { background, mainColor },
+  collectionId,
 }) {
   const [checked, setChecked] = useState(false)
   const [selected, setSelected] = useState(0)
@@ -34,6 +36,9 @@ export default function FilteredProducts({
     },
     dispatch,
   ] = useProducts()
+
+  const inputTitle = `${collections[collectionId].name.toUpperCase()} [Counts: 
+  ${filteredProducts.length}]`
 
   const handleSubmit = async e => {
     e.preventDefault()
@@ -88,7 +93,7 @@ export default function FilteredProducts({
         checked={checked}
         setChecked={setChecked}
         inputId="hidden-product-info"
-        inputTitle="PRODUCTS WITH HIDDEN VARIANTS"
+        inputTitle={inputTitle}
         headerSize="h2"
       />
 

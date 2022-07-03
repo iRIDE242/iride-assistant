@@ -12,7 +12,7 @@ const settingsForGone = {
   mainTitle: 'Out of stock products ',
 }
 
-export default function FilteredSection() {
+export default function FilteredSection({ collectionId }) {
   const [{ products: productsMap, filters }] = useProducts()
 
   const products = mapValueToArray(productsMap)
@@ -32,6 +32,7 @@ export default function FilteredSection() {
         <FilteredProducts
           filteredProducts={filteredProducts}
           settings={settingsForGone}
+          collectionId={collectionId}
         />
       )}
     </>
