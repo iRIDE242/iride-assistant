@@ -75,6 +75,28 @@ export default function FilteredProducts({
     }
   }
 
+  const handleTestSubmit = e => {
+    e.preventDefault()
+
+    const variantIds = []
+    const productIds = []
+
+    for (let index = 0; index < e.target.length; index++) {
+      if (e.target[index].nodeName === 'INPUT' && e.target[index].checked) {
+        if (variantInputRegex.test(e.target[index].id)) {
+          variantIds.push(e.target[index].id)
+        } else if (productInputRegex.test(e.target[index].id)) {
+          productIds.push(
+            e.target[index].id.replace(productInputRegex, replacer)
+          )
+        }
+      }
+    }
+
+    console.log(variantIds)
+    console.log(productIds)
+  }
+
   useEffect(() => {
     const getHiddenVariantsLengthsFromProducts = pipe(
       map(getHiddens),
@@ -110,7 +132,7 @@ export default function FilteredProducts({
       />
 
       <div style={{ color: mainColor }}>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleTestSubmit}>
           {filteredProducts.map(product => (
             <FilteredProduct
               key={product.id}
@@ -126,6 +148,8 @@ export default function FilteredProducts({
               REMOVE HIDDEN STATUS FROM ALL SELECTED
             </button>
           )}
+
+          <button type="submit">TEST SUBMIT</button>
         </form>
       </div>
     </div>

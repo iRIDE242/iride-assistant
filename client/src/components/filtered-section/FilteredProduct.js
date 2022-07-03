@@ -100,7 +100,7 @@ export default function FilteredProduct({
       <CopyHint isCopied={isCopied} />
 
       {filteredVariants.length > 0 && (
-        <ul>
+        <ul style={{ display: showVariants ? 'unset' : 'none' }}>
           {filteredVariants.map(variant => (
             <li key={variant.id} id={`variant-${variant.id}`}>
               <FilteredVariant
