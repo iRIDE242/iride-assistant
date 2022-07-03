@@ -68,6 +68,11 @@ export default function FilteredProduct({
     setChecked(checkedFromSection)
   }, [checkedFromSection])
 
+  // Keep synced with section show variants checkbox
+  useEffect(() => {
+    setShowVariants(showVariantsFromSection)
+  }, [showVariantsFromSection])
+
   // Get the filtered variants from product
   useEffect(() => {
     const filterVariants = getAllFilters(filters, false)
