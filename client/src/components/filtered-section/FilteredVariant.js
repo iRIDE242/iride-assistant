@@ -5,8 +5,8 @@ export default function FilteredVariant({
   variant,
   checkedFromProduct,
   checkedFromSection,
-  setSelected,
-  setSelectedFromAbove,
+  setSelectedFromProduct,
+  setSelectedFromSection,
 }) {
   const [checked, setChecked] = useState(false)
 
@@ -24,21 +24,22 @@ export default function FilteredVariant({
     setChecked(checkedFromSection)
   }, [checkedFromSection])
 
+  // Manipulate upper lever selected states for the indeterminate state of checkbox
   useEffect(() => {
     if (checked) {
-      setSelected(prev => prev + 1)
-      setSelectedFromAbove(prev => prev + 1)
+      setSelectedFromProduct(prev => prev + 1)
+      setSelectedFromSection(prev => prev + 1)
     } else {
-      setSelected(prev => {
+      setSelectedFromProduct(prev => {
         if (!prev) return prev
         return prev - 1
       })
-      setSelectedFromAbove(prev => {
+      setSelectedFromSection(prev => {
         if (!prev) return prev
         return prev - 1
       })
     }
-  }, [checked, setSelected, setSelectedFromAbove])
+  }, [checked, setSelectedFromProduct, setSelectedFromSection])
 
   return (
     <>

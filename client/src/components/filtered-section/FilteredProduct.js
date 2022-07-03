@@ -14,7 +14,7 @@ import { getAllFilters } from '../../utils/filters'
 export default function FilteredProduct({
   product,
   checked: checkedFromSection,
-  setSelected: setSelectedFromAbove,
+  setSelected: setSelectedFromSection,
 }) {
   const [checked, setChecked] = useState(false)
   const [filteredVariants, setFilteredVariants] = useState([])
@@ -89,8 +89,8 @@ export default function FilteredProduct({
                 variant={variant}
                 checkedFromProduct={checked}
                 checkedFromSection={checkedFromSection}
-                setSelected={setSelected}
-                setSelectedFromAbove={setSelectedFromAbove}
+                setSelectedFromProduct={setSelected}
+                setSelectedFromSection={setSelectedFromSection}
               />
               <button onClick={handleGetVariant(variant.id)}>
                 GET VARIANT
