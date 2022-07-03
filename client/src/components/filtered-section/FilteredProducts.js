@@ -117,6 +117,8 @@ export default function FilteredProducts({
               product={product}
               checked={checked}
               setSelected={setSelected}
+              showVariants={showVariants}
+              setSelectedChildren={setSelectedChildren}
             />
           ))}
           {hiddenVariants.status && (

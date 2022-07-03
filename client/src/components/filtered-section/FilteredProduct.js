@@ -15,11 +15,15 @@ export default function FilteredProduct({
   product,
   checked: checkedFromSection,
   setSelected: setSelectedFromSection,
+  showVariants: showVariantsFromSection,
+  setSelectedChildren,
 }) {
   const [checked, setChecked] = useState(false)
   const [filteredVariants, setFilteredVariants] = useState([])
   const [selected, setSelected] = useState(0)
   const [isCopied, setIsCopied] = useState(false)
+
+  const [showVariants, setShowVariants] = useState(false)
 
   const [{ filters }, dispatch] = useProducts()
 
@@ -55,6 +59,10 @@ export default function FilteredProduct({
     }
   }
 
+  const handleShowVariants = () => {
+    setShowVariants(prev => !prev)
+  }
+
   // Keep synced with section checkbox
   useEffect(() => {
     setChecked(checkedFromSection)
@@ -77,6 +85,17 @@ export default function FilteredProduct({
         inputTitle={product.title}
         headerSize="h3"
       />
+
+      <input
+        type="checkbox"
+        id={`show-variants--product-${product.id}`}
+        checked={showVariants}
+        onChange={handleShowVariants}
+      />
+      <label htmlFor={`show-variants--product-${product.id}`}>
+        Show variants
+      </label>
+
       <CopyButton title={product.title} setIsCopied={setIsCopied} />
       <CopyHint isCopied={isCopied} />
 
