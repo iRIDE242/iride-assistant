@@ -12,8 +12,8 @@ const intialProducts = {
   filters: {
     hiddenVariants: {
       status: false,
-      filter: hasHidden,
-      variantFilter: isHidden,
+      filter: hasHidden, // On each product
+      variantFilter: isHidden, // On each variant
     },
   },
 }

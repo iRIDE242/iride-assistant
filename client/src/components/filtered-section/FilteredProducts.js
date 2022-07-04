@@ -7,6 +7,7 @@ import { getLength } from '../../utils/helper'
 import TitleCheckbox from '../TitleCheckbox'
 import { updateProducts, useProducts } from '../../context/products'
 import { collections } from '../../utils/config'
+import { getAllFilters } from '../../utils/filters'
 
 const variantInputRegex = /^\d/ // Digid leading the string
 const productInputRegex = /hidden-product-(\d+)/
@@ -33,12 +34,7 @@ export default function FilteredProducts({
   const [showVariants, setShowVariants] = useState(false)
   const [selectedChildren, setSelectedChildren] = useState(0)
 
-  const [
-    {
-      filters: { hiddenVariants },
-    },
-    dispatch,
-  ] = useProducts()
+  const [{ filters }, dispatch] = useProducts()
 
   const inputTitle = `${collections[collectionId].name.toUpperCase()} [Counts: 
   ${filteredProducts.length}]`
@@ -98,17 +94,18 @@ export default function FilteredProducts({
   }
 
   useEffect(() => {
-    const getHiddenVariantsLengthsFromProducts = pipe(
-      map(getHiddens),
-      map(getLength)
-    )
-    const hiddenVariantsLengthsFromProducts =
-      getHiddenVariantsLengthsFromProducts(filteredProducts)
+    let filteredVariants = []
+    const filterVariants = getAllFilters(filters, false)
 
-    const getVariantCounts = reduce(add, 0)
+    for (let index = 0; index < filteredProducts.length; index++) {
+      filteredVariants = [
+        ...filteredVariants,
+        ...filterVariants(filteredProducts[index].variants),
+      ]
+    }
 
-    setVariantsCounts(getVariantCounts(hiddenVariantsLengthsFromProducts))
-  }, [filteredProducts])
+    setVariantsCounts(filteredVariants.length)
+  }, [filteredProducts, filters])
 
   return (
     <div style={{ background: background }}>
@@ -143,7 +140,7 @@ export default function FilteredProducts({
               setSelectedChildren={setSelectedChildren}
             />
           ))}
-          {hiddenVariants.status && (
+          {filters.hiddenVariants.status && (
             <button type="submit">
               REMOVE HIDDEN STATUS FROM ALL SELECTED
             </button>
