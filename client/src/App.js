@@ -9,6 +9,7 @@ import { getLocallyOutOfStockProducts } from './actions/products'
 import { collections } from './utils/config'
 import { getProducts, toggleHiddens, useProducts } from './context/products'
 import { arrayToMapWithIdAsKey, mapValueToArray } from './utils/helper'
+import { getAllFilters } from './utils/filters'
 
 const emptyLink = {
   limit: '',
@@ -31,8 +32,15 @@ function App() {
   const [collectionId, setCollectionId] = useState('210639487136')
   const [prevAndNext, setPrevAndNext] = useState(initialPrevAndNext)
 
+  // This state is essential to reset each filtered product to its original state.
+  // Each filtered product consists of many states from different custom hooks.
+  // It's quite complex to partially modify certain hook but not affect others.
+  // Additional, React will partially update array structure elements for optimization reason.
+  // This feature will make the state much messier and hard to manage.
+  // So the most efficient and simple way is to set it to a blank array then get the updated one later from useEffect.
+  const [filteredProducts, setFilteredProducts] = useState([])
+
   // Convert products map to array
-  const products = mapValueToArray(productsMap)
 
   useEffect(() => {
     setIsLoading(true)
@@ -54,6 +62,12 @@ function App() {
         setIsLoading(false)
       })
   }, [collectionId, dispatch])
+
+  useEffect(() => {
+    const products = mapValueToArray(productsMap)
+    const filteredProducts = getAllFilters(filters)(products)
+    setFilteredProducts(filteredProducts)
+  }, [filters, productsMap])
 
   const handlePrevOrNextClick = direction => async e => {
     setIsLoading(true)
@@ -131,9 +145,10 @@ function App() {
   // This filter is based on the result of current products
   const handleHiddenVariants = () => {
     toggleHiddens(dispatch)
+    setFilteredProducts([])
   }
 
-  if (!products.length) return <p>Loading...</p>
+  if (!productsMap.size) return <p>Loading...</p>
 
   return (
     <div className="App">
@@ -194,7 +209,10 @@ function App() {
         {isLoading ? (
           <p>Loading</p>
         ) : (
-          <FilteredSection collectionId={collectionId} />
+          <FilteredSection
+            collectionId={collectionId}
+            filteredProducts={filteredProducts}
+          />
         )}
       </div>
 

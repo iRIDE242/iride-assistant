@@ -1,6 +1,3 @@
-import { useProducts } from '../../context/products'
-import { getAllFilters } from '../../utils/filters'
-import { mapValueToArray } from '../../utils/helper'
 import FilteredProducts from './FilteredProducts'
 
 const settingsForGone = {
@@ -12,12 +9,7 @@ const settingsForGone = {
   mainTitle: 'Out of stock products ',
 }
 
-export default function FilteredSection({ collectionId }) {
-  const [{ products: productsMap, filters }] = useProducts()
-
-  const products = mapValueToArray(productsMap)
-  const filteredProducts = getAllFilters(filters)(products)
-
+export default function FilteredSection({ collectionId, filteredProducts }) {
   if (!filteredProducts.length) {
     return (
       <div style={{ background: settingsForGone.background }}>
