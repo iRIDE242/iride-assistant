@@ -1,5 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useCheckbox } from '../../utils/customHooks'
+
+const getOriginalPrice = (price, cap) => {
+  const priceNumber = Number(price)
+  const capNumber = Number(cap)
+
+  return capNumber ? capNumber : priceNumber
+}
+
+const getDiscountedPrice = (discount, originalPrice) => {
+  const discountedPrice = Math.ceil(originalPrice - (originalPrice * discount) / 100)
+  return discountedPrice > originalPrice ? originalPrice : discountedPrice
+}
 
 export default function FilteredVariant({
   product,
@@ -20,15 +32,31 @@ export default function FilteredVariant({
   const [price, setPrice] = useState(0.0)
   const [cap, setCap] = useState(null)
 
+  const originalPrice = useRef(
+    getOriginalPrice(variant.price, variant.compare_at_price)
+  )
+
   const modifyDiscount = e => {
-    setDiscout(e.target.value)
+    const originalPriceValue = originalPrice.current
+    const discountNumber = Number(e.target.value)
+    setDiscout(discountNumber)
+
+    console.log(discountNumber)
+    console.log(typeof discountNumber)
+
+    setCap(discountNumber ? originalPriceValue : null)
+    setPrice(
+      discountNumber
+        ? getDiscountedPrice(discountNumber, originalPriceValue)
+        : originalPriceValue
+    )
   }
 
   useEffect(() => {
     const { price, compare_at_price } = variant
 
-    setPrice(price)
-    setCap(compare_at_price)
+    setPrice(Number(price))
+    setCap(compare_at_price ? Number(compare_at_price) : null)
   }, [variant])
 
   return (
@@ -52,6 +80,7 @@ export default function FilteredVariant({
         value={discount}
         onChange={modifyDiscount}
       />
+      <span>%</span>
 
       <span style={{ marginLeft: '4px' }}>
         <strong>Price: </strong>
