@@ -77,6 +77,11 @@ export default function FilteredVariant({
     })
   }
 
+  const resetPriceSetting = e => {
+    e.preventDefault()
+    setPriceSetting(originalPriceSetting.current)
+  }
+
   useEffect(() => {
     console.log('useEffect')
     if (!arePriceSettingsIdentical(originalPriceSetting.current, variant)) {
@@ -120,6 +125,8 @@ export default function FilteredVariant({
         <strong>CAP: </strong>
         {priceSetting.cap}
       </span>
+
+      <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
     </>
   )
 }
