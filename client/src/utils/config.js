@@ -22,4 +22,5 @@ export const idRoles = {
   price: 'price',
   cap: 'cap',
   section: 'section',
+  discount: 'discount',
 }

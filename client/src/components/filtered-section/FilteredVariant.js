@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { idRoles } from '../../utils/config'
 import { useCheckbox } from '../../utils/customHooks'
 
 const getOriginalPrice = (price, cap) => {
@@ -104,10 +105,14 @@ export default function FilteredVariant({
         htmlFor={variant.id}
       >{`${product.title} - ${variant.title}`}</label>
 
-      <label style={{ marginLeft: '4px' }}>
+      <label
+        style={{ marginLeft: '4px' }}
+        htmlFor={`${variant.id}-${idRoles.discount}`}
+      >
         <strong>Discount: </strong>
       </label>
       <input
+        id={`${variant.id}-${idRoles.discount}`}
         style={{ width: '40px' }}
         type="number"
         value={priceSetting.discount}
