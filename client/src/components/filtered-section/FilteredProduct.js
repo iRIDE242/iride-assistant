@@ -33,6 +33,8 @@ export default function FilteredProduct({
     setSelectedChildren
   )
 
+  const [discount, setDiscount] = useState('')
+
   const [{ filters }, dispatch] = useProducts()
 
   const handleGetVariant = variantId => async e => {
@@ -67,6 +69,10 @@ export default function FilteredProduct({
     }
   }
 
+  const handleSetDiscount = e => {
+    setDiscount(e.target.value)
+  }
+
   // Get the filtered variants from product
   useEffect(() => {
     const filterVariants = getAllFilters(filters, false)
@@ -96,6 +102,23 @@ export default function FilteredProduct({
       >
         Show variants
       </label>
+
+      <label
+        style={{ marginLeft: '4px' }}
+        htmlFor={`${idGroups.setPrice}--${idRoles.product}-${product.id}`}
+      >
+        <strong>Discount: </strong>
+      </label>
+      <input
+        id={`${idGroups.setPrice}--${idRoles.product}-${product.id}`}
+        style={{ width: '40px' }}
+        type="number"
+        value={discount}
+        onChange={handleSetDiscount}
+        min="0"
+        max="100"
+      />
+      <span>%</span>
 
       <CopyButton title={product.title} setIsCopied={setIsCopied} />
       <CopyHint isCopied={isCopied} />

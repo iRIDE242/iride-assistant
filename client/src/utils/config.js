@@ -14,6 +14,7 @@ export const collections = {
 export const idGroups = {
   filteredProducts: 'filtered-products',
   showVariants: 'show-variants',
+  setPrice: 'set-price',
 }
 
 export const idRoles = {
