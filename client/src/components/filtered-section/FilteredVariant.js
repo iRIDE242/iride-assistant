@@ -15,6 +15,21 @@ const getDiscountedPrice = (discount, originalPrice) => {
   return discountedPrice > originalPrice ? originalPrice : discountedPrice
 }
 
+const getDiscount = (price, cap) => {
+  if (!cap) return ''
+  return Math.ceil(100 - (Number(price) / Number(cap)) * 100)
+}
+
+const getPriceSetting = variant => {
+  const { price, compare_at_price } = variant
+
+  return {
+    price: Number(price),
+    cap: compare_at_price === null ? null : Number(compare_at_price),
+    discount: getDiscount(price, compare_at_price),
+  }
+}
+
 export default function FilteredVariant({
   product,
   variant,
@@ -30,41 +45,35 @@ export default function FilteredVariant({
     setSelectedFromProduct
   )
 
-  const [priceProps, setPriceProps] = useState({
+  const [priceSetting, setPriceSetting] = useState({
     price: 0.0,
     cap: null,
     discount: '',
   })
 
-  const originalPrice = useRef(
-    getOriginalPrice(variant.price, variant.compare_at_price)
-  )
+  const originalPriceSetting = useRef(getPriceSetting(variant))
 
   const modifyDiscount = e => {
-    const originalPriceValue = originalPrice.current
+    const {
+      current: { price, cap },
+    } = originalPriceSetting
+
+    const originalPrice = getOriginalPrice(price, cap)
     const discountNumber = Number(e.target.value)
 
-    console.log(discountNumber)
-    console.log(typeof discountNumber)
-
-    setPriceProps({
+    setPriceSetting({
       price: discountNumber
-        ? getDiscountedPrice(discountNumber, originalPriceValue)
-        : originalPriceValue,
-      cap: discountNumber ? originalPriceValue : null,
+        ? getDiscountedPrice(discountNumber, originalPrice)
+        : originalPrice,
+      cap: discountNumber ? originalPrice : null,
       discount: discountNumber,
     })
   }
 
   useEffect(() => {
-    const { price, compare_at_price } = variant
-
-    setPriceProps({
-      price: Number(price),
-      cap: compare_at_price ? Number(compare_at_price) : null,
-      discount: '',
-    })
-  }, [variant])
+    console.log('useEffect')
+    setPriceSetting(originalPriceSetting.current)
+  }, [])
 
   return (
     <>
@@ -84,7 +93,7 @@ export default function FilteredVariant({
       <input
         style={{ width: '40px' }}
         type="number"
-        value={priceProps.discount}
+        value={priceSetting.discount}
         onChange={modifyDiscount}
         min="0"
         max="100"
@@ -93,11 +102,11 @@ export default function FilteredVariant({
 
       <span style={{ marginLeft: '4px' }}>
         <strong>Price: </strong>
-        {priceProps.price}
+        {priceSetting.price}
       </span>
       <span style={{ marginLeft: '4px' }}>
         <strong>CAP: </strong>
-        {priceProps.cap}
+        {priceSetting.cap}
       </span>
     </>
   )
