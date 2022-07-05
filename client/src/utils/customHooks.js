@@ -1,4 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
+import { getAllFilters } from './filters'
+import { mapValueToArray } from './helper'
 
 /**
  * Helper function to create context.
@@ -70,4 +72,20 @@ export const useCheckbox = (
   }, [checked, setSelectedFromProduct, setSelectedFromSection])
 
   return [checked, setChecked, handleChange]
+}
+
+/**
+ * Filtered products
+ */
+export const useFilteredProducts = (productsMap, filters) => {
+  const [filteredProducts, setFilteredProducts] = useState([])
+
+  useEffect(() => {
+    const products = mapValueToArray(productsMap)
+    const filteredProducts = getAllFilters(filters)(products)
+
+    setFilteredProducts(filteredProducts)
+  }, [filters, productsMap])
+
+  return [filteredProducts, setFilteredProducts]
 }
