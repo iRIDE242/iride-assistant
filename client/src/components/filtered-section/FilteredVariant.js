@@ -9,7 +9,9 @@ const getOriginalPrice = (price, cap) => {
 }
 
 const getDiscountedPrice = (discount, originalPrice) => {
-  const discountedPrice = Math.ceil(originalPrice - (originalPrice * discount) / 100)
+  const discountedPrice = Math.ceil(
+    originalPrice - (originalPrice * discount) / 100
+  )
   return discountedPrice > originalPrice ? originalPrice : discountedPrice
 }
 
@@ -28,9 +30,11 @@ export default function FilteredVariant({
     setSelectedFromProduct
   )
 
-  const [discount, setDiscout] = useState('')
-  const [price, setPrice] = useState(0.0)
-  const [cap, setCap] = useState(null)
+  const [priceProps, setPriceProps] = useState({
+    price: 0.0,
+    cap: null,
+    discount: '',
+  })
 
   const originalPrice = useRef(
     getOriginalPrice(variant.price, variant.compare_at_price)
@@ -39,24 +43,27 @@ export default function FilteredVariant({
   const modifyDiscount = e => {
     const originalPriceValue = originalPrice.current
     const discountNumber = Number(e.target.value)
-    setDiscout(discountNumber)
 
     console.log(discountNumber)
     console.log(typeof discountNumber)
 
-    setCap(discountNumber ? originalPriceValue : null)
-    setPrice(
-      discountNumber
+    setPriceProps({
+      price: discountNumber
         ? getDiscountedPrice(discountNumber, originalPriceValue)
-        : originalPriceValue
-    )
+        : originalPriceValue,
+      cap: discountNumber ? originalPriceValue : null,
+      discount: discountNumber,
+    })
   }
 
   useEffect(() => {
     const { price, compare_at_price } = variant
 
-    setPrice(Number(price))
-    setCap(compare_at_price ? Number(compare_at_price) : null)
+    setPriceProps({
+      price: Number(price),
+      cap: compare_at_price ? Number(compare_at_price) : null,
+      discount: '',
+    })
   }, [variant])
 
   return (
@@ -77,18 +84,18 @@ export default function FilteredVariant({
       <input
         style={{ width: '40px' }}
         type="number"
-        value={discount}
+        value={priceProps.discount}
         onChange={modifyDiscount}
       />
       <span>%</span>
 
       <span style={{ marginLeft: '4px' }}>
         <strong>Price: </strong>
-        {price}
+        {priceProps.price}
       </span>
       <span style={{ marginLeft: '4px' }}>
         <strong>CAP: </strong>
-        {cap}
+        {priceProps.cap}
       </span>
     </>
   )
