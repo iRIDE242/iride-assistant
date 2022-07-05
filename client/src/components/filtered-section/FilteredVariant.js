@@ -86,6 +86,8 @@ export default function FilteredVariant({
         type="number"
         value={priceProps.discount}
         onChange={modifyDiscount}
+        min="0"
+        max="100"
       />
       <span>%</span>
 
