@@ -30,6 +30,13 @@ const getPriceSetting = variant => {
   }
 }
 
+const arePriceSettingsIdentical = (refCurrent, variant) => {
+  return (
+    refCurrent.price === Number(variant.price) &&
+    Number(refCurrent.cap) === Number(variant.compare_at_price)
+  )
+}
+
 export default function FilteredVariant({
   product,
   variant,
@@ -72,8 +79,13 @@ export default function FilteredVariant({
 
   useEffect(() => {
     console.log('useEffect')
+    if (!arePriceSettingsIdentical(originalPriceSetting.current, variant)) {
+      console.log('not identical')
+      originalPriceSetting.current = getPriceSetting(variant)
+    }
+
     setPriceSetting(originalPriceSetting.current)
-  }, [])
+  }, [variant])
 
   return (
     <>
