@@ -6,11 +6,13 @@ import { getHiddens } from '../../actions/product'
 import { getLength } from '../../utils/helper'
 import TitleCheckbox from '../TitleCheckbox'
 import { updateProducts, useProducts } from '../../context/products'
-import { collections } from '../../utils/config'
+import { collections, idGroups, idRoles } from '../../utils/config'
 import { getAllFilters } from '../../utils/filters'
 
-const variantInputRegex = /^\d/ // Digid leading the string
-const productInputRegex = /hidden-product-(\d+)/
+const variantInputRegex = /^\d/ // Variant checkbox, digids leading
+const productInputRegex = new RegExp(
+  `${idGroups.filteredProducts}--${idRoles.product}-(\\d+)` // Product checkbox
+)
 const replacer = (match, p1) => p1
 
 const bulkyVisuallyToggleVariants = (variantIds, action) => {
@@ -114,7 +116,7 @@ export default function FilteredProducts({
         length={variantsCounts}
         checked={checked}
         setChecked={setChecked}
-        inputId="hidden-product-info"
+        inputId={`${idGroups.filteredProducts}--${idRoles.section}-${collectionId}`}
         inputTitle={inputTitle}
         headerSize="h2"
       />
@@ -124,7 +126,7 @@ export default function FilteredProducts({
         length={filteredProducts.length}
         checked={showVariants}
         setChecked={setShowVariants}
-        inputId={`show-variants--section-${collectionId}`}
+        inputId={`${idGroups.showVariants}--${idRoles.section}-${collectionId}`}
         inputTitle="Show variants"
       />
 

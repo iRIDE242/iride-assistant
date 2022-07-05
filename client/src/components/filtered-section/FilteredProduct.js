@@ -11,6 +11,7 @@ import CopyButton from '../CopyButton'
 import CopyHint from '../CopyHint'
 import { getAllFilters } from '../../utils/filters'
 import { useCheckbox } from '../../utils/customHooks'
+import { idGroups, idRoles } from '../../utils/config'
 
 export default function FilteredProduct({
   product,
@@ -79,18 +80,20 @@ export default function FilteredProduct({
         length={filteredVariants.length}
         checked={checked}
         setChecked={setChecked}
-        inputId={`hidden-product-${product.id}`}
+        inputId={`${idGroups.filteredProducts}--${idRoles.product}-${product.id}`}
         inputTitle={product.title}
         headerSize="h3"
       />
 
       <input
         type="checkbox"
-        id={`show-variants--product-${product.id}`}
+        id={`${idGroups.showVariants}--${idRoles.product}-${product.id}`}
         checked={showVariants}
         onChange={handleShowVariants}
       />
-      <label htmlFor={`show-variants--product-${product.id}`}>
+      <label
+        htmlFor={`${idGroups.showVariants}--${idRoles.product}-${product.id}`}
+      >
         Show variants
       </label>
 

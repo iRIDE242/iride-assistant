@@ -10,3 +10,15 @@ export const collections = {
     name: 'Riding Tops',
   },
 }
+
+export const idGroups = {
+  filteredProducts: 'filtered-products',
+  showVariants: 'show-variants',
+}
+
+export const idRoles = {
+  product: 'product',
+  price: 'price',
+  cap: 'cap',
+  section: 'section',
+}
