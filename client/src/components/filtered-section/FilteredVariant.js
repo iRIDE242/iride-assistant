@@ -21,13 +21,19 @@ const getDiscount = (price, cap) => {
   return Math.ceil(100 - (Number(price) / Number(cap)) * 100)
 }
 
-const getPriceSetting = variant => {
+const getPriceSetting = (variant, discountFromProduct) => {
+  const discountNumber = Number(discountFromProduct)
   const { price, compare_at_price } = variant
+  const originalPrice = getOriginalPrice(price, compare_at_price)
 
   return {
-    price: Number(price),
+    price: discountNumber
+      ? getDiscountedPrice(discountNumber, originalPrice)
+      : Number(price),
     cap: compare_at_price === null ? null : Number(compare_at_price),
-    discount: getDiscount(price, compare_at_price),
+    discount: discountNumber
+      ? discountNumber
+      : getDiscount(price, compare_at_price),
   }
 }
 
@@ -45,6 +51,7 @@ export default function FilteredVariant({
   checkedFromSection,
   setSelectedFromProduct,
   setSelectedFromSection,
+  discountFromProduct,
 }) {
   const [checked, , handleChange] = useCheckbox(
     checkedFromSection,
@@ -90,8 +97,8 @@ export default function FilteredVariant({
       originalPriceSetting.current = getPriceSetting(variant)
     }
 
-    setPriceSetting(originalPriceSetting.current)
-  }, [variant])
+    setPriceSetting(getPriceSetting(variant, discountFromProduct))
+  }, [discountFromProduct, variant])
 
   return (
     <>

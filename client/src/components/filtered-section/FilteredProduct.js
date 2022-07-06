@@ -134,6 +134,7 @@ export default function FilteredProduct({
                 checkedFromSection={checkedFromSection}
                 setSelectedFromProduct={setSelected}
                 setSelectedFromSection={setSelectedFromSection}
+                discountFromProduct={discount}
               />
               <button onClick={handleGetVariant(variant.id)}>
                 GET VARIANT
