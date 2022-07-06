@@ -23,21 +23,43 @@ const getDiscount = (price, cap) => {
 
 const getPriceSetting = (variant, discountFromProduct) => {
   const discountNumber = Number(discountFromProduct)
+
   const { price, compare_at_price } = variant
   const originalPrice = getOriginalPrice(price, compare_at_price)
 
-  return {
-    price: discountNumber
-      ? getDiscountedPrice(discountNumber, originalPrice)
-      : Number(price),
-    cap: discountNumber
-      ? Number(price)
-      : compare_at_price === null
-      ? null
-      : Number(compare_at_price),
-    discount: discountNumber
-      ? discountNumber
-      : getDiscount(price, compare_at_price),
+  // For the initial render
+  if (discountFromProduct === undefined) {
+    return {
+      price: Number(price),
+      cap: compare_at_price ? Number(compare_at_price) : compare_at_price,
+      discount: getDiscount(price, compare_at_price),
+    }
+  }
+
+  // discountFromProduct === ''
+  if (discountFromProduct === '') {
+    // === ''
+    return {
+      price: originalPrice,
+      cap: null,
+      discount: '',
+    }
+  }
+
+  if (discountNumber) {
+    // discountFromProduct === other
+    return {
+      price: getDiscountedPrice(discountNumber, originalPrice),
+      cap: originalPrice,
+      discount: discountNumber,
+    }
+  } else {
+    // discountFromProduct === '0'
+    return {
+      price: originalPrice,
+      cap: originalPrice,
+      discount: discountNumber,
+    }
   }
 }
 
@@ -85,7 +107,7 @@ export default function FilteredVariant({
         ? getDiscountedPrice(discountNumber, originalPrice)
         : originalPrice,
       cap: discountNumber ? originalPrice : null,
-      discount: discountNumber,
+      discount: e.target.value === '' ? e.target.value : discountNumber,
     })
   }
 

@@ -33,7 +33,7 @@ export default function FilteredProduct({
     setSelectedChildren
   )
 
-  const [discount, setDiscount] = useState('')
+  const [discount, setDiscount] = useState(undefined)
 
   const [{ filters }, dispatch] = useProducts()
 
