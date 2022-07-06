@@ -30,7 +30,11 @@ const getPriceSetting = (variant, discountFromProduct) => {
     price: discountNumber
       ? getDiscountedPrice(discountNumber, originalPrice)
       : Number(price),
-    cap: compare_at_price === null ? null : Number(compare_at_price),
+    cap: discountNumber
+      ? Number(price)
+      : compare_at_price === null
+      ? null
+      : Number(compare_at_price),
     discount: discountNumber
       ? discountNumber
       : getDiscount(price, compare_at_price),
