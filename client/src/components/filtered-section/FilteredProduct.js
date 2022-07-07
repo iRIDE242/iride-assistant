@@ -12,6 +12,7 @@ import CopyHint from '../CopyHint'
 import { getAllFilters } from '../../utils/filters'
 import { useCheckbox } from '../../utils/customHooks'
 import { idGroups, idRoles } from '../../utils/config'
+import { MODIFIED } from '../../utils/helper'
 
 export default function FilteredProduct({
   product,
@@ -19,6 +20,7 @@ export default function FilteredProduct({
   setSelected: setSelectedFromSection,
   showVariants: showVariantsFromSection,
   setSelectedChildren,
+  discountFromSection,
 }) {
   const [filteredVariants, setFilteredVariants] = useState([])
   const [selected, setSelected] = useState(0)
@@ -78,6 +80,11 @@ export default function FilteredProduct({
     const filterVariants = getAllFilters(filters, false)
     setFilteredVariants(filterVariants(product.variants))
   }, [filters, product.variants])
+
+  useEffect(() => {
+    if (discountFromSection.state === MODIFIED)
+      setDiscount(discountFromSection.value)
+  }, [discountFromSection.state, discountFromSection.value])
 
   return (
     <div>

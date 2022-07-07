@@ -174,6 +174,7 @@ export default function FilteredProducts({
               setSelected={setSelected}
               showVariants={showVariants}
               setSelectedChildren={setSelectedChildren}
+              discountFromSection={discount}
             />
           ))}
           {filters.hiddenVariants.status && (
