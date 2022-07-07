@@ -72,3 +72,10 @@ export const arrayToMapWithIdAsKey = arr => {
   arr.map(a => map.set(numberToString(a.id), a))
   return map
 }
+
+export const handleDiscountValue = discount => {
+  return discount === '' ? discount : Number(discount)
+}
+
+export const MODIFIED = 'MODIFIED'
+export const NOT_MODIFIED = 'NOT MODIFIED'

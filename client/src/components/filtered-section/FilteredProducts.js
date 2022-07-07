@@ -3,7 +3,12 @@ import { add, map, pipe, reduce } from 'ramda'
 import FilteredProduct from './FilteredProduct'
 import { removeSelectedHiddenStatus } from '../../actions/products'
 import { getHiddens } from '../../actions/product'
-import { getLength } from '../../utils/helper'
+import {
+  getLength,
+  handleDiscountValue,
+  MODIFIED,
+  NOT_MODIFIED,
+} from '../../utils/helper'
 import TitleCheckbox from '../TitleCheckbox'
 import { updateProducts, useProducts } from '../../context/products'
 import { collections, idGroups, idRoles } from '../../utils/config'
@@ -35,6 +40,11 @@ export default function FilteredProducts({
 
   const [showVariants, setShowVariants] = useState(false)
   const [selectedChildren, setSelectedChildren] = useState(0)
+
+  const [discount, setDiscount] = useState({
+    state: NOT_MODIFIED,
+    value: '',
+  })
 
   const [{ filters }, dispatch] = useProducts()
 
@@ -95,6 +105,13 @@ export default function FilteredProducts({
     console.log(productIds)
   }
 
+  const handleSetDiscount = e => {
+    setDiscount({
+      state: MODIFIED,
+      value: handleDiscountValue(e.target.value),
+    })
+  }
+
   useEffect(() => {
     let filteredVariants = []
     const filterVariants = getAllFilters(filters, false)
@@ -129,6 +146,23 @@ export default function FilteredProducts({
         inputId={`${idGroups.showVariants}--${idRoles.section}-${collectionId}`}
         inputTitle="Show variants"
       />
+
+      <label
+        style={{ marginLeft: '4px' }}
+        htmlFor={`${idGroups.setPrice}--${idRoles.section}`}
+      >
+        <strong>Discount: </strong>
+      </label>
+      <input
+        id={`${idGroups.setPrice}--${idRoles.section}`}
+        style={{ width: '40px' }}
+        type="number"
+        value={discount.value}
+        onChange={handleSetDiscount}
+        min="0"
+        max="100"
+      />
+      <span>%</span>
 
       <div style={{ color: mainColor }}>
         <form onSubmit={handleTestSubmit}>
