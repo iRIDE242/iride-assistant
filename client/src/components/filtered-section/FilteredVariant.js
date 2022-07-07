@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { idRoles } from '../../utils/config'
 import { useCheckbox } from '../../utils/customHooks'
 import { MODIFIED, NOT_MODIFIED } from '../../utils/helper'
@@ -93,6 +93,10 @@ export default function FilteredVariant({
   setSelectedFromSection,
   discountFromProduct,
 }) {
+  const [originalPriceSetting, setOriginalPriceSetting] = useState(() =>
+    getPriceSetting(variant)
+  )
+
   const [checked, , handleChange] = useCheckbox(
     checkedFromSection,
     setSelectedFromSection,
@@ -105,9 +109,6 @@ export default function FilteredVariant({
     cap: null,
     discount: '',
   })
-
-  // Lazy load
-  const originalPriceSetting = useRef(() => getPriceSetting(variant))
 
   const modifyDiscount = e => {
     const {
@@ -128,16 +129,17 @@ export default function FilteredVariant({
 
   const resetPriceSetting = e => {
     e.preventDefault()
-    setPriceSetting(originalPriceSetting.current)
+    setPriceSetting(originalPriceSetting)
   }
 
   useEffect(() => {
-    console.log('useEffect')
-    if (!arePriceSettingsIdentical(originalPriceSetting.current, variant)) {
+    if (!arePriceSettingsIdentical(originalPriceSetting, variant)) {
       console.log('not identical')
-      originalPriceSetting.current = getPriceSetting(variant)
+      setOriginalPriceSetting(getPriceSetting(variant))
     }
+  }, [originalPriceSetting, variant])
 
+  useEffect(() => {
     setPriceSetting(getPriceSetting(variant, discountFromProduct))
   }, [discountFromProduct, variant])
 
