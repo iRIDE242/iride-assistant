@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { getAllFilters } from './filters'
-import { mapValueToArray } from './helper'
+import { mapValueToArray, MODIFIED, NOT_MODIFIED } from './helper'
 
 /**
  * Helper function to create context.
@@ -88,4 +88,23 @@ export const useFilteredProducts = (productsMap, filters) => {
   }, [filters, productsMap])
 
   return [filteredProducts, setFilteredProducts]
+}
+
+/**
+ * Discount for filtered section (products) and product
+ */
+export const useDiscount = discountFromAbove => {
+  const [discount, setDiscount] = useState({
+    state: NOT_MODIFIED,
+    value: '',
+  })
+
+  useEffect(() => {
+    if (discountFromAbove) {
+      const { state, value } = discountFromAbove
+      if (state === MODIFIED) setDiscount(value)
+    }
+  }, [discountFromAbove])
+
+  return [discount, setDiscount]
 }
