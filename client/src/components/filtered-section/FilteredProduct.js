@@ -10,9 +10,9 @@ import { updateProduct, useProducts } from '../../context/products'
 import CopyButton from '../CopyButton'
 import CopyHint from '../CopyHint'
 import { getAllFilters } from '../../utils/filters'
-import { useCheckbox } from '../../utils/customHooks'
+import { useCheckbox, useDiscount } from '../../utils/customHooks'
 import { idGroups, idRoles } from '../../utils/config'
-import { MODIFIED } from '../../utils/helper'
+import { handleDiscountValue, MODIFIED } from '../../utils/helper'
 
 export default function FilteredProduct({
   product,
@@ -35,7 +35,7 @@ export default function FilteredProduct({
     setSelectedChildren
   )
 
-  const [discount, setDiscount] = useState(undefined)
+  const [discount, setDiscount] = useDiscount(discountFromSection)
 
   const [{ filters }, dispatch] = useProducts()
 
@@ -72,7 +72,10 @@ export default function FilteredProduct({
   }
 
   const handleSetDiscount = e => {
-    setDiscount(e.target.value)
+    setDiscount({
+      state: MODIFIED,
+      value: handleDiscountValue(e.target.value),
+    })
   }
 
   // Get the filtered variants from product
@@ -80,11 +83,6 @@ export default function FilteredProduct({
     const filterVariants = getAllFilters(filters, false)
     setFilteredVariants(filterVariants(product.variants))
   }, [filters, product.variants])
-
-  useEffect(() => {
-    if (discountFromSection.state === MODIFIED)
-      setDiscount(discountFromSection.value)
-  }, [discountFromSection.state, discountFromSection.value])
 
   return (
     <div>
@@ -120,7 +118,7 @@ export default function FilteredProduct({
         id={`${idGroups.setPrice}--${idRoles.product}-${product.id}`}
         style={{ width: '40px' }}
         type="number"
-        value={discount}
+        value={discount.value}
         onChange={handleSetDiscount}
         min="0"
         max="100"

@@ -102,7 +102,11 @@ export const useDiscount = discountFromAbove => {
   useEffect(() => {
     if (discountFromAbove) {
       const { state, value } = discountFromAbove
-      if (state === MODIFIED) setDiscount(value)
+      if (state === MODIFIED)
+        setDiscount({
+          state: MODIFIED,
+          value,
+        })
     }
   }, [discountFromAbove])
 
