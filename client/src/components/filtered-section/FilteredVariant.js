@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { idRoles } from '../../utils/config'
 import { useCheckbox } from '../../utils/customHooks'
+import { MODIFIED, NOT_MODIFIED } from '../../utils/helper'
 
 const getOriginalPrice = (price, cap) => {
   const priceNumber = Number(price)
@@ -22,13 +23,22 @@ const getDiscount = (price, cap) => {
 }
 
 const getPriceSetting = (variant, discountFromProduct) => {
-  const discountNumber = Number(discountFromProduct)
+  // Examples:
+  // Number('') or Number('   ') -> 0  Number('   ') won't happen here thanks to number input
+  // Number('sa') -> NaN  This case won't happen here thanks to number input
+  // Number('0') -> 0
+  // Number('23') -> 23
+  // Number(undefined) -> NaN
 
   const { price, compare_at_price } = variant
   const originalPrice = getOriginalPrice(price, compare_at_price)
 
-  // For the initial render
-  if (discountFromProduct === undefined) {
+  // discountFromProduct is absent or discount from above is not modified
+  // discountFromProduct -> undefined
+  if (
+    discountFromProduct === undefined ||
+    discountFromProduct?.state === NOT_MODIFIED
+  ) {
     return {
       price: Number(price),
       cap: compare_at_price ? Number(compare_at_price) : compare_at_price,
@@ -36,29 +46,33 @@ const getPriceSetting = (variant, discountFromProduct) => {
     }
   }
 
-  // discountFromProduct === ''
-  if (discountFromProduct === '') {
-    // === ''
-    return {
-      price: originalPrice,
-      cap: null,
-      discount: '',
-    }
-  }
+  const { state, value } = discountFromProduct
+  const discountNumber = Number(value)
 
-  if (discountNumber) {
-    // discountFromProduct === other
-    return {
-      price: getDiscountedPrice(discountNumber, originalPrice),
-      cap: originalPrice,
-      discount: discountNumber,
+  if (state === MODIFIED) {
+    // Number('') -> 0
+    if (value === '') {
+      return {
+        price: originalPrice,
+        cap: null,
+        discount: '',
+      }
     }
-  } else {
-    // discountFromProduct === '0'
-    return {
-      price: originalPrice,
-      cap: originalPrice,
-      discount: discountNumber,
+
+    if (discountNumber) {
+      // Number('23') -> 23
+      return {
+        price: getDiscountedPrice(discountNumber, originalPrice),
+        cap: originalPrice,
+        discount: discountNumber,
+      }
+    } else {
+      // Number('0') -> 0
+      return {
+        price: originalPrice,
+        cap: originalPrice,
+        discount: discountNumber,
+      }
     }
   }
 }
@@ -92,7 +106,8 @@ export default function FilteredVariant({
     discount: '',
   })
 
-  const originalPriceSetting = useRef(getPriceSetting(variant))
+  // Lazy load
+  const originalPriceSetting = useRef(() => getPriceSetting(variant))
 
   const modifyDiscount = e => {
     const {

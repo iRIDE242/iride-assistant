@@ -104,6 +104,10 @@ export default function FilteredProducts({
   }
 
   const handleSetDiscount = e => {
+    // Number input will only responde legid inputs (number or blank space '')
+    // Illegal inputs will only trigger the event once when input converts from legid to illegal state,
+    // and the event value will be a blank space ''.
+    // then any further illegal inputs won't trigger event any more.
     setDiscount({
       state: MODIFIED,
       value: handleDiscountValue(e.target.value),
