@@ -37,6 +37,10 @@ export default function FilteredProduct({
 
   const [discount, setDiscount] = useDiscount(discountFromSection)
 
+  // Here cannot use useRef to replace useState to avoid unnecessary re-rendering
+  // since the ref version of reset that is needed to pass down to children
+  // will cause shallow copy issue that won't affect its children.
+  // https://www.smashingmagazine.com/2020/11/react-useref-hook/
   const [reset, setReset] = useState(0)
 
   const [{ filters }, dispatch] = useProducts()
