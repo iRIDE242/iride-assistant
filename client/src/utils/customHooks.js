@@ -112,3 +112,21 @@ export const useDiscount = discountFromAbove => {
 
   return [discount, setDiscount]
 }
+
+/**
+ * Reset price
+ */
+export const useReset = resetFromAbove => {
+  const [reset, setReset] = useState(0)
+
+  const resetPriceSetting = e => {
+    e.preventDefault()
+    setReset(prev => prev + 1)
+  }
+
+  useEffect(() => {
+    if (resetFromAbove && resetFromAbove !== reset) setReset(resetFromAbove)
+  }, [reset, resetFromAbove])
+
+  return [reset, resetPriceSetting]
+}

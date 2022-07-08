@@ -13,7 +13,7 @@ import TitleCheckbox from '../TitleCheckbox'
 import { updateProducts, useProducts } from '../../context/products'
 import { collections, idGroups, idRoles } from '../../utils/config'
 import { getAllFilters } from '../../utils/filters'
-import { useDiscount } from '../../utils/customHooks'
+import { useDiscount, useReset } from '../../utils/customHooks'
 
 const variantInputRegex = /^\d/ // Variant checkbox, digids leading
 const productInputRegex = new RegExp(
@@ -44,7 +44,7 @@ export default function FilteredProducts({
 
   const [discount, setDiscount] = useDiscount()
 
-  const [reset, setReset] = useState(0)
+  const [reset, resetPriceSetting] = useReset()
 
   const [{ filters }, dispatch] = useProducts()
 
@@ -116,10 +116,10 @@ export default function FilteredProducts({
     })
   }
 
-  const resetPriceSetting = e => {
-    e.preventDefault()
-    setReset(prev => prev + 1)
-  }
+  // const resetPriceSetting = e => {
+  //   e.preventDefault()
+  //   setReset(prev => prev + 1)
+  // }
 
   useEffect(() => {
     let filteredVariants = []

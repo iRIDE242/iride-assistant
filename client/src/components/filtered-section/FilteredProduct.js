@@ -10,7 +10,7 @@ import { updateProduct, useProducts } from '../../context/products'
 import CopyButton from '../CopyButton'
 import CopyHint from '../CopyHint'
 import { getAllFilters } from '../../utils/filters'
-import { useCheckbox, useDiscount } from '../../utils/customHooks'
+import { useCheckbox, useDiscount, useReset } from '../../utils/customHooks'
 import { idGroups, idRoles } from '../../utils/config'
 import { handleDiscountValue, MODIFIED } from '../../utils/helper'
 
@@ -42,7 +42,7 @@ export default function FilteredProduct({
   // since the ref version of reset that is needed to pass down to children
   // will cause shallow copy issue that won't affect its children.
   // https://www.smashingmagazine.com/2020/11/react-useref-hook/
-  const [reset, setReset] = useState(0)
+  const [reset, resetPriceSetting] = useReset(resetFromSection)
 
   const [{ filters }, dispatch] = useProducts()
 
@@ -85,20 +85,11 @@ export default function FilteredProduct({
     })
   }
 
-  const resetPriceSetting = e => {
-    e.preventDefault()
-    setReset(prev => prev + 1)
-  }
-
   // Get the filtered variants from product
   useEffect(() => {
     const filterVariants = getAllFilters(filters, false)
     setFilteredVariants(filterVariants(product.variants))
   }, [filters, product.variants])
-
-  useEffect(() => {
-    if (resetFromSection !== reset) setReset(resetFromSection)
-  }, [reset, resetFromSection])
 
   return (
     <div>
