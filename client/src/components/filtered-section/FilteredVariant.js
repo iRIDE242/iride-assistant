@@ -135,6 +135,7 @@ export default function FilteredVariant({
     setPriceSetting(originalPriceSetting)
   }
 
+  // Check if original setting changes when variant changes
   useEffect(() => {
     if (!arePriceSettingsIdentical(originalPriceSetting, variant)) {
       console.log('not identical')
@@ -142,10 +143,12 @@ export default function FilteredVariant({
     }
   }, [originalPriceSetting, variant])
 
+  // Sync the discount change from product
   useEffect(() => {
     setPriceSetting(getPriceSetting(variant, discountFromProduct))
   }, [discountFromProduct, variant])
 
+  // Responde to the reset from product
   useEffect(() => {
     if (reset.current !== resetFromProduct) {
       console.log('reset from product')
