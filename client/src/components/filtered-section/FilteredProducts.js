@@ -44,6 +44,8 @@ export default function FilteredProducts({
 
   const [discount, setDiscount] = useDiscount()
 
+  const [reset, setReset] = useState(0)
+
   const [{ filters }, dispatch] = useProducts()
 
   const inputTitle = `${collections[collectionId].name.toUpperCase()} [Counts: 
@@ -114,6 +116,11 @@ export default function FilteredProducts({
     })
   }
 
+  const resetPriceSetting = e => {
+    e.preventDefault()
+    setReset(prev => prev + 1)
+  }
+
   useEffect(() => {
     let filteredVariants = []
     const filterVariants = getAllFilters(filters, false)
@@ -166,6 +173,8 @@ export default function FilteredProducts({
       />
       <span>%</span>
 
+      <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
+
       <div style={{ color: mainColor }}>
         <form onSubmit={handleTestSubmit}>
           {filteredProducts.map(product => (
@@ -177,6 +186,7 @@ export default function FilteredProducts({
               showVariants={showVariants}
               setSelectedChildren={setSelectedChildren}
               discountFromSection={discount}
+              resetFromSection={reset}
             />
           ))}
           {filters.hiddenVariants.status && (

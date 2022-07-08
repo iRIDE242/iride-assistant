@@ -21,6 +21,7 @@ export default function FilteredProduct({
   showVariants: showVariantsFromSection,
   setSelectedChildren,
   discountFromSection,
+  resetFromSection,
 }) {
   const [filteredVariants, setFilteredVariants] = useState([])
   const [selected, setSelected] = useState(0)
@@ -94,6 +95,10 @@ export default function FilteredProduct({
     const filterVariants = getAllFilters(filters, false)
     setFilteredVariants(filterVariants(product.variants))
   }, [filters, product.variants])
+
+  useEffect(() => {
+    if (resetFromSection !== reset) setReset(resetFromSection)
+  }, [reset, resetFromSection])
 
   return (
     <div>
