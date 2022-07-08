@@ -183,14 +183,25 @@ export default function FilteredVariant({
       />
       <span>%</span>
 
-      <span style={{ marginLeft: '4px' }}>
+      <label style={{ marginLeft: '4px' }}>
         <strong>Price: </strong>
-        {priceSetting.price}
-      </span>
-      <span style={{ marginLeft: '4px' }}>
+      </label>
+      <input
+        type="text"
+        value={priceSetting.price}
+        readOnly
+        style={{ width: '50px' }}
+      />
+
+      <label style={{ marginLeft: '4px' }}>
         <strong>CAP: </strong>
-        {priceSetting.cap}
-      </span>
+      </label>
+      <input
+        type="text"
+        value={priceSetting.cap}
+        readOnly
+        style={{ width: '50px' }}
+      />
 
       <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
     </>
