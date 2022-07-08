@@ -41,7 +41,7 @@ const getPriceSetting = (variant, discountFromProduct) => {
   ) {
     return {
       price: Number(price),
-      cap: compare_at_price ? Number(compare_at_price) : compare_at_price,
+      cap: compare_at_price ? Number(compare_at_price) : '',
       discount: getDiscount(price, compare_at_price),
     }
   }
@@ -54,7 +54,7 @@ const getPriceSetting = (variant, discountFromProduct) => {
     if (value === '') {
       return {
         price: originalPrice,
-        cap: null,
+        cap: '',
         discount: '',
       }
     }
@@ -107,7 +107,7 @@ export default function FilteredVariant({
 
   const [priceSetting, setPriceSetting] = useState({
     price: 0.0,
-    cap: null,
+    cap: '',
     discount: '',
   })
 
@@ -125,7 +125,7 @@ export default function FilteredVariant({
       price: discountNumber
         ? getDiscountedPrice(discountNumber, originalPrice)
         : originalPrice,
-      cap: discountNumber ? originalPrice : null,
+      cap: discountNumber ? originalPrice : '',
       discount: e.target.value === '' ? e.target.value : discountNumber,
     })
   }
