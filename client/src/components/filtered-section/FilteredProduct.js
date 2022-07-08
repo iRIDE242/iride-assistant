@@ -37,6 +37,8 @@ export default function FilteredProduct({
 
   const [discount, setDiscount] = useDiscount(discountFromSection)
 
+  const [reset, setReset] = useState(0)
+
   const [{ filters }, dispatch] = useProducts()
 
   const handleGetVariant = variantId => async e => {
@@ -76,6 +78,11 @@ export default function FilteredProduct({
       state: MODIFIED,
       value: handleDiscountValue(e.target.value),
     })
+  }
+
+  const resetPriceSetting = e => {
+    e.preventDefault()
+    setReset(prev => prev + 1)
   }
 
   // Get the filtered variants from product
@@ -125,6 +132,8 @@ export default function FilteredProduct({
       />
       <span>%</span>
 
+      <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
+
       <CopyButton title={product.title} setIsCopied={setIsCopied} />
       <CopyHint isCopied={isCopied} />
 
@@ -140,6 +149,7 @@ export default function FilteredProduct({
                 setSelectedFromProduct={setSelected}
                 setSelectedFromSection={setSelectedFromSection}
                 discountFromProduct={discount}
+                resetFromProduct={reset}
               />
               <button onClick={handleGetVariant(variant.id)}>
                 GET VARIANT
