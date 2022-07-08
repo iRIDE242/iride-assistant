@@ -186,20 +186,28 @@ export default function FilteredVariant({
       />
       <span>%</span>
 
-      <label style={{ marginLeft: '4px' }}>
+      <label
+        style={{ marginLeft: '4px' }}
+        htmlFor={`${variant.id}-${idRoles.price}`}
+      >
         <strong>Price: </strong>
       </label>
       <input
+        id={`${variant.id}-${idRoles.price}`}
         type="text"
         value={priceSetting.price}
         readOnly
         style={{ width: '50px' }}
       />
 
-      <label style={{ marginLeft: '4px' }}>
+      <label
+        style={{ marginLeft: '4px' }}
+        htmlFor={`${variant.id}-${idRoles.cap}`}
+      >
         <strong>CAP: </strong>
       </label>
       <input
+        id={`${variant.id}-${idRoles.cap}`}
         type="text"
         value={priceSetting.cap}
         readOnly
