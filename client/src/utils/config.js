@@ -15,6 +15,7 @@ export const idGroups = {
   filteredProducts: 'filtered-products',
   showVariants: 'show-variants',
   setPrice: 'set-price',
+  variant: 'variant',
 }
 
 export const idRoles = {
@@ -23,4 +24,5 @@ export const idRoles = {
   cap: 'cap',
   section: 'section',
   discount: 'discount',
+  handler: 'handler',
 }

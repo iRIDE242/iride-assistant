@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { idRoles } from '../../utils/config'
+import { idGroups, idRoles } from '../../utils/config'
 import { useCheckbox } from '../../utils/customHooks'
 import { MODIFIED, NOT_MODIFIED } from '../../utils/helper'
 
@@ -161,22 +161,22 @@ export default function FilteredVariant({
     <>
       <input
         type="checkbox"
-        id={variant.id}
+        id={`${idGroups.variant}--${idRoles.handler}-${variant.id}`}
         checked={checked}
         onChange={handleChange}
       />
       <label
-        htmlFor={variant.id}
+        htmlFor={`${idGroups.variant}--${idRoles.handler}-${variant.id}`}
       >{`${product.title} - ${variant.title}`}</label>
 
       <label
         style={{ marginLeft: '4px' }}
-        htmlFor={`${variant.id}-${idRoles.discount}`}
+        htmlFor={`${idGroups.variant}--${idRoles.discount}-${variant.id}`}
       >
         <strong>Discount: </strong>
       </label>
       <input
-        id={`${variant.id}-${idRoles.discount}`}
+        id={`${idGroups.variant}--${idRoles.discount}-${variant.id}`}
         style={{ width: '40px' }}
         type="number"
         value={priceSetting.discount}
@@ -188,12 +188,12 @@ export default function FilteredVariant({
 
       <label
         style={{ marginLeft: '4px' }}
-        htmlFor={`${variant.id}-${idRoles.price}`}
+        htmlFor={`${idGroups.variant}--${idRoles.price}-${variant.id}`}
       >
         <strong>Price: </strong>
       </label>
       <input
-        id={`${variant.id}-${idRoles.price}`}
+        id={`${idGroups.variant}--${idRoles.price}-${variant.id}`}
         type="text"
         value={priceSetting.price}
         readOnly
@@ -202,12 +202,12 @@ export default function FilteredVariant({
 
       <label
         style={{ marginLeft: '4px' }}
-        htmlFor={`${variant.id}-${idRoles.cap}`}
+        htmlFor={`${idGroups.variant}--${idRoles.cap}-${variant.id}`}
       >
         <strong>CAP: </strong>
       </label>
       <input
-        id={`${variant.id}-${idRoles.cap}`}
+        id={`${idGroups.variant}--${idRoles.cap}-${variant.id}`}
         type="text"
         value={priceSetting.cap}
         readOnly

@@ -15,7 +15,9 @@ import { collections, idGroups, idRoles } from '../../utils/config'
 import { getAllFilters } from '../../utils/filters'
 import { useDiscount, useReset } from '../../utils/customHooks'
 
-const variantInputRegex = /^\d/ // Variant checkbox, digids leading
+const variantHandlerRegex = new RegExp(
+  `${idGroups.variant}--${idRoles.handler}-(\\d+)` // Variant handler checkbox
+)
 const productInputRegex = new RegExp(
   `${idGroups.filteredProducts}--${idRoles.product}-(\\d+)` // Product checkbox
 )
@@ -59,7 +61,7 @@ export default function FilteredProducts({
 
     for (let index = 0; index < e.target.length; index++) {
       if (e.target[index].nodeName === 'INPUT' && e.target[index].checked) {
-        if (variantInputRegex.test(e.target[index].id)) {
+        if (variantHandlerRegex.test(e.target[index].id)) {
           variantIds.push(e.target[index].id)
         } else if (productInputRegex.test(e.target[index].id)) {
           productIds.push(
@@ -91,8 +93,10 @@ export default function FilteredProducts({
 
     for (let index = 0; index < e.target.length; index++) {
       if (e.target[index].nodeName === 'INPUT' && e.target[index].checked) {
-        if (variantInputRegex.test(e.target[index].id)) {
-          variantIds.push(e.target[index].id)
+        if (variantHandlerRegex.test(e.target[index].id)) {
+          variantIds.push(
+            e.target[index].id.replace(variantHandlerRegex, replacer)
+          )
         } else if (productInputRegex.test(e.target[index].id)) {
           productIds.push(
             e.target[index].id.replace(productInputRegex, replacer)
