@@ -94,9 +94,18 @@ export default function FilteredProducts({
     for (let index = 0; index < e.target.length; index++) {
       if (e.target[index].nodeName === 'INPUT' && e.target[index].checked) {
         if (variantHandlerRegex.test(e.target[index].id)) {
-          variantIds.push(
-            e.target[index].id.replace(variantHandlerRegex, replacer)
-          )
+          const id = e.target[index].id.replace(variantHandlerRegex, replacer)
+
+          variantIds.push(id)
+
+          const cap = e.target.querySelector(
+            `#${idGroups.variant}--${idRoles.cap}-${id}`
+          ).value
+          const price = e.target.querySelector(
+            `#${idGroups.variant}--${idRoles.price}-${id}`
+          ).value
+
+          console.log(cap, price)
         } else if (productInputRegex.test(e.target[index].id)) {
           productIds.push(
             e.target[index].id.replace(productInputRegex, replacer)
