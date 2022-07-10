@@ -46,23 +46,20 @@ export const variantController = () => {
   }
 
   const updateByVariantData = async (req, res, next) => {
-    // const variantId = req.query.variant_id
-    // debug(req)
     const variantData = req.body
-    debug(variantData)
+    const variantId = variantData.id
 
-    // const data = {
-    //   variant: {
-    //     id: variantId,
-    //     weight: 0,
-    //   },
-    // }
+    const data = {
+      variant: variantData,
+    }
 
     try {
-      // const { result } = await updateByVariantId(variantId, data)
-      debug(`The variant has been updated.`)
+      const { result } = await updateByVariantId(variantId, data)
+      debug(`The variant ${variantId} has been updated.`)
+      debug('Modified properties:')
+      debug(variantData)
 
-      res.send('result')
+      res.send(result)
     } catch (error) {
       debug('IN ERROR')
       debug(error)
@@ -75,6 +72,6 @@ export const variantController = () => {
   return {
     getByVariantId,
     resetWeightByVariantId,
-    updateByVariantData
+    updateByVariantData,
   }
 }
