@@ -106,8 +106,6 @@ export default function FilteredProducts({
         if (variantHandlerRegex.test(e.target[index].id)) {
           const id = e.target[index].id.replace(variantHandlerRegex, replacer)
 
-          // variantData.push(id)
-
           const cap = e.target.querySelector(
             `#${idGroups.variant}--${idRoles.cap}-${id}`
           ).value
