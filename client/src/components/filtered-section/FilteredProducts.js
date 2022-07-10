@@ -120,7 +120,7 @@ export default function FilteredProducts({
 
           const data = {
             id,
-            compare_at_price: cap,
+            compare_at_price: cap ? cap : null,
             price,
           }
           variantData.push(data)

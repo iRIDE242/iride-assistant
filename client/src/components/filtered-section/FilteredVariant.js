@@ -211,7 +211,7 @@ export default function FilteredVariant({
       <input
         id={`${idGroups.variant}--${idRoles.cap}-${variant.id}`}
         type="text"
-        value={createTwoDigitString(priceSetting.cap)}
+        value={priceSetting.cap ? createTwoDigitString(priceSetting.cap) : ''}
         readOnly
         style={{ width: '50px' }}
       />
