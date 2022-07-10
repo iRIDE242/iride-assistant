@@ -63,6 +63,26 @@ export const handleFetch = async url => {
   }
 }
 
+export const handleFetchPost = async (url, data) => {
+  console.log(data)
+  try {
+    const response = await fetch(url, {
+      method: 'POST', 
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    const result = await response.json()
+
+    if (!response.ok) throw new Error(result)
+
+    return result
+  } catch (error) {
+    throw error
+  }
+}
+
 export const numberToString = num => num.toString()
 
 export const mapValueToArray = map => [...map.values()]

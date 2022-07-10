@@ -10,6 +10,11 @@ const debug = debugModule('app')
 const app = express()
 const port = process.env.PORT || 5000
 
+// Parse JSON bodies for this app. Make sure you put
+// `app.use(express.json())` **before** your route handlers!
+// https://masteringjs.io/tutorials/express/post
+app.use(express.json())
+
 app.use('/inventory', inventoryRouter)
 app.use('/products', productsRouter)
 app.use('/variant', variantRouter)

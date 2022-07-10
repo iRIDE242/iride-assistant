@@ -4,6 +4,7 @@ import {
   getProductById,
   getVariantLocationInventory,
   resetVariantWeightById,
+  updateVariantByData,
 } from '../utils/api'
 import { LOCAL_LOCATION_ID } from '../utils/config'
 import { createSequencedPromises } from '../utils/helper'
@@ -154,6 +155,42 @@ export const removeSelectedHiddenStatus = async (variantIds, productIds) => {
 
     const updatedProducts = await Promise.all(productsPromiseContainer)
     return updatedProducts
+  } catch (error) {
+    throw error
+  }
+}
+
+const createUpdateVariantRelayByVariantData = variantData => {
+  return async (res, rej) => {
+    try {
+      const { variant } = await updateVariantByData(variantData)
+      res(variant)
+    } catch (error) {
+      rej(error)
+    }
+  }
+}
+
+export const updateSelectedVariants = async (variantData, productIds) => {
+  const variantsPromiseContainer = createSequencedPromises(
+    variantData, // variants data array
+    createUpdateVariantRelayByVariantData
+  )
+
+  try {
+    const variants = await Promise.all(variantsPromiseContainer)
+    console.log(variants)
+
+    // This promise needs to be after the updating variants action to get the updated products
+    // const productsPromiseContainer = createSequencedPromises(
+    //   productIds,
+    //   createGetProductRelayByProductId
+    // )
+
+    // const updatedProducts = await Promise.all(productsPromiseContainer)
+    // return updatedProducts
+
+    return true
   } catch (error) {
     throw error
   }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { add, map, pipe, reduce } from 'ramda'
 import FilteredProduct from './FilteredProduct'
-import { removeSelectedHiddenStatus } from '../../actions/products'
+import { removeSelectedHiddenStatus, updateSelectedVariants } from '../../actions/products'
 import { getHiddens } from '../../actions/product'
 import {
   createTwoDigitString,
@@ -89,10 +89,10 @@ export default function FilteredProducts({
     }
   }
 
-  const handleTestSubmit = e => {
+  const handleTestSubmit = async e => {
     e.preventDefault()
 
-    const variantIds = []
+    const variantData = []
     const productIds = []
 
     for (let index = 0; index < e.target.length; index++) {
@@ -103,7 +103,7 @@ export default function FilteredProducts({
         if (variantHandlerRegex.test(e.target[index].id)) {
           const id = e.target[index].id.replace(variantHandlerRegex, replacer)
 
-          variantIds.push(id)
+          // variantData.push(id)
 
           const cap = e.target.querySelector(
             `#${idGroups.variant}--${idRoles.cap}-${id}`
@@ -114,6 +114,14 @@ export default function FilteredProducts({
 
           console.log(cap)
           console.log(price)
+
+          const data = {
+            id,
+            compare_at_price: cap,
+            price
+          }
+          variantData.push(data)
+
         } else if (productInputRegex.test(e.target[index].id)) {
           productIds.push(
             e.target[index].id.replace(productInputRegex, replacer)
@@ -122,8 +130,20 @@ export default function FilteredProducts({
       }
     }
 
-    console.log(variantIds)
+    console.log(variantData)
     console.log(productIds)
+
+    try {
+      const result = await updateSelectedVariants(
+        variantData,
+        productIds
+      )
+      console.log(result)
+      // updateProducts(dispatch, updatedProducts)
+    } catch (error) {
+      // bulkyVisuallyToggleVariants(variantIds, 'resume')
+      console.log(error)
+    }
   }
 
   const handleSetDiscount = e => {
