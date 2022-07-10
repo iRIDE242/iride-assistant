@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { idGroups, idRoles } from '../../utils/config'
 import { useCheckbox } from '../../utils/customHooks'
-import { createTwoDigitString, MODIFIED, NOT_MODIFIED } from '../../utils/helper'
+import {
+  createTwoDigitString,
+  MODIFIED,
+  NOT_MODIFIED,
+} from '../../utils/helper'
 
 const getOriginalPrice = (price, cap) => {
   const priceNumber = Number(price)
@@ -114,9 +118,7 @@ export default function FilteredVariant({
   const reset = useRef(0)
 
   const modifyDiscount = e => {
-    const {
-      current: { price, cap },
-    } = originalPriceSetting
+    const { price, cap } = originalPriceSetting
 
     const originalPrice = getOriginalPrice(price, cap)
     const discountNumber = Number(e.target.value)
