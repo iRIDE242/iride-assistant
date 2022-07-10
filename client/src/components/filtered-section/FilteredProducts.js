@@ -196,7 +196,11 @@ export default function FilteredProducts({
       <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
 
       <div style={{ color: mainColor }}>
-        <form onSubmit={handleTestSubmit}>
+        <form
+          onSubmit={
+            filters.hiddenVariants.status ? handleSubmit : handleTestSubmit
+          }
+        >
           {filteredProducts.map(product => (
             <FilteredProduct
               key={product.id}
@@ -215,7 +219,9 @@ export default function FilteredProducts({
             </button>
           )}
 
-          <button type="submit">UPDATE SELECTED PRICE</button>
+          {!filters.hiddenVariants.status && (
+            <button type="submit">UPDATE SELECTED PRICE</button>
+          )}
         </form>
       </div>
     </div>
