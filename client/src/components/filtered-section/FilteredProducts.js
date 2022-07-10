@@ -215,7 +215,7 @@ export default function FilteredProducts({
             </button>
           )}
 
-          <button type="submit">TEST SUBMIT</button>
+          <button type="submit">UPDATE SELECTED PRICE</button>
         </form>
       </div>
     </div>
