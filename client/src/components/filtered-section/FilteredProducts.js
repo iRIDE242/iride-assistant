@@ -61,7 +61,10 @@ export default function FilteredProducts({
     const productIds = []
 
     for (let index = 0; index < e.target.length; index++) {
-      if (e.target[index].nodeName === 'INPUT' && e.target[index].checked) {
+      if (
+        e.target[index].nodeName === 'INPUT' &&
+        (e.target[index].checked || e.target[index].indeterminate === true)
+      ) {
         if (variantHandlerRegex.test(e.target[index].id)) {
           variantIds.push(e.target[index].id)
         } else if (productInputRegex.test(e.target[index].id)) {
@@ -93,7 +96,10 @@ export default function FilteredProducts({
     const productIds = []
 
     for (let index = 0; index < e.target.length; index++) {
-      if (e.target[index].nodeName === 'INPUT' && e.target[index].checked) {
+      if (
+        e.target[index].nodeName === 'INPUT' &&
+        (e.target[index].checked || e.target[index].indeterminate === true)
+      ) {
         if (variantHandlerRegex.test(e.target[index].id)) {
           const id = e.target[index].id.replace(variantHandlerRegex, replacer)
 
