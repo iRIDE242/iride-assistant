@@ -136,9 +136,9 @@ export default function FilteredProducts({
     console.log(productIds)
 
     try {
-      const result = await updateSelectedVariants(variantData, productIds)
-      console.log(result)
-      // updateProducts(dispatch, updatedProducts)
+      const updatedProducts = await updateSelectedVariants(variantData, productIds)
+      console.log(updatedProducts)
+      updateProducts(dispatch, updatedProducts)
     } catch (error) {
       // bulkyVisuallyToggleVariants(variantIds, 'resume')
       console.log(error)
