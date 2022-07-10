@@ -106,8 +106,8 @@ export default function FilteredProducts({
             `#${idGroups.variant}--${idRoles.price}-${id}`
           ).value
 
-          console.log(createTwoDigitString(cap))
-          console.log(createTwoDigitString(price))
+          console.log(cap)
+          console.log(price)
         } else if (productInputRegex.test(e.target[index].id)) {
           productIds.push(
             e.target[index].id.replace(productInputRegex, replacer)
