@@ -4,6 +4,7 @@ import FilteredProduct from './FilteredProduct'
 import { removeSelectedHiddenStatus } from '../../actions/products'
 import { getHiddens } from '../../actions/product'
 import {
+  createTwoDigitString,
   getLength,
   handleDiscountValue,
   MODIFIED,
@@ -105,7 +106,8 @@ export default function FilteredProducts({
             `#${idGroups.variant}--${idRoles.price}-${id}`
           ).value
 
-          console.log(cap, price)
+          console.log(createTwoDigitString(cap))
+          console.log(createTwoDigitString(price))
         } else if (productInputRegex.test(e.target[index].id)) {
           productIds.push(
             e.target[index].id.replace(productInputRegex, replacer)

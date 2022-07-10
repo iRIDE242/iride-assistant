@@ -79,3 +79,5 @@ export const handleDiscountValue = discount => {
 
 export const MODIFIED = 'MODIFIED'
 export const NOT_MODIFIED = 'NOT MODIFIED'
+
+export const createTwoDigitString = numStr => Number(numStr).toFixed(2)

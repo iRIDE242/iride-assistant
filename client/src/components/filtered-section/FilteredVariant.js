@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { idGroups, idRoles } from '../../utils/config'
 import { useCheckbox } from '../../utils/customHooks'
-import { MODIFIED, NOT_MODIFIED } from '../../utils/helper'
+import { createTwoDigitString, MODIFIED, NOT_MODIFIED } from '../../utils/helper'
 
 const getOriginalPrice = (price, cap) => {
   const priceNumber = Number(price)
@@ -195,7 +195,7 @@ export default function FilteredVariant({
       <input
         id={`${idGroups.variant}--${idRoles.price}-${variant.id}`}
         type="text"
-        value={priceSetting.price}
+        value={createTwoDigitString(priceSetting.price)}
         readOnly
         style={{ width: '50px' }}
       />
@@ -209,7 +209,7 @@ export default function FilteredVariant({
       <input
         id={`${idGroups.variant}--${idRoles.cap}-${variant.id}`}
         type="text"
-        value={priceSetting.cap}
+        value={createTwoDigitString(priceSetting.cap)}
         readOnly
         style={{ width: '50px' }}
       />
