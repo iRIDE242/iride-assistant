@@ -1,18 +1,10 @@
 import { useEffect, useState } from 'react'
-import { add, map, pipe, reduce } from 'ramda'
 import FilteredProduct from './FilteredProduct'
 import {
   removeSelectedHiddenStatus,
   updateSelectedVariants,
 } from '../../actions/products'
-import { getHiddens } from '../../actions/product'
-import {
-  createTwoDigitString,
-  getLength,
-  handleDiscountValue,
-  MODIFIED,
-  NOT_MODIFIED,
-} from '../../utils/helper'
+import { handleDiscountValue, MODIFIED } from '../../utils/helper'
 import TitleCheckbox from '../TitleCheckbox'
 import { updateProducts, useProducts } from '../../context/products'
 import { collections, idGroups, idRoles } from '../../utils/config'
@@ -113,9 +105,6 @@ export default function FilteredProducts({
             `#${idGroups.variant}--${idRoles.price}-${id}`
           ).value
 
-          console.log(cap)
-          console.log(price)
-
           const data = {
             id,
             compare_at_price: cap ? cap : null,
@@ -130,15 +119,13 @@ export default function FilteredProducts({
       }
     }
 
-    console.log(variantData)
-    console.log(productIds)
-
     try {
-      const updatedProducts = await updateSelectedVariants(variantData, productIds)
-      console.log(updatedProducts)
+      const updatedProducts = await updateSelectedVariants(
+        variantData,
+        productIds
+      )
       updateProducts(dispatch, updatedProducts)
     } catch (error) {
-      // bulkyVisuallyToggleVariants(variantIds, 'resume')
       console.log(error)
     }
   }
@@ -153,11 +140,6 @@ export default function FilteredProducts({
       value: handleDiscountValue(e.target.value),
     })
   }
-
-  // const resetPriceSetting = e => {
-  //   e.preventDefault()
-  //   setReset(prev => prev + 1)
-  // }
 
   useEffect(() => {
     let filteredVariants = []
