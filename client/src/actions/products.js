@@ -160,6 +160,9 @@ export const removeSelectedHiddenStatus = async (variantIds, productIds) => {
   }
 }
 
+/**
+ * Update variants 
+ */
 const createUpdateVariantRelayByVariantData = variantData => {
   return async (res, rej) => {
     try {
@@ -182,15 +185,13 @@ export const updateSelectedVariants = async (variantData, productIds) => {
     console.log(variants)
 
     // This promise needs to be after the updating variants action to get the updated products
-    // const productsPromiseContainer = createSequencedPromises(
-    //   productIds,
-    //   createGetProductRelayByProductId
-    // )
+    const productsPromiseContainer = createSequencedPromises(
+      productIds,
+      createGetProductRelayByProductId
+    )
 
-    // const updatedProducts = await Promise.all(productsPromiseContainer)
-    // return updatedProducts
-
-    return true
+    const updatedProducts = await Promise.all(productsPromiseContainer)
+    return updatedProducts
   } catch (error) {
     throw error
   }

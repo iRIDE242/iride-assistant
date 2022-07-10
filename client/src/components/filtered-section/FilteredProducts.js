@@ -1,7 +1,10 @@
 import { useEffect, useState } from 'react'
 import { add, map, pipe, reduce } from 'ramda'
 import FilteredProduct from './FilteredProduct'
-import { removeSelectedHiddenStatus, updateSelectedVariants } from '../../actions/products'
+import {
+  removeSelectedHiddenStatus,
+  updateSelectedVariants,
+} from '../../actions/products'
 import { getHiddens } from '../../actions/product'
 import {
   createTwoDigitString,
@@ -118,10 +121,9 @@ export default function FilteredProducts({
           const data = {
             id,
             compare_at_price: cap,
-            price
+            price,
           }
           variantData.push(data)
-
         } else if (productInputRegex.test(e.target[index].id)) {
           productIds.push(
             e.target[index].id.replace(productInputRegex, replacer)
@@ -134,10 +136,7 @@ export default function FilteredProducts({
     console.log(productIds)
 
     try {
-      const result = await updateSelectedVariants(
-        variantData,
-        productIds
-      )
+      const result = await updateSelectedVariants(variantData, productIds)
       console.log(result)
       // updateProducts(dispatch, updatedProducts)
     } catch (error) {
