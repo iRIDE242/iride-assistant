@@ -9,6 +9,10 @@ export const collections = {
     id: '72523907138',
     name: 'Riding Tops',
   },
+  294112133312: {
+    id: '294112133312',
+    name: 'EVOC',
+  },
 }
 
 export const idGroups = {
