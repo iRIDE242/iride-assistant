@@ -53,6 +53,7 @@ export default function TitleCheckbox({
         checked={checked}
         ref={inputRef}
         onChange={handleChange}
+        style={{ marginLeft: '8px' }}
       />
       <label htmlFor={inputId}>
         <SizedHeader headerSize={headerSize}>

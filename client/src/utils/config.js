@@ -33,4 +33,5 @@ export const idRoles = {
   section: 'section',
   discount: 'discount',
   handler: 'handler',
+  onlySelected: 'only-selected',
 }

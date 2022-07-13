@@ -16,12 +16,15 @@ export default function FilteredProduct({
   setSelected: setSelectedFromSection,
   showVariants: showVariantsFromSection,
   setSelectedChildren,
+  onlySelected: onlySelectedFromsection,
+  setOnlySelectedChildren,
   discountFromSection,
   resetFromSection,
 }) {
   const [filteredVariants, setFilteredVariants] = useState([])
   const [selected, setSelected] = useState(0)
   const [isCopied, setIsCopied] = useState(false)
+  // const [onlySelected, setOnlySelected] = useState(true)
 
   // Title checkbox
   const [checked, setChecked] = useCheckbox(checkedFromSection)
@@ -30,6 +33,11 @@ export default function FilteredProduct({
   const [showVariants, , handleShowVariants] = useCheckbox(
     showVariantsFromSection,
     setSelectedChildren
+  )
+
+  const [onlySelected, , handleOnlySelected] = useCheckbox(
+    onlySelectedFromsection,
+    setOnlySelectedChildren
   )
 
   const [discount, setDiscount] = useDiscount(discountFromSection)
@@ -69,6 +77,10 @@ export default function FilteredProduct({
       value: handleDiscountValue(e.target.value),
     })
   }
+
+  // const handleOnlySelected = () => {
+  //   setOnlySelected(prev => !prev)
+  // }
 
   // Get the filtered variants from product
   useEffect(() => {
@@ -124,6 +136,18 @@ export default function FilteredProduct({
         <span>%</span>
 
         <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
+
+        <input
+          type="checkbox"
+          id={`${idGroups.setPrice}--${idRoles.onlySelected}-${product.id}`}
+          checked={onlySelected}
+          onChange={handleOnlySelected}
+        />
+        <label
+          htmlFor={`${idGroups.setPrice}--${idRoles.onlySelected}-${product.id}`}
+        >
+          Only selected
+        </label>
       </div>
 
       {filteredVariants.length > 0 && (
