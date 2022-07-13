@@ -45,12 +45,18 @@ button {
   margin: 0 4px;
 }
 
-/* Products */
+/* Filter section */
+div.product--wrapper > div,
+div.variant--wrapper > div {
+  margin: 8px 0;
+}
+
+/* Filter products */
 div.products--form-wrapper {
   margin: 0;
 }
 
-/* Product */
+/* Filter product */
 div.product--wrapper {
   margin-left: 0;
   margin-right: 0;
@@ -69,12 +75,8 @@ ul .product--li:last-child {
   border-bottom: none;
 }
 
-/* Variant */
+/* Filter variant */
 div.variant--wrapper {
   margin: 0;
   padding: 4px 0;
-}
-
-div.variant--wrapper div {
-  margin: 8px 0;
 }

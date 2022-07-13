@@ -78,49 +78,53 @@ export default function FilteredProduct({
 
   return (
     <div className="product--wrapper">
-      <TitleCheckbox
-        selected={selected}
-        length={filteredVariants.length}
-        checked={checked}
-        setChecked={setChecked}
-        inputId={`${idGroups.filteredProducts}--${idRoles.product}-${product.id}`}
-        inputTitle={product.title}
-        headerSize="h3"
-      />
+      <div>
+        <TitleCheckbox
+          selected={selected}
+          length={filteredVariants.length}
+          checked={checked}
+          setChecked={setChecked}
+          inputId={`${idGroups.filteredProducts}--${idRoles.product}-${product.id}`}
+          inputTitle={product.title}
+          headerSize="h3"
+        />
 
-      <input
-        type="checkbox"
-        id={`${idGroups.showVariants}--${idRoles.product}-${product.id}`}
-        checked={showVariants}
-        onChange={handleShowVariants}
-      />
-      <label
-        htmlFor={`${idGroups.showVariants}--${idRoles.product}-${product.id}`}
-      >
-        Show variants
-      </label>
+        <input
+          type="checkbox"
+          id={`${idGroups.showVariants}--${idRoles.product}-${product.id}`}
+          checked={showVariants}
+          onChange={handleShowVariants}
+        />
+        <label
+          htmlFor={`${idGroups.showVariants}--${idRoles.product}-${product.id}`}
+        >
+          Show variants
+        </label>
 
-      <label
-        style={{ marginLeft: '4px' }}
-        htmlFor={`${idGroups.setPrice}--${idRoles.product}-${product.id}`}
-      >
-        <strong>Discount: </strong>
-      </label>
-      <input
-        id={`${idGroups.setPrice}--${idRoles.product}-${product.id}`}
-        style={{ width: '40px' }}
-        type="number"
-        value={discount.value}
-        onChange={handleSetDiscount}
-        min="0"
-        max="100"
-      />
-      <span>%</span>
+        <CopyButton title={product.title} setIsCopied={setIsCopied} />
+        <CopyHint isCopied={isCopied} />
+      </div>
 
-      <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
+      <div>
+        <label
+          style={{ marginLeft: '4px' }}
+          htmlFor={`${idGroups.setPrice}--${idRoles.product}-${product.id}`}
+        >
+          <strong>Discount: </strong>
+        </label>
+        <input
+          id={`${idGroups.setPrice}--${idRoles.product}-${product.id}`}
+          style={{ width: '40px' }}
+          type="number"
+          value={discount.value}
+          onChange={handleSetDiscount}
+          min="0"
+          max="100"
+        />
+        <span>%</span>
 
-      <CopyButton title={product.title} setIsCopied={setIsCopied} />
-      <CopyHint isCopied={isCopied} />
+        <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
+      </div>
 
       {filteredVariants.length > 0 && (
         <ul
@@ -130,7 +134,11 @@ export default function FilteredProduct({
           }}
         >
           {filteredVariants.map(variant => (
-            <li key={variant.id} id={`variant-${variant.id}`} className="product--li">
+            <li
+              key={variant.id}
+              id={`variant-${variant.id}`}
+              className="product--li"
+            >
               <FilteredVariant
                 product={product}
                 variant={variant}
