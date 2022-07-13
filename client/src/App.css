@@ -46,6 +46,7 @@ button {
 }
 
 /* Filter section */
+div.products-wrapper > div,
 div.product--wrapper > div,
 div.variant--wrapper > div {
   margin: 8px 0;
@@ -69,10 +70,6 @@ ul .product--li {
 
 ul .product--li:nth-child(2n) {
   background: lightgreen;
-}
-
-ul .product--li:last-child {
-  border-bottom: none;
 }
 
 /* Filter variant */

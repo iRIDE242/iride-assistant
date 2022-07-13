@@ -156,44 +156,48 @@ export default function FilteredProducts({
   }, [filteredProducts, filters])
 
   return (
-    <div style={{ background: background }}>
-      <TitleCheckbox
-        selected={selected}
-        length={variantsCounts}
-        checked={checked}
-        setChecked={setChecked}
-        inputId={`${idGroups.filteredProducts}--${idRoles.section}-${collectionId}`}
-        inputTitle={inputTitle}
-        headerSize="h2"
-      />
+    <div style={{ background: background }} className="products-wrapper">
+      <div>
+        <TitleCheckbox
+          selected={selected}
+          length={variantsCounts}
+          checked={checked}
+          setChecked={setChecked}
+          inputId={`${idGroups.filteredProducts}--${idRoles.section}-${collectionId}`}
+          inputTitle={inputTitle}
+          headerSize="h2"
+        />
 
-      <TitleCheckbox
-        selected={selectedChildren}
-        length={filteredProducts.length}
-        checked={showVariants}
-        setChecked={setShowVariants}
-        inputId={`${idGroups.showVariants}--${idRoles.section}-${collectionId}`}
-        inputTitle="Show variants"
-      />
+        <TitleCheckbox
+          selected={selectedChildren}
+          length={filteredProducts.length}
+          checked={showVariants}
+          setChecked={setShowVariants}
+          inputId={`${idGroups.showVariants}--${idRoles.section}-${collectionId}`}
+          inputTitle="Show variants"
+        />
+      </div>
 
-      <label
-        style={{ marginLeft: '4px' }}
-        htmlFor={`${idGroups.setPrice}--${idRoles.section}`}
-      >
-        <strong>Discount: </strong>
-      </label>
-      <input
-        id={`${idGroups.setPrice}--${idRoles.section}`}
-        style={{ width: '40px' }}
-        type="number"
-        value={discount.value}
-        onChange={handleSetDiscount}
-        min="0"
-        max="100"
-      />
-      <span>%</span>
+      <div>
+        <label
+          style={{ marginLeft: '4px' }}
+          htmlFor={`${idGroups.setPrice}--${idRoles.section}`}
+        >
+          <strong>Discount: </strong>
+        </label>
+        <input
+          id={`${idGroups.setPrice}--${idRoles.section}`}
+          style={{ width: '40px' }}
+          type="number"
+          value={discount.value}
+          onChange={handleSetDiscount}
+          min="0"
+          max="100"
+        />
+        <span>%</span>
 
-      <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
+        <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
+      </div>
 
       <div style={{ color: mainColor }} className="products--form-wrapper">
         <form
