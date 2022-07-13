@@ -77,7 +77,7 @@ export default function FilteredProduct({
   }, [filters, product.variants])
 
   return (
-    <div>
+    <div className="product--wrapper">
       <TitleCheckbox
         selected={selected}
         length={filteredVariants.length}

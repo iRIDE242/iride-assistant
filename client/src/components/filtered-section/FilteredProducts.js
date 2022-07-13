@@ -195,7 +195,7 @@ export default function FilteredProducts({
 
       <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
 
-      <div style={{ color: mainColor }}>
+      <div style={{ color: mainColor }} className="products--form-wrapper">
         <form
           onSubmit={
             filters.hiddenVariants.status ? handleSubmit : handleTestSubmit

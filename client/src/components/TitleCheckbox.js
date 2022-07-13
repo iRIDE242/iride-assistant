@@ -55,7 +55,11 @@ export default function TitleCheckbox({
         onChange={handleChange}
       />
       <label htmlFor={inputId}>
-        <SizedHeader headerSize={headerSize}>{inputTitle}</SizedHeader>
+        <SizedHeader headerSize={headerSize}>
+          {headerSize === 'h2' || headerSize === 'h3'
+            ? inputTitle.toUpperCase()
+            : inputTitle}
+        </SizedHeader>
       </label>
     </>
   )

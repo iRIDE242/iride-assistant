@@ -45,9 +45,23 @@ button {
   margin: 0 4px;
 }
 
+/* Products */
+div.products--form-wrapper {
+  margin: 0;
+}
+
 /* Product */
-ul .product--li:nth-child(2n) {
+div.product--wrapper {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+ul .product--li {
   background: chartreuse;
+}
+
+ul .product--li:nth-child(2n) {
+  background: lightgreen;
 }
 
 /* Variant */
