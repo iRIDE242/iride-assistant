@@ -1,9 +1,5 @@
 import { useEffect, useState } from 'react'
-import {
-  getProductById,
-  getVariantById,
-  resetVariantWeightById,
-} from '../../utils/api'
+import { getProductById, resetVariantWeightById } from '../../utils/api'
 import FilteredVariant from './FilteredVariant'
 import TitleCheckbox from '../TitleCheckbox'
 import { updateProduct, useProducts } from '../../context/products'
@@ -45,17 +41,6 @@ export default function FilteredProduct({
   const [reset, resetPriceSetting] = useReset(resetFromSection)
 
   const [{ filters }, dispatch] = useProducts()
-
-  const handleGetVariant = variantId => async e => {
-    e.preventDefault()
-    console.log(variantId)
-    try {
-      const variant = await getVariantById(variantId)
-      console.log(variant)
-    } catch (error) {
-      throw error
-    }
-  }
 
   const handleResetWeight = variantId => async e => {
     e.preventDefault()
@@ -151,9 +136,7 @@ export default function FilteredProduct({
                 discountFromProduct={discount}
                 resetFromProduct={reset}
               />
-              <button onClick={handleGetVariant(variant.id)}>
-                GET VARIANT
-              </button>
+
               {filters.hiddenVariants.status && (
                 <button onClick={handleResetWeight(variant.id)}>
                   REMOVE HIDDEN STATUS
