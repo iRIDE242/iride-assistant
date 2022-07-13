@@ -105,7 +105,7 @@ export default function FilteredProduct({
         <CopyHint isCopied={isCopied} />
       </div>
 
-      <div>
+      <div style={{ display: showVariants ? 'block' : 'none' }}>
         <label
           style={{ marginLeft: '4px' }}
           htmlFor={`${idGroups.setPrice}--${idRoles.product}-${product.id}`}
