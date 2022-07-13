@@ -58,10 +58,15 @@ div.product--wrapper {
 
 ul .product--li {
   background: chartreuse;
+  border-bottom: darkgreen 1px solid;
 }
 
 ul .product--li:nth-child(2n) {
   background: lightgreen;
+}
+
+ul .product--li:last-child {
+  border-bottom: none;
 }
 
 /* Variant */
