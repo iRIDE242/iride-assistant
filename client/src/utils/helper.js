@@ -67,11 +67,11 @@ export const handleFetchPost = async (url, data) => {
   console.log(data)
   try {
     const response = await fetch(url, {
-      method: 'POST', 
+      method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
     const result = await response.json()
 
@@ -101,3 +101,7 @@ export const MODIFIED = 'MODIFIED'
 export const NOT_MODIFIED = 'NOT MODIFIED'
 
 export const createTwoDigitString = numStr => Number(numStr).toFixed(2)
+
+export const toggleBlock = condition => ({
+  display: condition ? 'block' : 'none',
+})

@@ -8,7 +8,7 @@ import CopyHint from '../CopyHint'
 import { getAllFilters } from '../../utils/filters'
 import { useCheckbox, useDiscount, useReset } from '../../utils/customHooks'
 import { idGroups, idRoles } from '../../utils/config'
-import { handleDiscountValue, MODIFIED } from '../../utils/helper'
+import { handleDiscountValue, MODIFIED, toggleBlock } from '../../utils/helper'
 
 export default function FilteredProduct({
   product,
@@ -105,7 +105,7 @@ export default function FilteredProduct({
         <CopyHint isCopied={isCopied} />
       </div>
 
-      <div style={{ display: showVariants ? 'block' : 'none' }}>
+      <div style={toggleBlock(showVariants)}>
         <label
           style={{ marginLeft: '4px' }}
           htmlFor={`${idGroups.setPrice}--${idRoles.product}-${product.id}`}
