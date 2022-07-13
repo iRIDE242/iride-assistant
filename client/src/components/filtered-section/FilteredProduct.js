@@ -123,9 +123,14 @@ export default function FilteredProduct({
       <CopyHint isCopied={isCopied} />
 
       {filteredVariants.length > 0 && (
-        <ul style={{ display: showVariants ? 'unset' : 'none' }}>
+        <ul
+          style={{
+            display: showVariants ? 'unset' : 'none',
+            listStyle: 'none',
+          }}
+        >
           {filteredVariants.map(variant => (
-            <li key={variant.id} id={`variant-${variant.id}`}>
+            <li key={variant.id} id={`variant-${variant.id}`} className="product--li">
               <FilteredVariant
                 product={product}
                 variant={variant}

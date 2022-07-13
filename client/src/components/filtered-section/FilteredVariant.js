@@ -172,8 +172,8 @@ export default function FilteredVariant({
   }, [originalPriceSetting, resetFromProduct])
 
   return (
-    <>
-      <div>
+    <div className="variant--wrapper">
+      <div className="variant--title">
         <input
           type="checkbox"
           id={`${idGroups.variant}--${idRoles.handler}-${variant.id}`}
@@ -186,7 +186,7 @@ export default function FilteredVariant({
         <button onClick={handleGetVariant(variant.id)}>GET VARIANT</button>
       </div>
 
-      <div>
+      <div className="variant--price">
         <label
           style={{ marginLeft: '4px' }}
           htmlFor={`${idGroups.variant}--${idRoles.discount}-${variant.id}`}
@@ -234,6 +234,6 @@ export default function FilteredVariant({
 
         <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
       </div>
-    </>
+    </div>
   )
 }
