@@ -229,6 +229,8 @@ export default function FilteredProducts({
               setOnlySelectedChildren={setOnlySelectedChildren}
               discountFromSection={discount}
               resetFromSection={reset}
+              variantsCounts={variantsCounts}
+              filteredProductsLength={filteredProducts.length}
             />
           ))}
           {filters.hiddenVariants.status && (

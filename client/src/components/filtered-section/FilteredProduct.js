@@ -20,6 +20,8 @@ export default function FilteredProduct({
   setOnlySelectedChildren,
   discountFromSection,
   resetFromSection,
+  variantsCounts,
+  filteredProductsLength,
 }) {
   const [filteredVariants, setFilteredVariants] = useState([])
   const [selected, setSelected] = useState(0)
@@ -27,17 +29,20 @@ export default function FilteredProduct({
   // const [onlySelected, setOnlySelected] = useState(true)
 
   // Title checkbox
+  // Note, this checkbox won't handle selected from its direct parent, but leave it to variant.
   const [checked, setChecked] = useCheckbox(checkedFromSection)
 
   // Show variants checkbox
   const [showVariants, , handleShowVariants] = useCheckbox(
     showVariantsFromSection,
-    setSelectedChildren
+    setSelectedChildren,
+    filteredProductsLength
   )
 
   const [onlySelected, , handleOnlySelected] = useCheckbox(
     onlySelectedFromsection,
-    setOnlySelectedChildren
+    setOnlySelectedChildren,
+    filteredProductsLength
   )
 
   const [discount, setDiscount] = useDiscount(discountFromSection)
@@ -167,6 +172,8 @@ export default function FilteredProduct({
                 setSelectedFromSection={setSelectedFromSection}
                 discountFromProduct={discount}
                 resetFromProduct={reset}
+                selectedLengthFromProduct={filteredVariants.length}
+                variantsCounts={variantsCounts}
               />
 
               {filters.hiddenVariants.status && (

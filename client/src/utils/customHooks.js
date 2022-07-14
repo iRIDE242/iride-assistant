@@ -29,13 +29,23 @@ export function createCtx(providerName, displayName) {
  * This hook only deals with its immedieate parent but not grandparent
  */
 
-export const incrementSelected = selected => selected + 1
+// Avoids selected value exceeding the max value.
+// Useful when checked is true by default.
+export const getIncrementSelected = length => selected =>
+  selected + 1 > length ? length : selected + 1
+
+// Avoids selected value going lower than 0.
+// Useful when checked is false by default.
 export const decrementSelected = selected => {
   if (!selected) return selected
   return selected - 1
 }
 
-export const useCheckbox = (checkedFromParent, setSelectedFromParent) => {
+export const useCheckbox = (
+  checkedFromParent,
+  setSelectedFromParent,
+  selectedMaxValue
+) => {
   const [checked, setChecked] = useState(false)
 
   const handleChange = () => {
@@ -49,14 +59,18 @@ export const useCheckbox = (checkedFromParent, setSelectedFromParent) => {
 
   // Manipulate the indeterminate state of section and product checkboxes
   useEffect(() => {
-    if (checked) {
-      if (setSelectedFromParent !== undefined)
-        setSelectedFromParent(incrementSelected)
-    } else {
-      if (setSelectedFromParent !== undefined)
-        setSelectedFromParent(decrementSelected)
+    if (selectedMaxValue) {
+      const incrementSelected = getIncrementSelected(selectedMaxValue)
+
+      if (checked) {
+        if (setSelectedFromParent !== undefined)
+          setSelectedFromParent(incrementSelected)
+      } else {
+        if (setSelectedFromParent !== undefined)
+          setSelectedFromParent(decrementSelected)
+      }
     }
-  }, [checked, setSelectedFromParent])
+  }, [checked, selectedMaxValue, setSelectedFromParent])
 
   return [checked, setChecked, handleChange]
 }

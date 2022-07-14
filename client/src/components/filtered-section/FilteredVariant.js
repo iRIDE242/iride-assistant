@@ -3,7 +3,7 @@ import { getVariantById } from '../../utils/api'
 import { idGroups, idRoles } from '../../utils/config'
 import {
   decrementSelected,
-  incrementSelected,
+  getIncrementSelected,
   useCheckbox,
 } from '../../utils/customHooks'
 import {
@@ -101,6 +101,8 @@ export default function FilteredVariant({
   setSelectedFromSection,
   discountFromProduct,
   resetFromProduct,
+  selectedLengthFromProduct,
+  variantsCounts,
 }) {
   const [originalPriceSetting, setOriginalPriceSetting] = useState(() =>
     getPriceSetting(variant)
@@ -108,7 +110,8 @@ export default function FilteredVariant({
 
   const [checked, , handleChange] = useCheckbox(
     checkedFromProduct,
-    setSelectedFromProduct
+    setSelectedFromProduct,
+    selectedLengthFromProduct
   )
 
   const [priceSetting, setPriceSetting] = useState({
@@ -152,12 +155,16 @@ export default function FilteredVariant({
 
   // Handle selected value from section
   useEffect(() => {
-    if (checked) {
-      setSelectedFromSection(incrementSelected)
-    } else {
-      setSelectedFromSection(decrementSelected)
+    if (variantsCounts) {
+      const incrementSelected = getIncrementSelected(variantsCounts)
+
+      if (checked) {
+        setSelectedFromSection(incrementSelected)
+      } else {
+        setSelectedFromSection(decrementSelected)
+      }
     }
-  }, [checked, setSelectedFromSection])
+  }, [checked, variantsCounts, setSelectedFromSection])
 
   // Check if original setting changes when variant changes
   useEffect(() => {
