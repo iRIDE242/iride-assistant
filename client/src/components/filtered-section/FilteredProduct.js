@@ -78,10 +78,6 @@ export default function FilteredProduct({
     })
   }
 
-  // const handleOnlySelected = () => {
-  //   setOnlySelected(prev => !prev)
-  // }
-
   // Get the filtered variants from product
   useEffect(() => {
     const filterVariants = getAllFilters(filters, false)
