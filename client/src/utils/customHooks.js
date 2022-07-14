@@ -25,21 +25,17 @@ export function createCtx(providerName, displayName) {
 }
 
 /**
- * Indeterminate checkbox
+ * Checkbox having indeterminate status
+ * This hook only deals with its immedieate parent but not grandparent
  */
 
-const incrementSelected = selected => selected + 1
-const decrementSelected = selected => {
+export const incrementSelected = selected => selected + 1
+export const decrementSelected = selected => {
   if (!selected) return selected
   return selected - 1
 }
 
-export const useCheckbox = (
-  checkedFromSection,
-  setSelectedFromSection,
-  checkedFromProduct,
-  setSelectedFromProduct
-) => {
+export const useCheckbox = (checkedFromParent, setSelectedFromParent) => {
   const [checked, setChecked] = useState(false)
 
   const handleChange = () => {
@@ -48,28 +44,19 @@ export const useCheckbox = (
 
   // Synced with section checkbox state
   useEffect(() => {
-    setChecked(checkedFromSection)
-  }, [checkedFromSection])
-
-  // Synced with product checkbox state
-  useEffect(() => {
-    if (checkedFromProduct !== undefined) setChecked(checkedFromProduct)
-  }, [checkedFromProduct])
+    setChecked(checkedFromParent)
+  }, [checkedFromParent])
 
   // Manipulate the indeterminate state of section and product checkboxes
   useEffect(() => {
     if (checked) {
-      if (setSelectedFromSection !== undefined)
-        setSelectedFromSection(incrementSelected)
-      if (setSelectedFromProduct !== undefined)
-        setSelectedFromProduct(incrementSelected)
+      if (setSelectedFromParent !== undefined)
+        setSelectedFromParent(incrementSelected)
     } else {
-      if (setSelectedFromSection !== undefined)
-        setSelectedFromSection(decrementSelected)
-      if (setSelectedFromProduct !== undefined)
-        setSelectedFromProduct(decrementSelected)
+      if (setSelectedFromParent !== undefined)
+        setSelectedFromParent(decrementSelected)
     }
-  }, [checked, setSelectedFromProduct, setSelectedFromSection])
+  }, [checked, setSelectedFromParent])
 
   return [checked, setChecked, handleChange]
 }

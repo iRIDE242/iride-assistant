@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { getVariantById } from '../../utils/api'
 import { idGroups, idRoles } from '../../utils/config'
-import { useCheckbox } from '../../utils/customHooks'
+import {
+  decrementSelected,
+  incrementSelected,
+  useCheckbox,
+} from '../../utils/customHooks'
 import {
   createTwoDigitString,
   MODIFIED,
@@ -93,7 +97,6 @@ export default function FilteredVariant({
   product,
   variant,
   checkedFromProduct,
-  checkedFromSection,
   setSelectedFromProduct,
   setSelectedFromSection,
   discountFromProduct,
@@ -104,8 +107,6 @@ export default function FilteredVariant({
   )
 
   const [checked, , handleChange] = useCheckbox(
-    checkedFromSection,
-    setSelectedFromSection,
     checkedFromProduct,
     setSelectedFromProduct
   )
@@ -148,6 +149,15 @@ export default function FilteredVariant({
       throw error
     }
   }
+
+  // Handle selected value from section
+  useEffect(() => {
+    if (checked) {
+      setSelectedFromSection(incrementSelected)
+    } else {
+      setSelectedFromSection(decrementSelected)
+    }
+  }, [checked, setSelectedFromSection])
 
   // Check if original setting changes when variant changes
   useEffect(() => {

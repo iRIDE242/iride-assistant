@@ -163,7 +163,6 @@ export default function FilteredProduct({
                 product={product}
                 variant={variant}
                 checkedFromProduct={checked}
-                checkedFromSection={checkedFromSection}
                 setSelectedFromProduct={setSelected}
                 setSelectedFromSection={setSelectedFromSection}
                 discountFromProduct={discount}
