@@ -32,9 +32,10 @@ export default function TitleCheckbox({
 
   useEffect(() => {
     console.log('effect - checkbox')
+    console.log(selected)
     // The conditon here can avoid the loop bug
     // when both selected and length are 0.
-    if (selected !== null) {
+    // if (selected !== null) {
       if (selected === 0) {
         setChecked(false)
         inputRef.current.indeterminate = false
@@ -45,7 +46,7 @@ export default function TitleCheckbox({
         setChecked(true)
         inputRef.current.indeterminate = false
       }
-    }
+    // }
   }, [length, selected, setChecked])
 
   return (

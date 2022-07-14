@@ -17,6 +17,10 @@ export const collections = {
     id: '294162497728',
     name: 'Rapha Pro Team',
   },
+  294222692544: {
+    id: '294222692544',
+    name: 'Conti Tyres',
+  },
 }
 
 export const idGroups = {

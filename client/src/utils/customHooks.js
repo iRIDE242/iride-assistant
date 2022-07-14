@@ -44,23 +44,30 @@ export const decrementSelected = selected => {
 export const useCheckbox = (
   checkedFromParent,
   setSelectedFromParent,
-  selectedMaxValue
+  selectedMaxValueFromParent,
+  checkedFromGrandParent,
+  setSelectedFromGrandParent,
+  selectedMaxValueFromGrandParent
 ) => {
-  const [checked, setChecked] = useState(false)
+  const [checked, setChecked] = useState(checkedFromParent)
 
   const handleChange = () => {
     setChecked(prev => !prev)
   }
 
-  // Synced with section checkbox state
+  // Synced with parent checkbox state
   useEffect(() => {
     setChecked(checkedFromParent)
   }, [checkedFromParent])
 
+  useEffect(() => {
+    if(checkedFromGrandParent !== undefined) setChecked(checkedFromGrandParent)
+  }, [checkedFromGrandParent])
+
   // Manipulate the indeterminate state of section and product checkboxes
   useEffect(() => {
-    if (selectedMaxValue) {
-      const incrementSelected = getIncrementSelected(selectedMaxValue)
+    if (selectedMaxValueFromParent !== undefined) {
+      const incrementSelected = getIncrementSelected(selectedMaxValueFromParent)
 
       if (checked) {
         if (setSelectedFromParent !== undefined)
@@ -70,7 +77,27 @@ export const useCheckbox = (
           setSelectedFromParent(decrementSelected)
       }
     }
-  }, [checked, selectedMaxValue, setSelectedFromParent])
+
+    if (selectedMaxValueFromGrandParent !== undefined) {
+      const incrementSelected = getIncrementSelected(
+        selectedMaxValueFromGrandParent
+      )
+
+      if (checked) {
+        if (setSelectedFromGrandParent !== undefined)
+          setSelectedFromGrandParent(incrementSelected)
+      } else {
+        if (setSelectedFromGrandParent !== undefined)
+          setSelectedFromGrandParent(decrementSelected)
+      }
+    }
+  }, [
+    checked,
+    selectedMaxValueFromGrandParent,
+    selectedMaxValueFromParent,
+    setSelectedFromGrandParent,
+    setSelectedFromParent,
+  ])
 
   return [checked, setChecked, handleChange]
 }

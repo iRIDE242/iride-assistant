@@ -103,6 +103,7 @@ export default function FilteredVariant({
   resetFromProduct,
   selectedLengthFromProduct,
   variantsCounts,
+  checkedFromSection,
 }) {
   const [originalPriceSetting, setOriginalPriceSetting] = useState(() =>
     getPriceSetting(variant)
@@ -111,7 +112,10 @@ export default function FilteredVariant({
   const [checked, , handleChange] = useCheckbox(
     checkedFromProduct,
     setSelectedFromProduct,
-    selectedLengthFromProduct
+    selectedLengthFromProduct,
+    checkedFromSection,
+    setSelectedFromSection,
+    variantsCounts
   )
 
   const [priceSetting, setPriceSetting] = useState({
@@ -154,17 +158,17 @@ export default function FilteredVariant({
   }
 
   // Handle selected value from section
-  useEffect(() => {
-    if (variantsCounts) {
-      const incrementSelected = getIncrementSelected(variantsCounts)
+  // useEffect(() => {
+  //   if (variantsCounts) {
+  //     const incrementSelected = getIncrementSelected(variantsCounts)
 
-      if (checked) {
-        setSelectedFromSection(incrementSelected)
-      } else {
-        setSelectedFromSection(decrementSelected)
-      }
-    }
-  }, [checked, variantsCounts, setSelectedFromSection])
+  //     if (checked) {
+  //       setSelectedFromSection(incrementSelected)
+  //     } else {
+  //       setSelectedFromSection(decrementSelected)
+  //     }
+  //   }
+  // }, [checked, variantsCounts, setSelectedFromSection])
 
   // Check if original setting changes when variant changes
   useEffect(() => {

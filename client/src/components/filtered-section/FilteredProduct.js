@@ -174,6 +174,7 @@ export default function FilteredProduct({
                 resetFromProduct={reset}
                 selectedLengthFromProduct={filteredVariants.length}
                 variantsCounts={variantsCounts}
+                checkedFromSection={checkedFromSection}
               />
 
               {filters.hiddenVariants.status && (
