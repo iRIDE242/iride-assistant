@@ -40,8 +40,8 @@ export default function FilteredProducts({
   const [showVariants, setShowVariants] = useState(false)
   const [selectedChildren, setSelectedChildren] = useState(0)
 
-  const [onlySelected, setOnlySelected] = useState(false)
-  const [onlySelectedChildren, setOnlySelectedChildren] = useState(0)
+  const [onlySelected, setOnlySelected] = useState(true)
+  const [onlySelectedChildren, setOnlySelectedChildren] = useState(null)
 
   const [discount, setDiscount] = useDiscount()
 
@@ -145,6 +145,7 @@ export default function FilteredProducts({
   }
 
   useEffect(() => {
+    console.log('effect - products')
     let filteredVariants = []
     const filterVariants = getAllFilters(filters, false)
 
@@ -156,6 +157,7 @@ export default function FilteredProducts({
     }
 
     setVariantsCounts(filteredVariants.length)
+    setOnlySelectedChildren(filteredVariants.length)
   }, [filteredProducts, filters])
 
   return (
