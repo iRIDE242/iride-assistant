@@ -10,6 +10,7 @@ import { updateProducts, useProducts } from '../../context/products'
 import { collections, idGroups, idRoles } from '../../utils/config'
 import { getAllFilters } from '../../utils/filters'
 import { useDiscount, useReset } from '../../utils/customHooks'
+import Checkbox from '../Checkbox'
 
 const variantHandlerRegex = new RegExp(
   `${idGroups.variant}--${idRoles.handler}-(\\d+)` // Variant handler checkbox
@@ -42,6 +43,12 @@ export default function FilteredProducts({
 
   const [onlySelected, setOnlySelected] = useState(false)
   const [onlySelectedChildren, setOnlySelectedChildren] = useState(0)
+
+  const [selectedOnly, setSelectedOnly] = useState({
+    max: 0,
+    checked: false,
+    selected: null,
+  })
 
   const [discount, setDiscount] = useDiscount()
 
@@ -158,6 +165,12 @@ export default function FilteredProducts({
 
     setVariantsCounts(filteredVariants.length)
     // setOnlySelectedChildren(filteredVariants.length)
+
+    setSelectedOnly(prev => ({
+      ...prev,
+      max: filteredProducts.length,
+      selected: 0,
+    }))
   }, [filteredProducts, filters])
 
   return (
@@ -189,6 +202,13 @@ export default function FilteredProducts({
           setChecked={setOnlySelected}
           inputId={`${idGroups.setPrice}--${idRoles.section}-${collectionId}`}
           inputTitle="Only selected"
+        />
+
+        <Checkbox
+          checkbox={selectedOnly}
+          setCheckbox={setSelectedOnly}
+          inputId={`${idGroups.setPrice}--test-${collectionId}`}
+          inputTitle="Selected Only "
         />
       </div>
 
@@ -233,6 +253,8 @@ export default function FilteredProducts({
               resetFromSection={reset}
               variantsCounts={variantsCounts}
               filteredProductsLength={filteredProducts.length}
+              selectedOnlyTest={selectedOnly}
+              setSelectedOnlyTest={setSelectedOnly}
             />
           ))}
           {filters.hiddenVariants.status && (

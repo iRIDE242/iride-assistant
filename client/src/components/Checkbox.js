@@ -15,11 +15,9 @@ function SizedHeader({ headerSize, children }) {
 }
 
 // For checkbox needed to show indeterminate state
-export default function TitleCheckbox({
-  selected,
-  length,
-  checked,
-  setChecked,
+export default function Checkbox({
+  checkbox,
+  setCheckbox,
   inputId,
   inputTitle,
   headerSize,
@@ -27,34 +25,47 @@ export default function TitleCheckbox({
   const inputRef = useRef()
 
   const handleChange = () => {
-    setChecked(prev => !prev)
+    setCheckbox(prev => {
+      if (!prev.checked === true) {
+        return {
+          ...prev,
+          checked: !prev.checked,
+          // selected:
+          //   prev.selected + 1 > prev.max ? prev.selected : prev.selected + 1,
+        }
+      } else {
+        return {
+          ...prev,
+          checked: !prev.checked,
+          // selected: prev.selected - 1 < 0 ? prev.selected : prev.selected - 1,
+        }
+      }
+    })
   }
 
   useEffect(() => {
-    console.log('effect - title checkbox')
+    console.log('effect - checkbox')
+    const { max, selected } = checkbox
+
     // console.log(selected)
     // The conditon here can avoid the loop bug
     // when both selected and length are 0.
-    // if (selected !== null) {
-      if (selected === 0) {
-        setChecked(false)
-        inputRef.current.indeterminate = false
-      } else if (selected > 0 && selected < length) {
+    if (selected !== null) {
+      if (selected > 0 && selected < max) {
         inputRef.current.indeterminate = true
-      } else if (selected === length) {
+      } else {
         // This condition should be only for when length is not 0
-        setChecked(true)
         inputRef.current.indeterminate = false
       }
-    // }
-  }, [length, selected, setChecked])
+    }
+  }, [checkbox])
 
   return (
     <>
       <input
         type="checkbox"
         id={inputId}
-        checked={checked}
+        checked={checkbox.checked}
         ref={inputRef}
         onChange={handleChange}
         style={{ marginLeft: '8px' }}
