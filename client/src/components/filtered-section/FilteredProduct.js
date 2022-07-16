@@ -6,12 +6,7 @@ import { updateProduct, useProducts } from '../../context/products'
 import CopyButton from '../CopyButton'
 import CopyHint from '../CopyHint'
 import { getAllFilters } from '../../utils/filters'
-import {
-  useAnotherCheckbox,
-  useCheckbox,
-  useDiscount,
-  useReset,
-} from '../../utils/customHooks'
+import { useCheckbox, useDiscount, useReset } from '../../utils/customHooks'
 import { idGroups, idRoles } from '../../utils/config'
 import { handleDiscountValue, MODIFIED, toggleBlock } from '../../utils/helper'
 import ChildCheckbox from '../ChildCheckbox'
@@ -52,11 +47,6 @@ export default function FilteredProduct({
     setOnlySelectedChildren,
     filteredProductsLength
   )
-
-  // const [selectedOnly, , handleSelectedOnly] = useAnotherCheckbox(
-  //   selectedOnlyTest,
-  //   setSelectedOnlyTest
-  // )
 
   const [discount, setDiscount] = useDiscount(discountFromSection)
 
@@ -162,18 +152,6 @@ export default function FilteredProduct({
         >
           Only selected
         </label>
-
-        {/* <input
-          type="checkbox"
-          id={`${idGroups.setPrice}--testtest-${product.id}`}
-          checked={selectedOnly}
-          onChange={handleSelectedOnly}
-        />
-        <label
-          htmlFor={`${idGroups.setPrice}--testtest-${product.id}`}
-        >
-          Select Only
-        </label> */}
 
         <ChildCheckbox
           id={`${idGroups.setPrice}--testtest-${product.id}`}
