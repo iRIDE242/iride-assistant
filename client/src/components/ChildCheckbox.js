@@ -42,7 +42,7 @@ const updateUpperCheckbox = (checked, max, setUpperCheckbox) => {
   }
 }
 
-export default function LowerCheckbox({
+export default function ChildCheckbox({
   id,
   label,
   checkedFromUpper,

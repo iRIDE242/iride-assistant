@@ -14,7 +14,7 @@ import {
 } from '../../utils/customHooks'
 import { idGroups, idRoles } from '../../utils/config'
 import { handleDiscountValue, MODIFIED, toggleBlock } from '../../utils/helper'
-import LowerCheckbox from '../LowerCheckbox'
+import ChildCheckbox from '../ChildCheckbox'
 
 export default function FilteredProduct({
   product,
@@ -175,7 +175,7 @@ export default function FilteredProduct({
           Select Only
         </label> */}
 
-        <LowerCheckbox
+        <ChildCheckbox
           id={`${idGroups.setPrice}--testtest-${product.id}`}
           label="Select Only"
           checkedFromUpper={selectedOnlyTest.checked}
