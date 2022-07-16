@@ -1,109 +1,67 @@
 import { useEffect, useState } from 'react'
 
-const updateUpperCheckbox = (checked, max, setUpperCheckbox) => {
-  if (max !== null) {
-    if (checked) {
-      if (setUpperCheckbox !== undefined)
-        setUpperCheckbox(prev => {
-          const currentSelected = prev.selected + 1
-
-          if (currentSelected >= prev.max) {
-            return {
-              ...prev,
-              checked: true,
-              selected: prev.max,
-            }
-          } else {
-            return {
-              ...prev,
-              selected: currentSelected,
-            }
-          }
-        })
-    } else {
-      if (setUpperCheckbox !== undefined)
-        setUpperCheckbox(prev => {
-          const currentSelected = prev.selected - 1
-
-          if (currentSelected < 0) {
-            return {
-              ...prev,
-              checked: false,
-              selected: 0,
-            }
-          } else {
-            return {
-              ...prev,
-              selected: currentSelected,
-            }
-          }
-        })
-    }
-  }
-}
-
 export default function ChildCheckbox({
   id,
   label,
-  checkedFromUpper,
-  setUpperCheckbox,
+  checkedFromParent,
+  setParentCheckbox,
 }) {
-  const [lowerCheckbox, setLowerCheckbox] = useState({
+  const [childCheckbox, setChildCheckbox] = useState({
     checked: false,
-    fromUpper: true,
+    fromParent: true,
   })
 
   const handleChange = () => {
-    setLowerCheckbox(prev => ({
-      checked: !prev.checked,
-      fromUpper: false,
+    setChildCheckbox(current => ({
+      checked: !current.checked,
+      fromParent: false,
     }))
   }
 
   // Sync the state from upper checkbox
   useEffect(() => {
     console.log('toggle checked in lower from upper')
-    setLowerCheckbox({
-      checked: checkedFromUpper,
-      fromUpper: true,
+    setChildCheckbox({
+      checked: checkedFromParent,
+      fromParent: true,
     })
-  }, [checkedFromUpper])
+  }, [checkedFromParent])
 
   // Only responde to the checked change caused by the component handleChange,
-  // but not checked change caused by the upper checkbox state sync.
+  // but not checked change caused by the parent checkbox state sync.
   useEffect(() => {
-    if (lowerCheckbox.checked) {
-      if (!lowerCheckbox.fromUpper && setUpperCheckbox !== undefined) {
-        setUpperCheckbox(prev => {
-          const currentSelected = prev.selected + 1
+    if (childCheckbox.checked) {
+      if (!childCheckbox.fromParent && setParentCheckbox !== undefined) {
+        setParentCheckbox(current => {
+          const nextSelected = current.selected + 1
 
           return {
-            ...prev,
-            checked: currentSelected >= prev.max ? true : prev.checked,
-            selected: currentSelected >= prev.max ? prev.max : currentSelected,
+            ...current,
+            checked: nextSelected >= current.max ? true : current.checked,
+            selected: nextSelected >= current.max ? current.max : nextSelected,
           }
         })
       }
     } else {
-      if (!lowerCheckbox.fromUpper && setUpperCheckbox !== undefined)
-        setUpperCheckbox(prev => {
-          const currentSelected = prev.selected - 1
+      if (!childCheckbox.fromParent && setParentCheckbox !== undefined)
+        setParentCheckbox(current => {
+          const nextSelected = current.selected - 1
 
           return {
-            ...prev,
-            checked: currentSelected <= 0 ? false : prev.checked,
-            selected: currentSelected <= 0 ? 0 : currentSelected,
+            ...current,
+            checked: nextSelected <= 0 ? false : current.checked,
+            selected: nextSelected <= 0 ? 0 : nextSelected,
           }
         })
     }
-  }, [lowerCheckbox.checked, lowerCheckbox.fromUpper, setUpperCheckbox])
+  }, [childCheckbox.checked, childCheckbox.fromParent, setParentCheckbox])
 
   return (
     <>
       <input
         type="checkbox"
         id={id}
-        checked={lowerCheckbox.checked}
+        checked={childCheckbox.checked}
         onChange={handleChange}
       />
       <label htmlFor={id}>{label}</label>

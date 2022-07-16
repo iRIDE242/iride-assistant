@@ -178,8 +178,8 @@ export default function FilteredProduct({
         <ChildCheckbox
           id={`${idGroups.setPrice}--testtest-${product.id}`}
           label="Select Only"
-          checkedFromUpper={selectedOnlyTest.checked}
-          setUpperCheckbox={setSelectedOnlyTest}
+          checkedFromParent={selectedOnlyTest.checked}
+          setParentCheckbox={setSelectedOnlyTest}
         />
       </div>
 
