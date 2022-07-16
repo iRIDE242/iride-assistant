@@ -137,6 +137,7 @@ function App() {
     }
   }
 
+  // Note, any filter change will cause product list reset
   // This filter is based on the result of current products
   const handleHiddenVariants = () => {
     toggleHiddens(dispatch)

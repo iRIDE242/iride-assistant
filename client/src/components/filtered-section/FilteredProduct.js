@@ -30,17 +30,19 @@ export default function FilteredProduct({
   selectedOnly: selectedOnlyFromParent,
   setSelectedOnly,
 }) {
+  const [{ filters }, dispatch] = useProducts()
+
   const [filteredVariants, setFilteredVariants] = useState([])
   // const [selected, setSelected] = useState(0)
   const [isCopied, setIsCopied] = useState(false)
 
   // Title checkbox
   // Note, this checkbox won't handle selected from its direct parent, but leave it to variant.
-  const [checkbox, setCheckbox] = useState({
-    max: 0,
+  const [checkbox, setCheckbox] = useState(() => ({
+    max: getAllFilters(filters, false)(product.variants).length,
     checked: false,
     selected: 0,
-  })
+  }))
 
   const [showVariants, , toggleShowVariants] = useAnotherCheckbox(
     showVariantsFromParent.checked,
@@ -59,8 +61,6 @@ export default function FilteredProduct({
   // will cause shallow copy issue that won't affect its children.
   // https://www.smashingmagazine.com/2020/11/react-useref-hook/
   const [reset, resetPriceSetting] = useReset(resetFromSection)
-
-  const [{ filters }, dispatch] = useProducts()
 
   const handleResetWeight = variantId => async e => {
     e.preventDefault()
@@ -93,14 +93,10 @@ export default function FilteredProduct({
   // Get the filtered variants from product
   useEffect(() => {
     const filterVariants = getAllFilters(filters, false)
-    const filteredVariants = filterVariants(product.variants)
-
-    setFilteredVariants(filteredVariants)
-    setCheckbox(current => ({
-      ...current,
-      max: filteredVariants.length,
-    }))
+    setFilteredVariants(filterVariants(product.variants))
   }, [filters, product.variants])
+
+  
 
   return (
     <div className="product--wrapper">
