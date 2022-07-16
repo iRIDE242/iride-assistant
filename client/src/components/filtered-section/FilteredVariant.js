@@ -7,6 +7,7 @@ import {
   MODIFIED,
   NOT_MODIFIED,
 } from '../../utils/helper'
+import ChildCheckbox from '../ChildCheckbox'
 
 const getOriginalPrice = (price, cap) => {
   const priceNumber = Number(price)
@@ -93,7 +94,7 @@ export default function FilteredVariant({
   product,
   variant,
   checkedFromProduct,
-  setSelectedFromProduct,
+  setCheckboxFromProduct,
   setSelectedFromSection,
   discountFromProduct,
   resetFromProduct,
@@ -105,14 +106,14 @@ export default function FilteredVariant({
     getPriceSetting(variant)
   )
 
-  const [checked, , handleChange] = useCheckbox(
-    checkedFromProduct,
-    setSelectedFromProduct,
-    selectedLengthFromProduct,
-    checkedFromSection,
-    setSelectedFromSection,
-    variantsCounts
-  )
+  // const [checked, , handleChange] = useCheckbox(
+  //   checkedFromProduct,
+  //   setSelectedFromProduct,
+  //   selectedLengthFromProduct,
+  //   checkedFromSection,
+  //   setSelectedFromSection,
+  //   variantsCounts
+  // )
 
   const [priceSetting, setPriceSetting] = useState({
     price: 0.0,
@@ -178,7 +179,7 @@ export default function FilteredVariant({
   return (
     <div className="variant--wrapper">
       <div className="variant--title">
-        <input
+        {/* <input
           type="checkbox"
           id={`${idGroups.variant}--${idRoles.handler}-${variant.id}`}
           checked={checked}
@@ -186,7 +187,16 @@ export default function FilteredVariant({
         />
         <label
           htmlFor={`${idGroups.variant}--${idRoles.handler}-${variant.id}`}
-        >{`${product.title} - ${variant.title}`}</label>
+        >{`${product.title} - ${variant.title}`}</label> */}
+
+        {/* Variant checkbox */}
+        <ChildCheckbox
+          id={`${idGroups.variant}--${idRoles.handler}-${variant.id}`}
+          label={`${product.title} - ${variant.title}`}
+          checkedFromParent={checkedFromProduct}
+          setParentCheckbox={setCheckboxFromProduct}
+        />
+
         <button onClick={handleGetVariant(variant.id)}>GET VARIANT</button>
       </div>
 

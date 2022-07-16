@@ -15,6 +15,7 @@ import {
 import { idGroups, idRoles } from '../../utils/config'
 import { handleDiscountValue, MODIFIED, toggleBlock } from '../../utils/helper'
 import Checkbox from '../Checkbox'
+import ParentCheckbox from '../ParentCheckbox'
 
 export default function FilteredProduct({
   product,
@@ -30,12 +31,16 @@ export default function FilteredProduct({
   setSelectedOnly,
 }) {
   const [filteredVariants, setFilteredVariants] = useState([])
-  const [selected, setSelected] = useState(0)
+  // const [selected, setSelected] = useState(0)
   const [isCopied, setIsCopied] = useState(false)
 
   // Title checkbox
   // Note, this checkbox won't handle selected from its direct parent, but leave it to variant.
-  const [checked, setChecked] = useCheckbox(checkedFromSection)
+  const [checkbox, setCheckbox] = useState({
+    max: 0,
+    checked: false,
+    selected: 0,
+  })
 
   const [showVariants, , toggleShowVariants] = useAnotherCheckbox(
     showVariantsFromParent.checked,
@@ -88,17 +93,32 @@ export default function FilteredProduct({
   // Get the filtered variants from product
   useEffect(() => {
     const filterVariants = getAllFilters(filters, false)
-    setFilteredVariants(filterVariants(product.variants))
+    const filteredVariants = filterVariants(product.variants)
+
+    setFilteredVariants(filteredVariants)
+    setCheckbox(current => ({
+      ...current,
+      max: filteredVariants.length,
+    }))
   }, [filters, product.variants])
 
   return (
     <div className="product--wrapper">
       <div>
-        <TitleCheckbox
+        {/* <TitleCheckbox
           selected={selected}
           length={filteredVariants.length}
           checked={checked}
           setChecked={setChecked}
+          inputId={`${idGroups.filteredProducts}--${idRoles.product}-${product.id}`}
+          inputTitle={product.title}
+          headerSize="h3"
+        /> */}
+
+        {/* Product checkbox */}
+        <ParentCheckbox
+          parentCheckbox={checkbox}
+          setParentCheckbox={setCheckbox}
           inputId={`${idGroups.filteredProducts}--${idRoles.product}-${product.id}`}
           inputTitle={product.title}
           headerSize="h3"
@@ -161,8 +181,8 @@ export default function FilteredProduct({
               <FilteredVariant
                 product={product}
                 variant={variant}
-                checkedFromProduct={checked}
-                setSelectedFromProduct={setSelected}
+                checkedFromProduct={checkbox.checked}
+                setCheckboxFromProduct={setCheckbox}
                 setSelectedFromSection={setSelectedFromSection}
                 discountFromProduct={discount}
                 resetFromProduct={reset}
