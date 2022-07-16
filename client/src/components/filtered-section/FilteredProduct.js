@@ -20,7 +20,7 @@ import ParentCheckbox from '../ParentCheckbox'
 export default function FilteredProduct({
   product,
   checked: checkedFromSection,
-  setSelected: setSelectedFromSection,
+  setCheckbox: setCheckboxFromSection,
   discountFromSection,
   resetFromSection,
   variantsCounts,
@@ -42,6 +42,7 @@ export default function FilteredProduct({
     max: getAllFilters(filters, false)(product.variants).length,
     checked: false,
     selected: 0,
+    fromSection: true, // For update selected from variant
   }))
 
   const [showVariants, , toggleShowVariants] = useAnotherCheckbox(
@@ -96,11 +97,13 @@ export default function FilteredProduct({
     setFilteredVariants(filterVariants(product.variants))
   }, [filters, product.variants])
 
+  // Sync with products checkbox
   useEffect(() => {
     setCheckbox(current => ({
       ...current,
       checked: checkedFromSection,
       selected: checkedFromSection ? current.max : 0,
+      fromSection: true,
     }))
   }, [checkedFromSection])
 
@@ -184,8 +187,9 @@ export default function FilteredProduct({
                 product={product}
                 variant={variant}
                 checkedFromProduct={checkbox.checked}
+                fromSection={checkbox.fromSection}
                 setCheckboxFromProduct={setCheckbox}
-                setSelectedFromSection={setSelectedFromSection}
+                setCheckboxFromSection={setCheckboxFromSection}
                 discountFromProduct={discount}
                 resetFromProduct={reset}
                 selectedLengthFromProduct={filteredVariants.length}

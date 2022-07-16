@@ -260,7 +260,7 @@ export default function FilteredProducts({
               key={product.id}
               product={product}
               checked={checkbox.checked}
-              setSelected={setSelected}
+              setCheckbox={setCheckbox}
               discountFromSection={discount}
               resetFromSection={reset}
               variantsCounts={variantsCounts}

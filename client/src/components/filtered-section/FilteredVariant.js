@@ -94,8 +94,9 @@ export default function FilteredVariant({
   product,
   variant,
   checkedFromProduct,
+  fromSection,
   setCheckboxFromProduct,
-  setSelectedFromSection,
+  setCheckboxFromSection,
   discountFromProduct,
   resetFromProduct,
   selectedLengthFromProduct,
@@ -195,6 +196,8 @@ export default function FilteredVariant({
           label={`${product.title} - ${variant.title}`}
           checkedFromParent={checkedFromProduct}
           setParentCheckbox={setCheckboxFromProduct}
+          setGrandParentCheckbox={setCheckboxFromSection}
+          fromSection={fromSection}
         />
 
         <button onClick={handleGetVariant(variant.id)}>GET VARIANT</button>

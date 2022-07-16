@@ -25,11 +25,20 @@ export default function ParentCheckbox({
   const inputRef = useRef()
 
   const handleChange = () => {
-    setParentCheckbox(current => ({
-      ...current,
-      checked: !current.checked,
-      selected: !current.checked === true ? current.max : 0,
-    }))
+    setParentCheckbox(current =>
+      current.fromSection === undefined
+        ? {
+            ...current,
+            checked: !current.checked,
+            selected: !current.checked === true ? current.max : 0,
+          }
+        : {
+            ...current,
+            checked: !current.checked,
+            selected: !current.checked === true ? current.max : 0,
+            fromSection: false,
+          }
+    )
   }
 
   useEffect(() => {

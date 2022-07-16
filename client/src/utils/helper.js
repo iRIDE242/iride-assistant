@@ -112,7 +112,7 @@ export const updateParentCheckbox = (
   setParentCheckbox
 ) => {
   if (checked) {
-    if (!fromParent && setParentCheckbox !== undefined) {
+    if (fromParent === false && setParentCheckbox !== undefined) {
       setParentCheckbox(current => {
         const nextSelected = current.selected + 1
 
@@ -124,7 +124,7 @@ export const updateParentCheckbox = (
       })
     }
   } else {
-    if (!fromParent && setParentCheckbox !== undefined)
+    if (fromParent === false && setParentCheckbox !== undefined)
       setParentCheckbox(current => {
         const nextSelected = current.selected - 1
 
