@@ -18,9 +18,9 @@ export default function ChildCheckbox({
     }))
   }
 
-  // Sync the state from upper checkbox
+  // Sync the state from parent checkbox
   useEffect(() => {
-    console.log('toggle checked in lower from upper')
+    console.log('toggle child checkebox by parent')
     setChildCheckbox({
       checked: checkedFromParent,
       fromParent: true,

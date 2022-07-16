@@ -105,3 +105,34 @@ export const createTwoDigitString = numStr => Number(numStr).toFixed(2)
 export const toggleBlock = condition => ({
   display: condition ? 'block' : 'none',
 })
+
+export const updateParentCheckbox = (
+  checked,
+  fromParent,
+  setParentCheckbox
+) => {
+  if (checked) {
+    if (!fromParent && setParentCheckbox !== undefined) {
+      setParentCheckbox(current => {
+        const nextSelected = current.selected + 1
+
+        return {
+          ...current,
+          checked: nextSelected >= current.max ? true : current.checked,
+          selected: nextSelected >= current.max ? current.max : nextSelected,
+        }
+      })
+    }
+  } else {
+    if (!fromParent && setParentCheckbox !== undefined)
+      setParentCheckbox(current => {
+        const nextSelected = current.selected - 1
+
+        return {
+          ...current,
+          checked: nextSelected <= 0 ? false : current.checked,
+          selected: nextSelected <= 0 ? 0 : nextSelected,
+        }
+      })
+  }
+}

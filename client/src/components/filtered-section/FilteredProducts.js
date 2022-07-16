@@ -38,9 +38,14 @@ export default function FilteredProducts({
   const [selected, setSelected] = useState(0)
   const [variantsCounts, setVariantsCounts] = useState(0)
 
-  const [showVariants, setShowVariants] = useState(false)
-  const [selectedChildren, setSelectedChildren] = useState(0)
+  // const [showVariants, setShowVariants] = useState(false)
+  // const [selectedChildren, setSelectedChildren] = useState(0)
 
+  const [showVariants, setShowVariants] = useState({
+    max: 0,
+    checked: false,
+    selected: 0,
+  })
   const [selectedOnly, setSelectedOnly] = useState({
     max: 0,
     checked: false,
@@ -162,6 +167,12 @@ export default function FilteredProducts({
 
     setVariantsCounts(filteredVariants.length)
 
+    setShowVariants({
+      max: filteredProducts.length,
+      checked: false,
+      selected: 0,
+    })
+
     setSelectedOnly({
       max: filteredProducts.length,
       checked: true,
@@ -182,11 +193,19 @@ export default function FilteredProducts({
           headerSize="h2"
         />
 
-        <TitleCheckbox
+        {/* <TitleCheckbox
           selected={selectedChildren}
           length={filteredProducts.length}
           checked={showVariants}
           setChecked={setShowVariants}
+          inputId={`${idGroups.showVariants}--${idRoles.section}-${collectionId}`}
+          inputTitle="Show variants"
+        /> */}
+
+        {/* Show variants */}
+        <ParentCheckbox
+          parentCheckbox={showVariants}
+          setParentCheckbox={setShowVariants}
           inputId={`${idGroups.showVariants}--${idRoles.section}-${collectionId}`}
           inputTitle="Show variants"
         />
@@ -233,12 +252,12 @@ export default function FilteredProducts({
               product={product}
               checked={checked}
               setSelected={setSelected}
-              showVariants={showVariants}
-              setSelectedChildren={setSelectedChildren}
               discountFromSection={discount}
               resetFromSection={reset}
               variantsCounts={variantsCounts}
               filteredProductsLength={filteredProducts.length}
+              showVariants={showVariants}
+              setShowVariants={setShowVariants}
               selectedOnly={selectedOnly}
               setSelectedOnly={setSelectedOnly}
             />

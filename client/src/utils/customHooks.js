@@ -1,6 +1,11 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { getAllFilters } from './filters'
-import { mapValueToArray, MODIFIED, NOT_MODIFIED } from './helper'
+import {
+  mapValueToArray,
+  MODIFIED,
+  NOT_MODIFIED,
+  updateParentCheckbox,
+} from './helper'
 
 /**
  * Helper function to create context.
@@ -102,85 +107,38 @@ export const useCheckbox = (
   return [checked, setChecked, handleChange]
 }
 
-export const useAnotherCheckbox = (
-  checkboxFromParent,
-  setCheckboxFromParent
-) => {
-  const [checked, setChecked] = useState(checkboxFromParent.checked)
+export const useAnotherCheckbox = (checkedFromParent, setParentCheckbox) => {
+  const [checkbox, setCheckbox] = useState({
+    checked: false,
+    fromParent: true,
+  })
 
   const handleChange = () => {
-    setChecked(prev => !prev)
+    setCheckbox(current => ({
+      checked: !current.checked,
+      fromParent: false,
+    }))
   }
 
   // Synced with parent checkbox state
   useEffect(() => {
-    setChecked(checkboxFromParent.checked)
-  }, [checkboxFromParent])
-
-  // useEffect(() => {
-  //   if(checkedFromGrandParent !== undefined) setChecked(checkedFromGrandParent)
-  // }, [checkedFromGrandParent])
+    console.log('another - toggle child checkebox by parent')
+    setCheckbox({
+      checked: checkedFromParent,
+      fromParent: true,
+    })
+  }, [checkedFromParent])
 
   // Manipulate the indeterminate state of section and product checkboxes
   useEffect(() => {
-    if (checkboxFromParent.max !== null) {
-      // const incrementSelected = getIncrementSelected(checkboxFromParent.max)
+    updateParentCheckbox(
+      checkbox.checked,
+      checkbox.fromParent,
+      setParentCheckbox
+    )
+  }, [checkbox.checked, checkbox.fromParent, setParentCheckbox])
 
-      if (checked) {
-        if (setCheckboxFromParent !== undefined)
-          setCheckboxFromParent(prev => {
-            const currentSelected = prev.selected + 1
-
-            if (currentSelected >= prev.max) {
-              return {
-                ...prev,
-                checked: true,
-                selected: prev.max,
-              }
-            } else {
-              return {
-                ...prev,
-                selected: currentSelected,
-              }
-            }
-          })
-      } else {
-        if (setCheckboxFromParent !== undefined)
-          setCheckboxFromParent(prev => {
-            const currentSelected = prev.selected - 1
-
-            if (currentSelected < 0) {
-              return {
-                ...prev,
-                checked: false,
-                selected: 0,
-              }
-            } else {
-              return {
-                ...prev,
-                selected: currentSelected,
-              }
-            }
-          })
-      }
-    }
-
-    // if (selectedMaxValueFromGrandParent !== undefined) {
-    //   const incrementSelected = getIncrementSelected(
-    //     selectedMaxValueFromGrandParent
-    //   )
-
-    //   if (checked) {
-    //     if (setSelectedFromGrandParent !== undefined)
-    //       setSelectedFromGrandParent(incrementSelected)
-    //   } else {
-    //     if (setSelectedFromGrandParent !== undefined)
-    //       setSelectedFromGrandParent(decrementSelected)
-    //   }
-    // }
-  }, [checkboxFromParent.max, checked, setCheckboxFromParent])
-
-  return [checked, setChecked, handleChange]
+  return [checkbox, setCheckbox, handleChange]
 }
 
 /**

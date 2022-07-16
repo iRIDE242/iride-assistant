@@ -6,21 +6,27 @@ import { updateProduct, useProducts } from '../../context/products'
 import CopyButton from '../CopyButton'
 import CopyHint from '../CopyHint'
 import { getAllFilters } from '../../utils/filters'
-import { useCheckbox, useDiscount, useReset } from '../../utils/customHooks'
+import {
+  useAnotherCheckbox,
+  useCheckbox,
+  useDiscount,
+  useReset,
+} from '../../utils/customHooks'
 import { idGroups, idRoles } from '../../utils/config'
 import { handleDiscountValue, MODIFIED, toggleBlock } from '../../utils/helper'
 import ChildCheckbox from '../ChildCheckbox'
+import Checkbox from '../Checkbox'
 
 export default function FilteredProduct({
   product,
   checked: checkedFromSection,
   setSelected: setSelectedFromSection,
-  showVariants: showVariantsFromSection,
-  setSelectedChildren,
   discountFromSection,
   resetFromSection,
   variantsCounts,
   filteredProductsLength,
+  showVariants: showVariantsFromParent,
+  setShowVariants,
   selectedOnly,
   setSelectedOnly,
 }) {
@@ -32,11 +38,9 @@ export default function FilteredProduct({
   // Note, this checkbox won't handle selected from its direct parent, but leave it to variant.
   const [checked, setChecked] = useCheckbox(checkedFromSection)
 
-  // Show variants checkbox
-  const [showVariants, , handleShowVariants] = useCheckbox(
-    showVariantsFromSection,
-    setSelectedChildren,
-    filteredProductsLength
+  const [showVariants, , toggleShowVariants] = useAnotherCheckbox(
+    showVariantsFromParent.checked,
+    setShowVariants
   )
 
   const [discount, setDiscount] = useDiscount(discountFromSection)
@@ -96,23 +100,18 @@ export default function FilteredProduct({
           headerSize="h3"
         />
 
-        <input
-          type="checkbox"
+        <Checkbox
           id={`${idGroups.showVariants}--${idRoles.product}-${product.id}`}
-          checked={showVariants}
-          onChange={handleShowVariants}
+          label="Show variants"
+          checked={showVariants.checked}
+          handleChange={toggleShowVariants}
         />
-        <label
-          htmlFor={`${idGroups.showVariants}--${idRoles.product}-${product.id}`}
-        >
-          Show variants
-        </label>
 
         <CopyButton title={product.title} setIsCopied={setIsCopied} />
         <CopyHint isCopied={isCopied} />
       </div>
 
-      <div style={toggleBlock(showVariants)}>
+      <div style={toggleBlock(showVariants.checked)}>
         <label
           style={{ marginLeft: '4px' }}
           htmlFor={`${idGroups.setPrice}--${idRoles.product}-${product.id}`}
@@ -143,7 +142,7 @@ export default function FilteredProduct({
       {filteredVariants.length > 0 && (
         <ul
           style={{
-            display: showVariants ? 'unset' : 'none',
+            display: showVariants.checked ? 'unset' : 'none',
             listStyle: 'none',
           }}
         >
