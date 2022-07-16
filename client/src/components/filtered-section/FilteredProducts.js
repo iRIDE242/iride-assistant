@@ -204,8 +204,8 @@ export default function FilteredProducts({
         />
 
         <ParentCheckbox
-          checkbox={selectedOnly}
-          setCheckbox={setSelectedOnly}
+          parentCheckbox={selectedOnly}
+          setParentCheckbox={setSelectedOnly}
           inputId={`${idGroups.setPrice}--test-${collectionId}`}
           inputTitle="Selected Only "
         />

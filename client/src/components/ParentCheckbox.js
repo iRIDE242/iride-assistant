@@ -14,10 +14,10 @@ function SizedHeader({ headerSize, children }) {
   )
 }
 
-// For checkbox needed to show indeterminate state
+// Parent checkbox needed to show indeterminate state
 export default function ParentCheckbox({
-  checkbox: { max, selected, checked },
-  setCheckbox,
+  parentCheckbox: { max, selected, checked },
+  setParentCheckbox,
   inputId,
   inputTitle,
   headerSize,
@@ -25,7 +25,7 @@ export default function ParentCheckbox({
   const inputRef = useRef()
 
   const handleChange = () => {
-    setCheckbox(current => ({
+    setParentCheckbox(current => ({
       ...current,
       checked: !current.checked,
       selected: !current.checked === true ? current.max : 0,
@@ -34,15 +34,11 @@ export default function ParentCheckbox({
 
   useEffect(() => {
     console.log('effect - checkbox')
-    // The conditon here can avoid the loop bug
-    // when both selected and length are 0.
-    if (selected !== null) {
-      if (selected > 0 && selected < max) {
-        inputRef.current.indeterminate = true
-      } else {
-        // This condition should be only for when length is not 0
-        inputRef.current.indeterminate = false
-      }
+
+    if (selected > 0 && selected < max) {
+      inputRef.current.indeterminate = true
+    } else {
+      inputRef.current.indeterminate = false
     }
   }, [max, selected])
 
