@@ -36,6 +36,13 @@ export default function FilteredProducts({
 }) {
   const [checked, setChecked] = useState(false)
   const [selected, setSelected] = useState(0)
+
+  const [checkbox, setCheckbox] = useState(() => ({
+    max: 0,
+    checked: false,
+    selected: 0,
+  }))
+
   const [variantsCounts, setVariantsCounts] = useState(0)
 
   const [showVariants, setShowVariants] = useState({
@@ -164,6 +171,11 @@ export default function FilteredProducts({
 
     setVariantsCounts(filteredVariants.length)
 
+    setCheckbox(current => ({
+      ...current,
+      max: filteredVariants.length,
+    }))
+
     setShowVariants({
       max: filteredProducts.length,
       checked: false,
@@ -180,11 +192,20 @@ export default function FilteredProducts({
   return (
     <div style={{ background: background }} className="products-wrapper">
       <div>
-        <TitleCheckbox
+        {/* <TitleCheckbox
           selected={selected}
           length={variantsCounts}
           checked={checked}
           setChecked={setChecked}
+          inputId={`${idGroups.filteredProducts}--${idRoles.section}-${collectionId}`}
+          inputTitle={inputTitle}
+          headerSize="h2"
+        /> */}
+
+        {/* Products checkbox */}
+        <ParentCheckbox
+          parentCheckbox={checkbox}
+          setParentCheckbox={setCheckbox}
           inputId={`${idGroups.filteredProducts}--${idRoles.section}-${collectionId}`}
           inputTitle={inputTitle}
           headerSize="h2"
@@ -238,7 +259,7 @@ export default function FilteredProducts({
             <FilteredProduct
               key={product.id}
               product={product}
-              checked={checked}
+              checked={checkbox.checked}
               setSelected={setSelected}
               discountFromSection={discount}
               resetFromSection={reset}

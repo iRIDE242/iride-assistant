@@ -96,7 +96,13 @@ export default function FilteredProduct({
     setFilteredVariants(filterVariants(product.variants))
   }, [filters, product.variants])
 
-  
+  useEffect(() => {
+    setCheckbox(current => ({
+      ...current,
+      checked: checkedFromSection,
+      selected: checkedFromSection ? current.max : 0,
+    }))
+  }, [checkedFromSection])
 
   return (
     <div className="product--wrapper">
