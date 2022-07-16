@@ -190,7 +190,7 @@ export default function FilteredProducts({
           headerSize="h2"
         />
 
-        {/* Show variants */}
+        {/* Show variants parent */}
         <ParentCheckbox
           parentCheckbox={showVariants}
           setParentCheckbox={setShowVariants}
@@ -198,7 +198,7 @@ export default function FilteredProducts({
           inputTitle="Show variants"
         />
 
-        {/* Select only */}
+        {/* Select only parent */}
         <ParentCheckbox
           parentCheckbox={selectedOnly}
           setParentCheckbox={setSelectedOnly}

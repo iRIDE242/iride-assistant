@@ -104,6 +104,7 @@ export default function FilteredProduct({
           headerSize="h3"
         />
 
+        {/* Show variants child */}
         <Checkbox
           id={`${idGroups.showVariants}--${idRoles.product}-${product.id}`}
           label="Show variants"
@@ -135,6 +136,7 @@ export default function FilteredProduct({
 
         <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
 
+        {/* Selected only child */}
         <Checkbox
           id={`${idGroups.setPrice}--${idRoles.selectedOnly}-${product.id}`}
           label="Select only"
