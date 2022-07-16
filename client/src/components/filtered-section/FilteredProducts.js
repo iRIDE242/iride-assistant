@@ -164,12 +164,12 @@ export default function FilteredProducts({
     }
 
     setVariantsCounts(filteredVariants.length)
-    // setOnlySelectedChildren(filteredVariants.length)
 
-    setSelectedOnly(prev => ({
-      ...prev,
+    setSelectedOnly({
       max: filteredProducts.length,
-    }))
+      checked: true,
+      selected: filteredProducts.length,
+    })
   }, [filteredProducts, filters])
 
   return (
