@@ -38,9 +38,6 @@ export default function FilteredProducts({
   const [selected, setSelected] = useState(0)
   const [variantsCounts, setVariantsCounts] = useState(0)
 
-  // const [showVariants, setShowVariants] = useState(false)
-  // const [selectedChildren, setSelectedChildren] = useState(0)
-
   const [showVariants, setShowVariants] = useState({
     max: 0,
     checked: false,
@@ -192,15 +189,6 @@ export default function FilteredProducts({
           inputTitle={inputTitle}
           headerSize="h2"
         />
-
-        {/* <TitleCheckbox
-          selected={selectedChildren}
-          length={filteredProducts.length}
-          checked={showVariants}
-          setChecked={setShowVariants}
-          inputId={`${idGroups.showVariants}--${idRoles.section}-${collectionId}`}
-          inputTitle="Show variants"
-        /> */}
 
         {/* Show variants */}
         <ParentCheckbox
