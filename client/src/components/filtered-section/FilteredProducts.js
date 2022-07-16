@@ -41,9 +41,6 @@ export default function FilteredProducts({
   const [showVariants, setShowVariants] = useState(false)
   const [selectedChildren, setSelectedChildren] = useState(0)
 
-  const [onlySelected, setOnlySelected] = useState(false)
-  const [onlySelectedChildren, setOnlySelectedChildren] = useState(0)
-
   const [selectedOnly, setSelectedOnly] = useState({
     max: 0,
     checked: false,
@@ -194,20 +191,12 @@ export default function FilteredProducts({
           inputTitle="Show variants"
         />
 
-        <TitleCheckbox
-          selected={onlySelectedChildren}
-          length={filteredProducts.length}
-          checked={onlySelected}
-          setChecked={setOnlySelected}
-          inputId={`${idGroups.setPrice}--${idRoles.section}-${collectionId}`}
-          inputTitle="Only selected"
-        />
-
+        {/* Select only */}
         <ParentCheckbox
           parentCheckbox={selectedOnly}
           setParentCheckbox={setSelectedOnly}
-          inputId={`${idGroups.setPrice}--test-${collectionId}`}
-          inputTitle="Selected Only "
+          inputId={`${idGroups.setPrice}--${idRoles.section}-${collectionId}`}
+          inputTitle="Selected only"
         />
       </div>
 
@@ -246,14 +235,12 @@ export default function FilteredProducts({
               setSelected={setSelected}
               showVariants={showVariants}
               setSelectedChildren={setSelectedChildren}
-              onlySelected={onlySelected}
-              setOnlySelectedChildren={setOnlySelectedChildren}
               discountFromSection={discount}
               resetFromSection={reset}
               variantsCounts={variantsCounts}
               filteredProductsLength={filteredProducts.length}
-              selectedOnlyTest={selectedOnly}
-              setSelectedOnlyTest={setSelectedOnly}
+              selectedOnly={selectedOnly}
+              setSelectedOnly={setSelectedOnly}
             />
           ))}
           {filters.hiddenVariants.status && (

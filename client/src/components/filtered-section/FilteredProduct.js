@@ -17,19 +17,16 @@ export default function FilteredProduct({
   setSelected: setSelectedFromSection,
   showVariants: showVariantsFromSection,
   setSelectedChildren,
-  onlySelected: onlySelectedFromsection,
-  setOnlySelectedChildren,
   discountFromSection,
   resetFromSection,
   variantsCounts,
   filteredProductsLength,
-  selectedOnlyTest,
-  setSelectedOnlyTest,
+  selectedOnly,
+  setSelectedOnly,
 }) {
   const [filteredVariants, setFilteredVariants] = useState([])
   const [selected, setSelected] = useState(0)
   const [isCopied, setIsCopied] = useState(false)
-  // const [onlySelected, setOnlySelected] = useState(true)
 
   // Title checkbox
   // Note, this checkbox won't handle selected from its direct parent, but leave it to variant.
@@ -39,12 +36,6 @@ export default function FilteredProduct({
   const [showVariants, , handleShowVariants] = useCheckbox(
     showVariantsFromSection,
     setSelectedChildren,
-    filteredProductsLength
-  )
-
-  const [onlySelected, , handleOnlySelected] = useCheckbox(
-    onlySelectedFromsection,
-    setOnlySelectedChildren,
     filteredProductsLength
   )
 
@@ -141,23 +132,11 @@ export default function FilteredProduct({
 
         <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
 
-        <input
-          type="checkbox"
-          id={`${idGroups.setPrice}--${idRoles.onlySelected}-${product.id}`}
-          checked={onlySelected}
-          onChange={handleOnlySelected}
-        />
-        <label
-          htmlFor={`${idGroups.setPrice}--${idRoles.onlySelected}-${product.id}`}
-        >
-          Only selected
-        </label>
-
         <ChildCheckbox
-          id={`${idGroups.setPrice}--testtest-${product.id}`}
-          label="Select Only"
-          checkedFromParent={selectedOnlyTest.checked}
-          setParentCheckbox={setSelectedOnlyTest}
+          id={`${idGroups.setPrice}--${idRoles.selectedOnly}-${product.id}`}
+          label="Select only"
+          checkedFromParent={selectedOnly.checked}
+          setParentCheckbox={setSelectedOnly}
         />
       </div>
 
