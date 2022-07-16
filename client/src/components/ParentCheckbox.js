@@ -15,7 +15,7 @@ function SizedHeader({ headerSize, children }) {
 }
 
 // For checkbox needed to show indeterminate state
-export default function Checkbox({
+export default function ParentCheckbox({
   checkbox: { max, selected, checked },
   setCheckbox,
   inputId,
@@ -25,10 +25,10 @@ export default function Checkbox({
   const inputRef = useRef()
 
   const handleChange = () => {
-    setCheckbox(prev => ({
-      ...prev,
-      checked: !prev.checked,
-      selected: !prev.checked === true ? prev.max : 0,
+    setCheckbox(current => ({
+      ...current,
+      checked: !current.checked,
+      selected: !current.checked === true ? current.max : 0,
     }))
   }
 

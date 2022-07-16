@@ -10,7 +10,7 @@ import { updateProducts, useProducts } from '../../context/products'
 import { collections, idGroups, idRoles } from '../../utils/config'
 import { getAllFilters } from '../../utils/filters'
 import { useDiscount, useReset } from '../../utils/customHooks'
-import Checkbox from '../Checkbox'
+import ParentCheckbox from '../ParentCheckbox'
 
 const variantHandlerRegex = new RegExp(
   `${idGroups.variant}--${idRoles.handler}-(\\d+)` // Variant handler checkbox
@@ -203,7 +203,7 @@ export default function FilteredProducts({
           inputTitle="Only selected"
         />
 
-        <Checkbox
+        <ParentCheckbox
           checkbox={selectedOnly}
           setCheckbox={setSelectedOnly}
           inputId={`${idGroups.setPrice}--test-${collectionId}`}
