@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { updateParentCheckbox } from '../utils/helper'
 
 export default function ChildCheckbox({
   id,
@@ -30,30 +31,11 @@ export default function ChildCheckbox({
   // Only responde to the checked change caused by the component handleChange,
   // but not checked change caused by the parent checkbox state sync.
   useEffect(() => {
-    if (childCheckbox.checked) {
-      if (!childCheckbox.fromParent && setParentCheckbox !== undefined) {
-        setParentCheckbox(current => {
-          const nextSelected = current.selected + 1
-
-          return {
-            ...current,
-            checked: nextSelected >= current.max ? true : current.checked,
-            selected: nextSelected >= current.max ? current.max : nextSelected,
-          }
-        })
-      }
-    } else {
-      if (!childCheckbox.fromParent && setParentCheckbox !== undefined)
-        setParentCheckbox(current => {
-          const nextSelected = current.selected - 1
-
-          return {
-            ...current,
-            checked: nextSelected <= 0 ? false : current.checked,
-            selected: nextSelected <= 0 ? 0 : nextSelected,
-          }
-        })
-    }
+    updateParentCheckbox(
+      childCheckbox.checked,
+      childCheckbox.fromParent,
+      setParentCheckbox
+    )
   }, [childCheckbox.checked, childCheckbox.fromParent, setParentCheckbox])
 
   return (

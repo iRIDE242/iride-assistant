@@ -14,7 +14,6 @@ import {
 } from '../../utils/customHooks'
 import { idGroups, idRoles } from '../../utils/config'
 import { handleDiscountValue, MODIFIED, toggleBlock } from '../../utils/helper'
-import ChildCheckbox from '../ChildCheckbox'
 import Checkbox from '../Checkbox'
 
 export default function FilteredProduct({
@@ -27,7 +26,7 @@ export default function FilteredProduct({
   filteredProductsLength,
   showVariants: showVariantsFromParent,
   setShowVariants,
-  selectedOnly,
+  selectedOnly: selectedOnlyFromParent,
   setSelectedOnly,
 }) {
   const [filteredVariants, setFilteredVariants] = useState([])
@@ -41,6 +40,11 @@ export default function FilteredProduct({
   const [showVariants, , toggleShowVariants] = useAnotherCheckbox(
     showVariantsFromParent.checked,
     setShowVariants
+  )
+
+  const [selectedOnly, , toggleSelectedOnly] = useAnotherCheckbox(
+    selectedOnlyFromParent.checked,
+    setSelectedOnly
   )
 
   const [discount, setDiscount] = useDiscount(discountFromSection)
@@ -131,11 +135,11 @@ export default function FilteredProduct({
 
         <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
 
-        <ChildCheckbox
+        <Checkbox
           id={`${idGroups.setPrice}--${idRoles.selectedOnly}-${product.id}`}
           label="Select only"
-          checkedFromParent={selectedOnly.checked}
-          setParentCheckbox={setSelectedOnly}
+          checked={selectedOnly.checked}
+          handleChange={toggleSelectedOnly}
         />
       </div>
 
