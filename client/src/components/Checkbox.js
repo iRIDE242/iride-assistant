@@ -16,7 +16,7 @@ function SizedHeader({ headerSize, children }) {
 
 // For checkbox needed to show indeterminate state
 export default function Checkbox({
-  checkbox,
+  checkbox: { max, selected, checked },
   setCheckbox,
   inputId,
   inputTitle,
@@ -25,29 +25,15 @@ export default function Checkbox({
   const inputRef = useRef()
 
   const handleChange = () => {
-    setCheckbox(prev => {
-      if (!prev.checked === true) {
-        return {
-          ...prev,
-          checked: !prev.checked,
-          // selected:
-          //   prev.selected + 1 > prev.max ? prev.selected : prev.selected + 1,
-        }
-      } else {
-        return {
-          ...prev,
-          checked: !prev.checked,
-          // selected: prev.selected - 1 < 0 ? prev.selected : prev.selected - 1,
-        }
-      }
-    })
+    setCheckbox(prev => ({
+      ...prev,
+      checked: !prev.checked,
+      selected: !prev.checked === true ? prev.max : 0,
+    }))
   }
 
   useEffect(() => {
     console.log('effect - checkbox')
-    const { max, selected } = checkbox
-
-    // console.log(selected)
     // The conditon here can avoid the loop bug
     // when both selected and length are 0.
     if (selected !== null) {
@@ -58,14 +44,14 @@ export default function Checkbox({
         inputRef.current.indeterminate = false
       }
     }
-  }, [checkbox])
+  }, [max, selected])
 
   return (
     <>
       <input
         type="checkbox"
         id={inputId}
-        checked={checkbox.checked}
+        checked={checked}
         ref={inputRef}
         onChange={handleChange}
         style={{ marginLeft: '8px' }}

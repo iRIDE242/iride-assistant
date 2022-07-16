@@ -14,6 +14,7 @@ import {
 } from '../../utils/customHooks'
 import { idGroups, idRoles } from '../../utils/config'
 import { handleDiscountValue, MODIFIED, toggleBlock } from '../../utils/helper'
+import LowerCheckbox from '../LowerCheckbox'
 
 export default function FilteredProduct({
   product,
@@ -52,7 +53,10 @@ export default function FilteredProduct({
     filteredProductsLength
   )
 
-  const [selectedOnly, , handleSelectedOnly] = useAnotherCheckbox(selectedOnlyTest, setSelectedOnlyTest)
+  // const [selectedOnly, , handleSelectedOnly] = useAnotherCheckbox(
+  //   selectedOnlyTest,
+  //   setSelectedOnlyTest
+  // )
 
   const [discount, setDiscount] = useDiscount(discountFromSection)
 
@@ -159,7 +163,7 @@ export default function FilteredProduct({
           Only selected
         </label>
 
-        <input
+        {/* <input
           type="checkbox"
           id={`${idGroups.setPrice}--testtest-${product.id}`}
           checked={selectedOnly}
@@ -169,7 +173,14 @@ export default function FilteredProduct({
           htmlFor={`${idGroups.setPrice}--testtest-${product.id}`}
         >
           Select Only
-        </label>
+        </label> */}
+
+        <LowerCheckbox
+          id={`${idGroups.setPrice}--testtest-${product.id}`}
+          label="Select Only"
+          checkedFromUpper={selectedOnlyTest.checked}
+          setUpperCheckbox={setSelectedOnlyTest}
+        />
       </div>
 
       {filteredVariants.length > 0 && (

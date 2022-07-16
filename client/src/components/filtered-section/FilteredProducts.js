@@ -47,7 +47,7 @@ export default function FilteredProducts({
   const [selectedOnly, setSelectedOnly] = useState({
     max: 0,
     checked: false,
-    selected: null,
+    selected: 0,
   })
 
   const [discount, setDiscount] = useDiscount()
@@ -169,7 +169,6 @@ export default function FilteredProducts({
     setSelectedOnly(prev => ({
       ...prev,
       max: filteredProducts.length,
-      selected: 0,
     }))
   }, [filteredProducts, filters])
 
