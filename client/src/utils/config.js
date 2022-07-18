@@ -21,6 +21,14 @@ export const collections = {
     id: '294222692544',
     name: 'Conti Tyres',
   },
+  72518598722: {
+    id: '72518598722',
+    name: 'Casual Clothing',
+  },
+  294299861184: {
+    id: '294299861184',
+    name: 'Ceramic Speed',
+  },
 }
 
 export const idGroups = {
