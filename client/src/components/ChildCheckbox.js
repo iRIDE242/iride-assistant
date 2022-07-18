@@ -19,7 +19,7 @@ export default function ChildCheckbox({
     setChildCheckbox(current => ({
       checked: !current.checked,
       fromParent: false,
-      fromSection: current.fromParent === null ? null : false,
+      fromSection: current.fromSection === null ? null : false,
     }))
   }
 
@@ -29,7 +29,8 @@ export default function ChildCheckbox({
     setChildCheckbox(current => ({
       checked: checkedFromParent,
       fromParent: true,
-      fromSection: fromSection === undefined ? current.fromParent : fromSection,
+      fromSection:
+        fromSection === undefined ? current.fromSection : fromSection,
     }))
   }, [checkedFromParent, fromSection])
 
