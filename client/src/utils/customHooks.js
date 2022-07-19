@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { getAllFilters } from './filters'
 import {
+  handleDiscountValue,
   mapValueToArray,
   MODIFIED,
   NOT_MODIFIED,
@@ -166,6 +167,17 @@ export const useDiscount = discountFromAbove => {
     value: '',
   })
 
+  const handleSetDiscount = e => {
+    // Number input will only responde legid inputs (number or blank space '')
+    // Illegal inputs will only trigger the event once when input converts from legid to illegal state,
+    // and the event value will be a blank space ''.
+    // then any further illegal inputs won't trigger event any more.
+    setDiscount({
+      state: MODIFIED,
+      value: handleDiscountValue(e.target.value),
+    })
+  }
+
   useEffect(() => {
     if (discountFromAbove) {
       const { state, value } = discountFromAbove
@@ -177,7 +189,7 @@ export const useDiscount = discountFromAbove => {
     }
   }, [discountFromAbove])
 
-  return [discount, setDiscount]
+  return [discount, setDiscount, handleSetDiscount]
 }
 
 /**

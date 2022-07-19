@@ -56,7 +56,7 @@ export default function FilteredProducts({
     selected: 0,
   })
 
-  const [discount, setDiscount] = useDiscount()
+  const [discount, handleSetDiscount] = useDiscount()
 
   const [reset, resetPriceSetting] = useReset()
 
@@ -144,17 +144,6 @@ export default function FilteredProducts({
     } catch (error) {
       console.log(error)
     }
-  }
-
-  const handleSetDiscount = e => {
-    // Number input will only responde legid inputs (number or blank space '')
-    // Illegal inputs will only trigger the event once when input converts from legid to illegal state,
-    // and the event value will be a blank space ''.
-    // then any further illegal inputs won't trigger event any more.
-    setDiscount({
-      state: MODIFIED,
-      value: handleDiscountValue(e.target.value),
-    })
   }
 
   useEffect(() => {

@@ -1,19 +1,17 @@
 import { useEffect, useState } from 'react'
 import { getProductById, resetVariantWeightById } from '../../utils/api'
 import FilteredVariant from './FilteredVariant'
-import TitleCheckbox from '../TitleCheckbox'
 import { updateProduct, useProducts } from '../../context/products'
 import CopyButton from '../CopyButton'
 import CopyHint from '../CopyHint'
 import { getAllFilters } from '../../utils/filters'
 import {
   useAnotherCheckbox,
-  useCheckbox,
   useDiscount,
   useReset,
 } from '../../utils/customHooks'
 import { idGroups, idRoles } from '../../utils/config'
-import { handleDiscountValue, MODIFIED, toggleBlock } from '../../utils/helper'
+import { toggleBlock } from '../../utils/helper'
 import Checkbox from '../Checkbox'
 import ParentCheckbox from '../ParentCheckbox'
 
@@ -23,8 +21,6 @@ export default function FilteredProduct({
   setCheckbox: setCheckboxFromSection,
   discountFromSection,
   resetFromSection,
-  variantsCounts,
-  filteredProductsLength,
   showVariants: showVariantsFromParent,
   setShowVariants,
   selectedOnly: selectedOnlyFromParent,
@@ -33,7 +29,7 @@ export default function FilteredProduct({
   const [{ filters }, dispatch] = useProducts()
 
   const [filteredVariants, setFilteredVariants] = useState([])
-  // const [selected, setSelected] = useState(0)
+
   const [isCopied, setIsCopied] = useState(false)
 
   // Title checkbox
@@ -42,7 +38,7 @@ export default function FilteredProduct({
     max: getAllFilters(filters, false)(product.variants).length,
     checked: false,
     selected: 0,
-    fromSection: true, // For update selected from variant
+    fromSection: true, // For updating selected from variant
   }))
 
   const [showVariants, , toggleShowVariants] = useAnotherCheckbox(
@@ -55,7 +51,7 @@ export default function FilteredProduct({
     setSelectedOnly
   )
 
-  const [discount, setDiscount] = useDiscount(discountFromSection)
+  const [discount, handleSetDiscount] = useDiscount(discountFromSection)
 
   // Here cannot use useRef to replace useState to avoid unnecessary re-rendering
   // since the ref version of reset that is needed to pass down to children
@@ -84,13 +80,6 @@ export default function FilteredProduct({
     }
   }
 
-  const handleSetDiscount = e => {
-    setDiscount({
-      state: MODIFIED,
-      value: handleDiscountValue(e.target.value),
-    })
-  }
-
   // Get the filtered variants from product
   useEffect(() => {
     const filterVariants = getAllFilters(filters, false)
@@ -110,16 +99,6 @@ export default function FilteredProduct({
   return (
     <div className="product--wrapper">
       <div>
-        {/* <TitleCheckbox
-          selected={selected}
-          length={filteredVariants.length}
-          checked={checked}
-          setChecked={setChecked}
-          inputId={`${idGroups.filteredProducts}--${idRoles.product}-${product.id}`}
-          inputTitle={product.title}
-          headerSize="h3"
-        /> */}
-
         {/* Product checkbox */}
         <ParentCheckbox
           parentCheckbox={checkbox}
