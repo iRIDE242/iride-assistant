@@ -192,9 +192,6 @@ export default function FilteredProduct({
                 setCheckboxFromSection={setCheckboxFromSection}
                 discountFromProduct={discount}
                 resetFromProduct={reset}
-                selectedLengthFromProduct={filteredVariants.length}
-                variantsCounts={variantsCounts}
-                checkedFromSection={checkedFromSection}
               />
 
               {filters.hiddenVariants.status && (
