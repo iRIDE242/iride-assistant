@@ -136,3 +136,8 @@ export const updateParentCheckbox = (
       })
   }
 }
+
+export const callAll =
+  (...fns) =>
+  (...args) =>
+    fns.forEach(fn => fn?.(...args))
