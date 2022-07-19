@@ -27,7 +27,7 @@ export const collections = {
   },
   294299861184: {
     id: '294299861184',
-    name: 'Ceramic Speed',
+    name: 'Temp 1',
   },
 }
 
