@@ -189,7 +189,7 @@ export const useDiscount = discountFromAbove => {
     }
   }, [discountFromAbove])
 
-  return [discount, setDiscount, handleSetDiscount]
+  return [discount, handleSetDiscount]
 }
 
 /**
