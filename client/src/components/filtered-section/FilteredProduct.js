@@ -192,6 +192,7 @@ export default function FilteredProduct({
                 setCheckboxFromSection={setCheckboxFromSection}
                 discountFromProduct={discount}
                 resetFromProduct={reset}
+                isSelectedOnly={selectedOnly.checked}
               />
 
               {filters.hiddenVariants.status && (

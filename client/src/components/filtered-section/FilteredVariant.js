@@ -98,6 +98,7 @@ export default function FilteredVariant({
   setCheckboxFromSection,
   discountFromProduct,
   resetFromProduct,
+  isSelectedOnly,
 }) {
   const [originalPriceSetting, setOriginalPriceSetting] = useState(() =>
     getPriceSetting(variant)
@@ -152,8 +153,9 @@ export default function FilteredVariant({
 
   // Sync the discount change from product
   useEffect(() => {
-    setPriceSetting(getPriceSetting(variant, discountFromProduct))
-  }, [discountFromProduct, variant])
+    isSelectedOnly &&
+      setPriceSetting(getPriceSetting(variant, discountFromProduct))
+  }, [discountFromProduct, isSelectedOnly, variant])
 
   // Responde to the reset from product
   useEffect(() => {
