@@ -46,6 +46,7 @@ export default function FilteredProducts({
     checked: false,
     selected: 0,
   })
+
   const [selectedOnly, setSelectedOnly] = useState({
     max: 0,
     checked: false,

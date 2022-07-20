@@ -14,7 +14,9 @@ function SizedHeader({ headerSize, children }) {
   )
 }
 
-// Parent checkbox needed to show indeterminate state
+// Parent checkbox needed to show indeterminate state.
+// All the parent checkboxes are host component
+// since its state is always defined outside of component.
 export default function ParentCheckbox({
   parentCheckbox: { max, selected, checked },
   setParentCheckbox,
@@ -44,6 +46,7 @@ export default function ParentCheckbox({
     )
   }
 
+  // Manipulater indeterminate value
   useEffect(() => {
     console.log('effect - checkbox')
 
