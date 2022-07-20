@@ -11,11 +11,7 @@ import {
   useReset,
 } from '../../utils/customHooks'
 import { idGroups, idRoles } from '../../utils/config'
-import {
-  NOT_MODIFIED,
-  SELECTED_MODIFIED,
-  toggleBlock,
-} from '../../utils/helper'
+import { SELECTED_MODIFIED, toggleBlock } from '../../utils/helper'
 import Checkbox from '../Checkbox'
 import ParentCheckbox from '../ParentCheckbox'
 import { useCheckboxHost } from '../../custom-hooks/useCheckboxHost'
@@ -52,10 +48,6 @@ export default function FilteredProduct({
     setShowVariants
   )
 
-  // const [selectedOnly, , toggleSelectedOnly] = useAnotherCheckbox(
-  //   selectedOnlyFromParent.checked,
-  //   setSelectedOnly
-  // )
   const [selectedOnly, toggleSelectedOnly] = useCheckboxHost(
     selectedOnlyFromParent.checked,
     setSelectedOnly
@@ -159,12 +151,6 @@ export default function FilteredProduct({
         <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
 
         {/* Selected only child */}
-        {/* <Checkbox
-          id={`${idGroups.setPrice}--${idRoles.selectedOnly}-${product.id}`}
-          label="Select only"
-          checked={selectedOnly.checked}
-          handleChange={toggleSelectedOnly}
-        /> */}
         <CheckboxHost
           id={`${idGroups.setPrice}--${idRoles.selectedOnly}-${product.id}`}
           label="Select only"
