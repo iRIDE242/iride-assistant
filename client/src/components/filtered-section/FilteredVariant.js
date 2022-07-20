@@ -161,9 +161,11 @@ export default function FilteredVariant({
 
   // Sync the discount change from product
   useEffect(() => {
-    isSelectedOnly &&
-      setPriceSetting(getPriceSetting(variant, discountFromProduct))
-  }, [discountFromProduct, isSelectedOnly, variant])
+    isSelectedOnly
+      ? checkbox.checked &&
+        setPriceSetting(getPriceSetting(variant, discountFromProduct))
+      : setPriceSetting(getPriceSetting(variant, discountFromProduct))
+  }, [checkbox.checked, discountFromProduct, isSelectedOnly, variant])
 
   // Responde to the reset from product
   useEffect(() => {
