@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { getVariantById } from '../../utils/api'
 import { idGroups, idRoles } from '../../utils/config'
+import { useChildCheckbox } from '../../utils/customHooks'
 import {
   createTwoDigitString,
   MODIFIED,
@@ -100,6 +101,13 @@ export default function FilteredVariant({
   resetFromProduct,
   isSelectedOnly,
 }) {
+  const [checkbox, handleChange] = useChildCheckbox(
+    checkedFromProduct,
+    setCheckboxFromProduct,
+    setCheckboxFromSection,
+    fromSection
+  )
+
   const [originalPriceSetting, setOriginalPriceSetting] = useState(() =>
     getPriceSetting(variant)
   )
@@ -170,14 +178,23 @@ export default function FilteredVariant({
     <div className="variant--wrapper">
       <div className="variant--title">
         {/* Variant checkbox */}
-        <ChildCheckbox
+        {/* <ChildCheckbox
           id={`${idGroups.variant}--${idRoles.handler}-${variant.id}`}
           label={`${product.title} - ${variant.title}`}
           checkedFromParent={checkedFromProduct}
           setParentCheckbox={setCheckboxFromProduct}
           setGrandParentCheckbox={setCheckboxFromSection}
           fromSection={fromSection}
+        /> */}
+        <input
+          type="checkbox"
+          id={`${idGroups.variant}--${idRoles.handler}-${variant.id}`}
+          checked={checkbox.checked}
+          onChange={handleChange}
         />
+        <label
+          htmlFor={`${idGroups.variant}--${idRoles.handler}-${variant.id}`}
+        >{`${product.title} - ${variant.title}`}</label>
 
         <button onClick={handleGetVariant(variant.id)}>GET VARIANT</button>
       </div>

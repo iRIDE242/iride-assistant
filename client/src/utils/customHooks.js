@@ -142,6 +142,59 @@ export const useAnotherCheckbox = (checkedFromParent, setParentCheckbox) => {
   return [checkbox, setCheckbox, handleChange]
 }
 
+export const useChildCheckbox = (
+  checkedFromParent,
+  setParentCheckbox,
+  setGrandParentCheckbox,
+  fromSection
+) => {
+  const [checkbox, setCheckbox] = useState({
+    checked: false,
+    fromParent: true,
+    fromSection: null,
+  })
+
+  const handleChange = () => {
+    setCheckbox(current => ({
+      checked: !current.checked,
+      fromParent: false,
+      fromSection: current.fromSection === null ? null : false,
+    }))
+  }
+
+  // Synced with parent checkbox state
+  useEffect(() => {
+    console.log('child - toggle child checkebox by parent')
+    setCheckbox(current => ({
+      checked: checkedFromParent,
+      fromParent: true,
+      fromSection:
+        fromSection === undefined ? current.fromSection : fromSection,
+    }))
+  }, [checkedFromParent, fromSection])
+
+  // Manipulate the indeterminate state of section and product checkboxes
+  useEffect(() => {
+    updateParentCheckbox(
+      checkbox.checked,
+      checkbox.fromParent,
+      setParentCheckbox
+    )
+  }, [checkbox.checked, checkbox.fromParent, setParentCheckbox])
+
+  useEffect(() => {
+    setGrandParentCheckbox &&
+      checkbox.fromSection !== null &&
+      updateParentCheckbox(
+        checkbox.checked,
+        checkbox.fromSection,
+        setGrandParentCheckbox
+      )
+  }, [checkbox.checked, checkbox.fromSection, setGrandParentCheckbox])
+
+  return [checkbox, handleChange]
+}
+
 /**
  * Filtered products
  */
