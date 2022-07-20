@@ -11,7 +11,11 @@ import {
   useReset,
 } from '../../utils/customHooks'
 import { idGroups, idRoles } from '../../utils/config'
-import { NOT_MODIFIED, toggleBlock } from '../../utils/helper'
+import {
+  NOT_MODIFIED,
+  SELECTED_MODIFIED,
+  toggleBlock,
+} from '../../utils/helper'
 import Checkbox from '../Checkbox'
 import ParentCheckbox from '../ParentCheckbox'
 import { useCheckboxHost } from '../../custom-hooks/useCheckboxHost'
@@ -87,11 +91,12 @@ export default function FilteredProduct({
     }
   }
 
-  const handleSelectedOnlyChange = () =>
+  const handleSelectedOnlyChange = () => {
     setDiscount(current => ({
-      state: NOT_MODIFIED,
+      state: SELECTED_MODIFIED,
       value: current.value,
     }))
+  }
 
   // Get the filtered variants from product
   useEffect(() => {

@@ -6,6 +6,7 @@ import {
   createTwoDigitString,
   MODIFIED,
   NOT_MODIFIED,
+  SELECTED_MODIFIED,
 } from '../../utils/helper'
 import ChildCheckbox from '../ChildCheckbox'
 
@@ -28,7 +29,7 @@ const getDiscount = (price, cap) => {
   return Math.ceil(100 - (Number(price) / Number(cap)) * 100)
 }
 
-const getPriceSetting = (variant, discountFromProduct) => {
+const getPriceSetting = (variant, discountFromProduct, current) => {
   // Examples:
   // Number('') or Number('   ') -> 0  Number('   ') won't happen here thanks to number input
   // Number('sa') -> NaN  This case won't happen here thanks to number input
@@ -51,6 +52,9 @@ const getPriceSetting = (variant, discountFromProduct) => {
       discount: getDiscount(price, compare_at_price),
     }
   }
+
+  // For selected only changes
+  if (discountFromProduct?.state === SELECTED_MODIFIED) return current
 
   const { state, value } = discountFromProduct
   const discountNumber = Number(value)
@@ -163,8 +167,12 @@ export default function FilteredVariant({
   useEffect(() => {
     isSelectedOnly
       ? checkbox.checked &&
-        setPriceSetting(getPriceSetting(variant, discountFromProduct))
-      : setPriceSetting(getPriceSetting(variant, discountFromProduct))
+        setPriceSetting(current =>
+          getPriceSetting(variant, discountFromProduct, current)
+        )
+      : setPriceSetting(current =>
+          getPriceSetting(variant, discountFromProduct, current)
+        )
   }, [checkbox.checked, discountFromProduct, isSelectedOnly, variant])
 
   // Responde to the reset from product
