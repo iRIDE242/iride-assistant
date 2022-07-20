@@ -4,7 +4,11 @@ import {
   removeSelectedHiddenStatus,
   updateSelectedVariants,
 } from '../../actions/products'
-import { handleDiscountValue, MODIFIED } from '../../utils/helper'
+import {
+  handleDiscountValue,
+  MODIFIED,
+  SELECTED_MODIFIED,
+} from '../../utils/helper'
 import TitleCheckbox from '../TitleCheckbox'
 import { updateProducts, useProducts } from '../../context/products'
 import { collections, idGroups, idRoles } from '../../utils/config'
@@ -56,7 +60,7 @@ export default function FilteredProducts({
     selected: 0,
   })
 
-  const [discount, handleSetDiscount] = useDiscount()
+  const [discount, handleSetDiscount, setDiscount] = useDiscount()
 
   const [reset, resetPriceSetting] = useReset()
 
@@ -146,6 +150,13 @@ export default function FilteredProducts({
     }
   }
 
+  const handleSelectedOnlyChange = () => {
+    setDiscount(current => ({
+      state: SELECTED_MODIFIED,
+      value: current.value,
+    }))
+  }
+
   useEffect(() => {
     console.log('effect - products')
     let filteredVariants = []
@@ -212,6 +223,7 @@ export default function FilteredProducts({
         <ParentCheckbox
           parentCheckbox={selectedOnly}
           setParentCheckbox={setSelectedOnly}
+          onChange={handleSelectedOnlyChange}
           inputId={`${idGroups.setPrice}--${idRoles.section}-${collectionId}`}
           inputTitle="Selected only"
         />

@@ -5,6 +5,7 @@ import {
   mapValueToArray,
   MODIFIED,
   NOT_MODIFIED,
+  SELECTED_MODIFIED,
   updateParentCheckbox,
 } from './helper'
 
@@ -234,9 +235,9 @@ export const useDiscount = discountFromAbove => {
   useEffect(() => {
     if (discountFromAbove) {
       const { state, value } = discountFromAbove
-      if (state === MODIFIED)
+      if (state === MODIFIED || state === SELECTED_MODIFIED)
         setDiscount({
-          state: MODIFIED,
+          state: state,
           value,
         })
     }

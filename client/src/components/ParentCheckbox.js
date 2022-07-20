@@ -18,6 +18,7 @@ function SizedHeader({ headerSize, children }) {
 export default function ParentCheckbox({
   parentCheckbox: { max, selected, checked },
   setParentCheckbox,
+  onChange,
   inputId,
   inputTitle,
   headerSize,
@@ -25,6 +26,8 @@ export default function ParentCheckbox({
   const inputRef = useRef()
 
   const handleChange = () => {
+    onChange && onChange()
+
     setParentCheckbox(current =>
       current.fromSection === undefined
         ? {
