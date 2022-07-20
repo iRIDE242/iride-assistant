@@ -8,7 +8,6 @@ import {
   NOT_MODIFIED,
   SELECTED_MODIFIED,
 } from '../../utils/helper'
-import ChildCheckbox from '../ChildCheckbox'
 
 const getOriginalPrice = (price, cap) => {
   const priceNumber = Number(price)
@@ -188,14 +187,6 @@ export default function FilteredVariant({
     <div className="variant--wrapper">
       <div className="variant--title">
         {/* Variant checkbox */}
-        {/* <ChildCheckbox
-          id={`${idGroups.variant}--${idRoles.handler}-${variant.id}`}
-          label={`${product.title} - ${variant.title}`}
-          checkedFromParent={checkedFromProduct}
-          setParentCheckbox={setCheckboxFromProduct}
-          setGrandParentCheckbox={setCheckboxFromSection}
-          fromSection={fromSection}
-        /> */}
         <input
           type="checkbox"
           id={`${idGroups.variant}--${idRoles.handler}-${variant.id}`}
