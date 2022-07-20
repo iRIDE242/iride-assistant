@@ -11,9 +11,11 @@ import {
   useReset,
 } from '../../utils/customHooks'
 import { idGroups, idRoles } from '../../utils/config'
-import { toggleBlock } from '../../utils/helper'
+import { NOT_MODIFIED, toggleBlock } from '../../utils/helper'
 import Checkbox from '../Checkbox'
 import ParentCheckbox from '../ParentCheckbox'
+import { useCheckboxHost } from '../../custom-hooks/useCheckboxHost'
+import CheckboxHost from '../CheckboxHost'
 
 export default function FilteredProduct({
   product,
@@ -46,12 +48,17 @@ export default function FilteredProduct({
     setShowVariants
   )
 
-  const [selectedOnly, , toggleSelectedOnly] = useAnotherCheckbox(
+  // const [selectedOnly, , toggleSelectedOnly] = useAnotherCheckbox(
+  //   selectedOnlyFromParent.checked,
+  //   setSelectedOnly
+  // )
+  const [selectedOnly, toggleSelectedOnly] = useCheckboxHost(
     selectedOnlyFromParent.checked,
     setSelectedOnly
   )
 
-  const [discount, handleSetDiscount] = useDiscount(discountFromSection)
+  const [discount, handleSetDiscount, setDiscount] =
+    useDiscount(discountFromSection)
 
   // Here cannot use useRef to replace useState to avoid unnecessary re-rendering
   // since the ref version of reset that is needed to pass down to children
@@ -79,6 +86,12 @@ export default function FilteredProduct({
       throw error
     }
   }
+
+  const handleSelectedOnlyChange = () =>
+    setDiscount(current => ({
+      state: NOT_MODIFIED,
+      value: current.value,
+    }))
 
   // Get the filtered variants from product
   useEffect(() => {
@@ -141,11 +154,18 @@ export default function FilteredProduct({
         <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
 
         {/* Selected only child */}
-        <Checkbox
+        {/* <Checkbox
           id={`${idGroups.setPrice}--${idRoles.selectedOnly}-${product.id}`}
           label="Select only"
           checked={selectedOnly.checked}
           handleChange={toggleSelectedOnly}
+        /> */}
+        <CheckboxHost
+          id={`${idGroups.setPrice}--${idRoles.selectedOnly}-${product.id}`}
+          label="Select only"
+          checked={selectedOnly.checked}
+          onChange={handleSelectedOnlyChange}
+          handleCheckboxHostChange={toggleSelectedOnly}
         />
       </div>
 

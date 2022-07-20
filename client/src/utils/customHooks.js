@@ -242,7 +242,7 @@ export const useDiscount = discountFromAbove => {
     }
   }, [discountFromAbove])
 
-  return [discount, handleSetDiscount]
+  return [discount, handleSetDiscount, setDiscount]
 }
 
 /**
