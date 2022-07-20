@@ -192,7 +192,7 @@ export const useChildCheckbox = (
       )
   }, [checkbox.checked, checkbox.fromSection, setGrandParentCheckbox])
 
-  return [checkbox, handleChange, setCheckbox]
+  return [checkbox, handleChange]
 }
 
 /**

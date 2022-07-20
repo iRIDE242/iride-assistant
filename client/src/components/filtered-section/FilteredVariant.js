@@ -101,7 +101,7 @@ export default function FilteredVariant({
   resetFromProduct,
   isSelectedOnly,
 }) {
-  const [checkbox, , setCheckbox] = useChildCheckbox(
+  const [checkbox, handleChange] = useChildCheckbox(
     checkedFromProduct,
     setCheckboxFromProduct,
     setCheckboxFromSection,
@@ -150,8 +150,6 @@ export default function FilteredVariant({
       throw error
     }
   }
-
-  const handleChange = () => {}
 
   // Check if original setting changes when variant changes
   useEffect(() => {
