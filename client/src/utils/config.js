@@ -11,7 +11,7 @@ export const collections = {
   },
   294112133312: {
     id: '294112133312',
-    name: 'EVOC',
+    name: 'Temp 2',
   },
   294162497728: {
     id: '294162497728',
