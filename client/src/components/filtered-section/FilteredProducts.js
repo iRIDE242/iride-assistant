@@ -4,12 +4,7 @@ import {
   removeSelectedHiddenStatus,
   updateSelectedVariants,
 } from '../../actions/products'
-import {
-  handleDiscountValue,
-  MODIFIED,
-  SELECTED_MODIFIED,
-} from '../../utils/helper'
-import TitleCheckbox from '../TitleCheckbox'
+import { SELECTED_MODIFIED } from '../../utils/helper'
 import { updateProducts, useProducts } from '../../context/products'
 import { collections, idGroups, idRoles } from '../../utils/config'
 import { getAllFilters } from '../../utils/filters'
@@ -38,9 +33,6 @@ export default function FilteredProducts({
   settings: { background, mainColor },
   collectionId,
 }) {
-  const [checked, setChecked] = useState(false)
-  const [selected, setSelected] = useState(0)
-
   const [checkbox, setCheckbox] = useState(() => ({
     max: 0,
     checked: false,
@@ -192,16 +184,6 @@ export default function FilteredProducts({
   return (
     <div style={{ background: background }} className="products-wrapper">
       <div>
-        {/* <TitleCheckbox
-          selected={selected}
-          length={variantsCounts}
-          checked={checked}
-          setChecked={setChecked}
-          inputId={`${idGroups.filteredProducts}--${idRoles.section}-${collectionId}`}
-          inputTitle={inputTitle}
-          headerSize="h2"
-        /> */}
-
         {/* Products checkbox */}
         <ParentCheckbox
           parentCheckbox={checkbox}
