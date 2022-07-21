@@ -6,8 +6,8 @@ import { callAll, updateParentCheckbox } from '../utils/helper'
 export const useChildCheckbox = (
   checkedFromParent,
   setParentCheckbox,
-  setGrandParentCheckbox,
-  fromSection
+  setGrandParentCheckbox, // optional
+  fromSection // optional
 ) => {
   const [childCheckbox, setChildCheckbox] = useState({
     checked: false,

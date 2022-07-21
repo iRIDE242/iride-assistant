@@ -1,17 +1,15 @@
+// Only UI ChildCheckbox
+// The state is defined outside since it is also used by other components.
 export default function ChildCheckboxHost({
   id,
   label,
   checked,
   onChange,
-  setCheckbox,
+  handleChildCheckboxChange,
 }) {
   const handleChange = () => {
     onChange()
-    setCheckbox(current => ({
-      checked: !current.checked,
-      fromParent: false,
-      fromSection: current.fromSection === null ? null : false,
-    }))
+    handleChildCheckboxChange()
   }
 
   return (

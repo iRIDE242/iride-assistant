@@ -15,7 +15,7 @@ import { SELECTED_MODIFIED, toggleBlock } from '../../utils/helper'
 import Checkbox from '../Checkbox'
 import ParentCheckbox from '../ParentCheckbox'
 import { useChildCheckbox } from '../../custom-hooks/useChildCheckbox'
-import CheckboxHost from '../CheckboxHost'
+import ChildCheckboxHost from '../ChildCheckboxHost'
 
 export default function FilteredProduct({
   product,
@@ -151,12 +151,12 @@ export default function FilteredProduct({
         <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
 
         {/* Selected only child */}
-        <CheckboxHost
+        <ChildCheckboxHost
           id={`${idGroups.setPrice}--${idRoles.selectedOnly}-${product.id}`}
           label="Select only"
           checked={selectedOnly.checked}
           onChange={handleSelectedOnlyChange}
-          handleCheckboxHostChange={toggleSelectedOnly}
+          handleChildCheckboxChange={toggleSelectedOnly}
         />
       </div>
 
