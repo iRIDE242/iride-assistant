@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { updateParentCheckbox } from '../utils/helper'
 
-// For checkbox which state is defined outside of component
+// For child checkbox which state is defined outside of component
 // since its state is also used by other components.
 export const useChildCheckboxHost = (checkedFromParent, setParentCheckbox) => {
   const [childCheckboxHost, setChildCheckboxHost] = useState({
