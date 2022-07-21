@@ -26,11 +26,11 @@ export const useDiscount = discountFromAbove => {
   useEffect(() => {
     if (discountFromAbove) {
       const { state, value } = discountFromAbove
-      if (state === STAY_SYNCED || state === KEEP_VALUE)
-        setDiscount({
+      if (state !== SHOW_INITIAL)
+        setDiscount(current => ({
           state: state,
-          value,
-        })
+          value: state === STAY_SYNCED ? value : current.value,
+        }))
     }
   }, [discountFromAbove])
 
