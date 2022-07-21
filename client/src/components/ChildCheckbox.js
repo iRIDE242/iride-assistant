@@ -9,23 +9,18 @@ export default function ChildCheckbox({
   fromSection,
   onChange,
 }) {
-  const [childCheckbox, , getChildCheckboxProps] = useChildCheckbox(
+  const [checkbox, , getCheckboxProps] = useChildCheckbox(
     checkedFromParent,
     setParentCheckbox,
     setGrandParentCheckbox,
     fromSection
   )
 
-  const props = getChildCheckboxProps({ onChange })
+  const props = getCheckboxProps({ onChange })
 
   return (
     <>
-      <input
-        type="checkbox"
-        id={id}
-        checked={childCheckbox.checked}
-        {...props}
-      />
+      <input type="checkbox" id={id} checked={checkbox.checked} {...props} />
       <label htmlFor={id}>{label}</label>
     </>
   )
