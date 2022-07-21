@@ -48,8 +48,6 @@ export default function ParentCheckbox({
 
   // Manipulater indeterminate value
   useEffect(() => {
-    console.log('effect - checkbox')
-
     if (selected > 0 && selected < max) {
       inputRef.current.indeterminate = true
     } else {

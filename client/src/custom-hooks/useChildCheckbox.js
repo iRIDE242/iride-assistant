@@ -30,7 +30,6 @@ export const useChildCheckbox = (
 
   // Synced with parent checkbox state
   useEffect(() => {
-    console.log('child - toggle child checkebox from parent')
     setChildCheckbox(current => ({
       checked: checkedFromParent,
       fromParent: true,

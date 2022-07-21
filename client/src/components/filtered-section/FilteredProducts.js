@@ -151,7 +151,6 @@ export default function FilteredProducts({
   }
 
   useEffect(() => {
-    console.log('effect - products')
     let filteredVariants = []
     const filterVariants = getAllFilters(filters, false)
 
