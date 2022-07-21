@@ -79,10 +79,10 @@ export default function FilteredProduct({
     }
   }
 
-  const handleSelectedOnlyChange = () => {
+  const keepDiscountValue = () => {
     setDiscount(current => ({
+      ...current,
       state: KEEP_VALUE,
-      value: current.value,
     }))
   }
 
@@ -109,6 +109,7 @@ export default function FilteredProduct({
         <ParentCheckbox
           parentCheckbox={checkbox}
           setParentCheckbox={setCheckbox}
+          onChange={keepDiscountValue}
           inputId={`${idGroups.filteredProducts}--${idRoles.product}-${product.id}`}
           inputTitle={product.title}
           headerSize="h3"
@@ -151,7 +152,7 @@ export default function FilteredProduct({
           id={`${idGroups.setPrice}--${idRoles.selectedOnly}-${product.id}`}
           label="Select only"
           checked={selectedOnly.checked}
-          onChange={handleSelectedOnlyChange}
+          onChange={keepDiscountValue}
           handleChildCheckboxChange={toggleSelectedOnly}
         />
       </div>
