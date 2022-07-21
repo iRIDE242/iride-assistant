@@ -4,11 +4,11 @@ export default function ChildCheckboxHost({
   id,
   label,
   checked,
-  onChange,
+  onChange, // optional
   handleChildCheckboxChange,
 }) {
   const handleChange = () => {
-    onChange()
+    onChange && onChange()
     handleChildCheckboxChange()
   }
 
