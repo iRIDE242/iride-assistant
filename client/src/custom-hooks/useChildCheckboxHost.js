@@ -3,14 +3,14 @@ import { updateParentCheckbox } from '../utils/helper'
 
 // For checkbox which state is defined outside of component
 // since its state is also used by other components.
-export const useCheckboxHost = (checkedFromParent, setParentCheckbox) => {
-  const [checkboxHost, setCheckboxHost] = useState({
+export const useChildCheckboxHost = (checkedFromParent, setParentCheckbox) => {
+  const [childCheckboxHost, setChildCheckboxHost] = useState({
     checked: false,
     fromParent: true,
   })
 
   const handleCheckboxHostChange = () => {
-    setCheckboxHost(current => ({
+    setChildCheckboxHost(current => ({
       checked: !current.checked,
       fromParent: false,
     }))
@@ -19,7 +19,7 @@ export const useCheckboxHost = (checkedFromParent, setParentCheckbox) => {
   // Synced with parent checkbox state
   useEffect(() => {
     console.log('host - toggle child checkebox from parent')
-    setCheckboxHost({
+    setChildCheckboxHost({
       checked: checkedFromParent,
       fromParent: true,
     })
@@ -28,11 +28,11 @@ export const useCheckboxHost = (checkedFromParent, setParentCheckbox) => {
   // Update selected state in parent checkbox
   useEffect(() => {
     updateParentCheckbox(
-      checkboxHost.checked,
-      checkboxHost.fromParent,
+      childCheckboxHost.checked,
+      childCheckboxHost.fromParent,
       setParentCheckbox
     )
-  }, [checkboxHost.checked, checkboxHost.fromParent, setParentCheckbox])
+  }, [childCheckboxHost.checked, childCheckboxHost.fromParent, setParentCheckbox])
 
-  return [checkboxHost, handleCheckboxHostChange]
+  return [childCheckboxHost, handleCheckboxHostChange]
 }

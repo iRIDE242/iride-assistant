@@ -14,7 +14,7 @@ import { idGroups, idRoles } from '../../utils/config'
 import { SELECTED_MODIFIED, toggleBlock } from '../../utils/helper'
 import Checkbox from '../Checkbox'
 import ParentCheckbox from '../ParentCheckbox'
-import { useCheckboxHost } from '../../custom-hooks/useCheckboxHost'
+import { useChildCheckboxHost } from '../../custom-hooks/useChildCheckboxHost'
 import CheckboxHost from '../CheckboxHost'
 
 export default function FilteredProduct({
@@ -48,7 +48,7 @@ export default function FilteredProduct({
     setShowVariants
   )
 
-  const [selectedOnly, toggleSelectedOnly] = useCheckboxHost(
+  const [selectedOnly, toggleSelectedOnly] = useChildCheckboxHost(
     selectedOnlyFromParent.checked,
     setSelectedOnly
   )
