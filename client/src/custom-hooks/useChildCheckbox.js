@@ -1,32 +1,37 @@
 import { useEffect, useState } from 'react'
-import { updateParentCheckbox } from '../utils/helper'
+import { callAll, updateParentCheckbox } from '../utils/helper'
 
 // For child checkbox which state is defined outside of component
 // since its state is also used by other components.
-export const useChildCheckboxHost = (
+export const useChildCheckbox = (
   checkedFromParent,
   setParentCheckbox,
   setGrandParentCheckbox,
   fromSection
 ) => {
-  const [childCheckboxHost, setChildCheckboxHost] = useState({
+  const [childCheckbox, setChildCheckbox] = useState({
     checked: false,
     fromParent: true,
     fromSection: null,
   })
 
-  const handleCheckboxHostChange = () => {
-    setChildCheckboxHost(current => ({
+  const handleChildCheckboxChange = () => {
+    setChildCheckbox(current => ({
       checked: !current.checked,
       fromParent: false,
       fromSection: current.fromSection === null ? null : false,
     }))
   }
 
+  const getChildCheckboxProps = ({ onChange, ...props }) => ({
+    onchange: callAll(onChange, handleChildCheckboxChange),
+    ...props,
+  })
+
   // Synced with parent checkbox state
   useEffect(() => {
     console.log('host - toggle child checkebox from parent')
-    setChildCheckboxHost(current => ({
+    setChildCheckbox(current => ({
       checked: checkedFromParent,
       fromParent: true,
       fromSection:
@@ -39,30 +44,22 @@ export const useChildCheckboxHost = (
   // but not checked change caused by the parent checkbox sync.
   useEffect(() => {
     updateParentCheckbox(
-      childCheckboxHost.checked,
-      childCheckboxHost.fromParent,
+      childCheckbox.checked,
+      childCheckbox.fromParent,
       setParentCheckbox
     )
-  }, [
-    childCheckboxHost.checked,
-    childCheckboxHost.fromParent,
-    setParentCheckbox,
-  ])
+  }, [childCheckbox.checked, childCheckbox.fromParent, setParentCheckbox])
 
   // Update selected state in grandparent checkbox for indeterminate value.
   useEffect(() => {
     setGrandParentCheckbox &&
-      childCheckboxHost.fromSection !== null &&
+      childCheckbox.fromSection !== null &&
       updateParentCheckbox(
-        childCheckboxHost.checked,
-        childCheckboxHost.fromSection,
+        childCheckbox.checked,
+        childCheckbox.fromSection,
         setGrandParentCheckbox
       )
-  }, [
-    childCheckboxHost.checked,
-    childCheckboxHost.fromSection,
-    setGrandParentCheckbox,
-  ])
+  }, [childCheckbox.checked, childCheckbox.fromSection, setGrandParentCheckbox])
 
-  return [childCheckboxHost, handleCheckboxHostChange]
+  return [childCheckbox, handleChildCheckboxChange, getChildCheckboxProps]
 }
