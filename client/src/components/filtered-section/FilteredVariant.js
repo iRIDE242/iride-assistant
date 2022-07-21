@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
+import { useChildCheckbox } from '../../custom-hooks/useChildCheckbox'
 import { getVariantById } from '../../utils/api'
 import { idGroups, idRoles } from '../../utils/config'
-import { useChildCheckbox } from '../../utils/customHooks'
 import { createTwoDigitString } from '../../utils/helper'
 import {
   arePriceSettingsIdentical,
@@ -9,6 +9,7 @@ import {
   getOriginalPrice,
   getPriceSetting,
 } from '../../utils/helpers/filterVariant'
+import ChildCheckboxHost from '../ChildCheckboxHost'
 
 export default function FilteredVariant({
   product,
@@ -21,7 +22,7 @@ export default function FilteredVariant({
   resetFromProduct,
   isSelectedOnly,
 }) {
-  const [checkbox, handleChange] = useChildCheckbox(
+  const [childCheckbox, handleChildCheckboxChange] = useChildCheckbox(
     checkedFromProduct,
     setCheckboxFromProduct,
     setCheckboxFromSection,
@@ -82,14 +83,14 @@ export default function FilteredVariant({
   // Sync the discount change from product
   useEffect(() => {
     isSelectedOnly
-      ? checkbox.checked &&
+      ? childCheckbox.checked &&
         setPriceSetting(current =>
           getPriceSetting(variant, discountFromProduct, current)
         )
       : setPriceSetting(current =>
           getPriceSetting(variant, discountFromProduct, current)
         )
-  }, [checkbox.checked, discountFromProduct, isSelectedOnly, variant])
+  }, [childCheckbox.checked, discountFromProduct, isSelectedOnly, variant])
 
   // Responde to the reset from product
   useEffect(() => {
@@ -104,15 +105,12 @@ export default function FilteredVariant({
     <div className="variant--wrapper">
       <div className="variant--title">
         {/* Variant checkbox */}
-        <input
-          type="checkbox"
+        <ChildCheckboxHost
           id={`${idGroups.variant}--${idRoles.handler}-${variant.id}`}
-          checked={checkbox.checked}
-          onChange={handleChange}
+          label={`${product.title} - ${variant.title}`}
+          checked={childCheckbox.checked}
+          handleChildCheckboxChange={handleChildCheckboxChange}
         />
-        <label
-          htmlFor={`${idGroups.variant}--${idRoles.handler}-${variant.id}`}
-        >{`${product.title} - ${variant.title}`}</label>
 
         <button onClick={handleGetVariant(variant.id)}>GET VARIANT</button>
       </div>
