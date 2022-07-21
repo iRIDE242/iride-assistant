@@ -3,9 +3,9 @@ import { getAllFilters } from './filters'
 import {
   handleDiscountValue,
   mapValueToArray,
-  MODIFIED,
-  NOT_MODIFIED,
-  SELECTED_MODIFIED,
+  STAY_SYNCED,
+  SHOW_INITIAL,
+  KEEP_VALUE,
 } from './helper'
 
 /**
@@ -68,7 +68,7 @@ export const useFilteredProducts = (productsMap, filters) => {
  */
 export const useDiscount = discountFromAbove => {
   const [discount, setDiscount] = useState({
-    state: NOT_MODIFIED,
+    state: SHOW_INITIAL,
     value: '',
   })
 
@@ -78,7 +78,7 @@ export const useDiscount = discountFromAbove => {
     // and the event value will be a blank space ''.
     // then any further illegal inputs won't trigger event any more.
     setDiscount({
-      state: MODIFIED,
+      state: STAY_SYNCED,
       value: handleDiscountValue(e.target.value),
     })
   }
@@ -86,7 +86,7 @@ export const useDiscount = discountFromAbove => {
   useEffect(() => {
     if (discountFromAbove) {
       const { state, value } = discountFromAbove
-      if (state === MODIFIED || state === SELECTED_MODIFIED)
+      if (state === STAY_SYNCED || state === KEEP_VALUE)
         setDiscount({
           state: state,
           value,

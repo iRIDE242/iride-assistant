@@ -1,4 +1,4 @@
-import { MODIFIED, NOT_MODIFIED, SELECTED_MODIFIED } from '../helper'
+import { STAY_SYNCED, SHOW_INITIAL, KEEP_VALUE } from '../helper'
 
 export const getOriginalPrice = (price, cap) => {
   const priceNumber = Number(price)
@@ -34,7 +34,7 @@ export const getPriceSetting = (variant, discountFromProduct, current) => {
   // discountFromProduct -> undefined
   if (
     discountFromProduct === undefined ||
-    discountFromProduct?.state === NOT_MODIFIED
+    discountFromProduct?.state === SHOW_INITIAL
   ) {
     return {
       price: Number(price),
@@ -44,12 +44,12 @@ export const getPriceSetting = (variant, discountFromProduct, current) => {
   }
 
   // For selected only changes
-  if (discountFromProduct?.state === SELECTED_MODIFIED) return current
+  if (discountFromProduct?.state === KEEP_VALUE) return current
 
   const { state, value } = discountFromProduct
   const discountNumber = Number(value)
 
-  if (state === MODIFIED) {
+  if (state === STAY_SYNCED) {
     // Number('') -> 0
     if (value === '') {
       return {

@@ -97,9 +97,9 @@ export const handleDiscountValue = discount => {
   return discount === '' ? discount : Number(discount)
 }
 
-export const MODIFIED = 'MODIFIED'
-export const NOT_MODIFIED = 'NOT MODIFIED'
-export const SELECTED_MODIFIED = 'SELECTED MODIFIED'
+export const SHOW_INITIAL = 'SHOW INITIAL'
+export const STAY_SYNCED = 'STAY SYNCED'
+export const KEEP_VALUE = 'KEEP VALUE'
 
 export const createTwoDigitString = numStr => Number(numStr).toFixed(2)
 

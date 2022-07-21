@@ -4,7 +4,7 @@ import {
   removeSelectedHiddenStatus,
   updateSelectedVariants,
 } from '../../actions/products'
-import { SELECTED_MODIFIED } from '../../utils/helper'
+import { KEEP_VALUE } from '../../utils/helper'
 import { updateProducts, useProducts } from '../../context/products'
 import { collections, idGroups, idRoles } from '../../utils/config'
 import { getAllFilters } from '../../utils/filters'
@@ -145,7 +145,7 @@ export default function FilteredProducts({
 
   const handleSelectedOnlyChange = () => {
     setDiscount(current => ({
-      state: SELECTED_MODIFIED,
+      state: KEEP_VALUE,
       value: current.value,
     }))
   }

@@ -7,7 +7,7 @@ import CopyHint from '../CopyHint'
 import { getAllFilters } from '../../utils/filters'
 import { useDiscount, useReset } from '../../utils/customHooks'
 import { idGroups, idRoles } from '../../utils/config'
-import { SELECTED_MODIFIED, toggleBlock } from '../../utils/helper'
+import { KEEP_VALUE, toggleBlock } from '../../utils/helper'
 import ParentCheckbox from '../ParentCheckbox'
 import { useChildCheckbox } from '../../custom-hooks/useChildCheckbox'
 import ChildCheckboxHost from '../ChildCheckboxHost'
@@ -80,7 +80,7 @@ export default function FilteredProduct({
 
   const handleSelectedOnlyChange = () => {
     setDiscount(current => ({
-      state: SELECTED_MODIFIED,
+      state: KEEP_VALUE,
       value: current.value,
     }))
   }
