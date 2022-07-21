@@ -6,7 +6,6 @@ import {
   MODIFIED,
   NOT_MODIFIED,
   SELECTED_MODIFIED,
-  updateParentCheckbox,
 } from './helper'
 
 /**
