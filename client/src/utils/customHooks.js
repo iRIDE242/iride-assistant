@@ -109,40 +109,6 @@ export const useCheckbox = (
   return [checked, setChecked, handleChange]
 }
 
-export const useAnotherCheckbox = (checkedFromParent, setParentCheckbox) => {
-  const [checkbox, setCheckbox] = useState({
-    checked: false,
-    fromParent: true,
-  })
-
-  const handleChange = () => {
-    setCheckbox(current => ({
-      checked: !current.checked,
-      fromParent: false,
-    }))
-  }
-
-  // Synced with parent checkbox state
-  useEffect(() => {
-    console.log('another - toggle child checkebox by parent')
-    setCheckbox({
-      checked: checkedFromParent,
-      fromParent: true,
-    })
-  }, [checkedFromParent])
-
-  // Manipulate the indeterminate state of section and product checkboxes
-  useEffect(() => {
-    updateParentCheckbox(
-      checkbox.checked,
-      checkbox.fromParent,
-      setParentCheckbox
-    )
-  }, [checkbox.checked, checkbox.fromParent, setParentCheckbox])
-
-  return [checkbox, setCheckbox, handleChange]
-}
-
 /**
  * Filtered products
  */

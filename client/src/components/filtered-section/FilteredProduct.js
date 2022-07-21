@@ -5,14 +5,9 @@ import { updateProduct, useProducts } from '../../context/products'
 import CopyButton from '../CopyButton'
 import CopyHint from '../CopyHint'
 import { getAllFilters } from '../../utils/filters'
-import {
-  useAnotherCheckbox,
-  useDiscount,
-  useReset,
-} from '../../utils/customHooks'
+import { useDiscount, useReset } from '../../utils/customHooks'
 import { idGroups, idRoles } from '../../utils/config'
 import { SELECTED_MODIFIED, toggleBlock } from '../../utils/helper'
-import Checkbox from '../Checkbox'
 import ParentCheckbox from '../ParentCheckbox'
 import { useChildCheckbox } from '../../custom-hooks/useChildCheckbox'
 import ChildCheckboxHost from '../ChildCheckboxHost'
@@ -43,7 +38,7 @@ export default function FilteredProduct({
     fromSection: true, // For updating selected from variant
   }))
 
-  const [showVariants, , toggleShowVariants] = useAnotherCheckbox(
+  const [showVariants, toggleShowVariants] = useChildCheckbox(
     showVariantsFromParent.checked,
     setShowVariants
   )
@@ -119,11 +114,11 @@ export default function FilteredProduct({
         />
 
         {/* Show variants child */}
-        <Checkbox
+        <ChildCheckboxHost
           id={`${idGroups.showVariants}--${idRoles.product}-${product.id}`}
           label="Show variants"
           checked={showVariants.checked}
-          handleChange={toggleShowVariants}
+          handleChildCheckboxChange={toggleShowVariants}
         />
 
         <CopyButton title={product.title} setIsCopied={setIsCopied} />
