@@ -24,7 +24,7 @@ export default function FilteredVariant({
   isSelectedOnly,
   setDiscount,
 }) {
-  const [childCheckbox, handleChildCheckboxChange] = useChildCheckbox(
+  const [checkbox, handleCheckboxChange] = useChildCheckbox(
     checkedFromProduct,
     setCheckboxFromProduct,
     setCheckboxFromSection,
@@ -92,14 +92,14 @@ export default function FilteredVariant({
   // Sync the discount change from product
   useEffect(() => {
     isSelectedOnly
-      ? childCheckbox.checked &&
+      ? checkbox.checked &&
         setPriceSetting(current =>
           getPriceSetting(variant, discountFromProduct, current)
         )
       : setPriceSetting(current =>
           getPriceSetting(variant, discountFromProduct, current)
         )
-  }, [childCheckbox.checked, discountFromProduct, isSelectedOnly, variant])
+  }, [checkbox.checked, discountFromProduct, isSelectedOnly, variant])
 
   // Responde to the reset from product
   useEffect(() => {
@@ -117,9 +117,9 @@ export default function FilteredVariant({
         <ChildCheckboxHost
           id={`${idGroups.variant}--${idRoles.handler}-${variant.id}`}
           label={`${product.title} - ${variant.title}`}
-          checked={childCheckbox.checked}
+          checked={checkbox.checked}
           onChange={handleVariantCheckboxChange}
-          handleCheckboxChange={handleChildCheckboxChange}
+          handleCheckboxChange={handleCheckboxChange}
         />
 
         <button onClick={handleGetVariant(variant.id)}>GET VARIANT</button>
