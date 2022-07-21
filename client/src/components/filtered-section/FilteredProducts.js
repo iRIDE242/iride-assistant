@@ -170,8 +170,8 @@ export default function FilteredProducts({
 
     setShowVariants({
       max: filteredProducts.length,
-      checked: false,
-      selected: 0,
+      checked: true,
+      selected: filteredProducts.length,
     })
 
     setSelectedOnly({
