@@ -4,7 +4,7 @@ export default function ChildCheckboxHost({
   id,
   label,
   checked,
-  onChange, // Optional. Side action when checking
+  onChange, // Optional. Side action from the component when checking
   handleCheckboxChange,
 }) {
   const handleChange = () => {

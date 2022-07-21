@@ -20,7 +20,7 @@ function SizedHeader({ headerSize, children }) {
 export default function ParentCheckbox({
   parentCheckbox: { max, selected, checked },
   setParentCheckbox,
-  onChange,  // optional
+  onChange, // Optional. Side action from the component when checking
   inputId,
   inputTitle,
   headerSize,
