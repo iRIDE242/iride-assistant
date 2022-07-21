@@ -29,7 +29,7 @@ export default function FilteredProduct({
 
   const [isCopied, setIsCopied] = useState(false)
 
-  // Title checkbox
+  // Product checkbox
   // Note, this checkbox won't handle selected from its direct parent, but leave it to variant.
   const [checkbox, setCheckbox] = useState(() => ({
     max: getAllFilters(filters, false)(product.variants).length,
