@@ -93,14 +93,6 @@ export const arrayToMapWithIdAsKey = arr => {
   return map
 }
 
-export const handleDiscountValue = discount => {
-  return discount === '' ? discount : Number(discount)
-}
-
-export const SHOW_INITIAL = 'SHOW INITIAL'
-export const STAY_SYNCED = 'STAY SYNCED'
-export const KEEP_VALUE = 'KEEP VALUE'
-
 export const createTwoDigitString = numStr => Number(numStr).toFixed(2)
 
 export const toggleBlock = condition => ({

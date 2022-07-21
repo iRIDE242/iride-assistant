@@ -1,12 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { getAllFilters } from './filters'
-import {
-  handleDiscountValue,
-  mapValueToArray,
-  STAY_SYNCED,
-  SHOW_INITIAL,
-  KEEP_VALUE,
-} from './helper'
+import { mapValueToArray } from './helper'
 
 /**
  * Helper function to create context.
@@ -61,40 +55,6 @@ export const useFilteredProducts = (productsMap, filters) => {
   }, [filters, productsMap])
 
   return [filteredProducts, setFilteredProducts]
-}
-
-/**
- * Discount for filtered section (products) and product
- */
-export const useDiscount = discountFromAbove => {
-  const [discount, setDiscount] = useState({
-    state: SHOW_INITIAL,
-    value: '',
-  })
-
-  const handleSetDiscount = e => {
-    // Number input will only responde legid inputs (number or blank space '')
-    // Illegal inputs will only trigger the event once when input converts from legid to illegal state,
-    // and the event value will be a blank space ''.
-    // then any further illegal inputs won't trigger event any more.
-    setDiscount({
-      state: STAY_SYNCED,
-      value: handleDiscountValue(e.target.value),
-    })
-  }
-
-  useEffect(() => {
-    if (discountFromAbove) {
-      const { state, value } = discountFromAbove
-      if (state === STAY_SYNCED || state === KEEP_VALUE)
-        setDiscount({
-          state: state,
-          value,
-        })
-    }
-  }, [discountFromAbove])
-
-  return [discount, handleSetDiscount, setDiscount]
 }
 
 /**

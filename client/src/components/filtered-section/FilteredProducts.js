@@ -4,12 +4,12 @@ import {
   removeSelectedHiddenStatus,
   updateSelectedVariants,
 } from '../../actions/products'
-import { KEEP_VALUE } from '../../utils/helper'
 import { updateProducts, useProducts } from '../../context/products'
 import { collections, idGroups, idRoles } from '../../utils/config'
 import { getAllFilters } from '../../utils/filters'
-import { useDiscount, useReset } from '../../utils/customHooks'
+import { useReset } from '../../utils/customHooks'
 import ParentCheckbox from '../ParentCheckbox'
+import { KEEP_VALUE, useDiscount } from '../../custom-hooks/useDiscount'
 
 const variantHandlerRegex = new RegExp(
   `${idGroups.variant}--${idRoles.handler}-(\\d+)` // Variant handler checkbox

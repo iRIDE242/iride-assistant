@@ -5,12 +5,13 @@ import { updateProduct, useProducts } from '../../context/products'
 import CopyButton from '../CopyButton'
 import CopyHint from '../CopyHint'
 import { getAllFilters } from '../../utils/filters'
-import { useDiscount, useReset } from '../../utils/customHooks'
+import { useReset } from '../../utils/customHooks'
 import { idGroups, idRoles } from '../../utils/config'
-import { KEEP_VALUE, toggleBlock } from '../../utils/helper'
+import { toggleBlock } from '../../utils/helper'
 import ParentCheckbox from '../ParentCheckbox'
 import { useChildCheckbox } from '../../custom-hooks/useChildCheckbox'
 import ChildCheckboxHost from '../ChildCheckboxHost'
+import { KEEP_VALUE, useDiscount } from '../../custom-hooks/useDiscount'
 
 export default function FilteredProduct({
   product,

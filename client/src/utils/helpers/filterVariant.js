@@ -1,4 +1,8 @@
-import { STAY_SYNCED, SHOW_INITIAL, KEEP_VALUE } from '../helper'
+import {
+  STAY_SYNCED,
+  SHOW_INITIAL,
+  KEEP_VALUE,
+} from '../../custom-hooks/useDiscount'
 
 export const getOriginalPrice = (price, cap) => {
   const priceNumber = Number(price)
