@@ -9,28 +9,28 @@ export const useChildCheckbox = (
   setGrandParentCheckbox, // optional
   fromSection // optional
 ) => {
-  const [childCheckbox, setChildCheckbox] = useState({
+  const [checkbox, setCheckbox] = useState({
     checked: false,
     fromParent: true,
     fromSection: null,
   })
 
-  const handleChildCheckboxChange = () => {
-    setChildCheckbox(current => ({
+  const handleCheckboxChange = () => {
+    setCheckbox(current => ({
       checked: !current.checked,
       fromParent: false,
       fromSection: current.fromSection === null ? null : false,
     }))
   }
 
-  const getChildCheckboxProps = ({ onChange, ...props }) => ({
-    onChange: callAll(onChange, handleChildCheckboxChange),
+  const getCheckboxProps = ({ onChange, ...props }) => ({
+    onChange: callAll(onChange, handleCheckboxChange),
     ...props,
   })
 
   // Synced with parent checkbox state
   useEffect(() => {
-    setChildCheckbox(current => ({
+    setCheckbox(current => ({
       checked: checkedFromParent,
       fromParent: true,
       fromSection:
@@ -43,22 +43,22 @@ export const useChildCheckbox = (
   // but not checked change caused by the parent checkbox sync.
   useEffect(() => {
     updateParentCheckbox(
-      childCheckbox.checked,
-      childCheckbox.fromParent,
+      checkbox.checked,
+      checkbox.fromParent,
       setParentCheckbox
     )
-  }, [childCheckbox.checked, childCheckbox.fromParent, setParentCheckbox])
+  }, [checkbox.checked, checkbox.fromParent, setParentCheckbox])
 
   // Update selected state in grandparent checkbox for indeterminate value.
   useEffect(() => {
     setGrandParentCheckbox &&
-      childCheckbox.fromSection !== null &&
+      checkbox.fromSection !== null &&
       updateParentCheckbox(
-        childCheckbox.checked,
-        childCheckbox.fromSection,
+        checkbox.checked,
+        checkbox.fromSection,
         setGrandParentCheckbox
       )
-  }, [childCheckbox.checked, childCheckbox.fromSection, setGrandParentCheckbox])
+  }, [checkbox.checked, checkbox.fromSection, setGrandParentCheckbox])
 
-  return [childCheckbox, handleChildCheckboxChange, getChildCheckboxProps]
+  return [checkbox, handleCheckboxChange, getCheckboxProps]
 }
