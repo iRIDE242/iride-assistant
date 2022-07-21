@@ -24,13 +24,13 @@ export const useChildCheckbox = (
   }
 
   const getChildCheckboxProps = ({ onChange, ...props }) => ({
-    onchange: callAll(onChange, handleChildCheckboxChange),
+    onChange: callAll(onChange, handleChildCheckboxChange),
     ...props,
   })
 
   // Synced with parent checkbox state
   useEffect(() => {
-    console.log('host - toggle child checkebox from parent')
+    console.log('child - toggle child checkebox from parent')
     setChildCheckbox(current => ({
       checked: checkedFromParent,
       fromParent: true,
