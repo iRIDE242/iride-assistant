@@ -120,7 +120,7 @@ export default function FilteredProduct({
           id={`${idGroups.showVariants}--${idRoles.product}-${product.id}`}
           label="Show variants"
           checked={showVariants.checked}
-          handleChildCheckboxChange={toggleShowVariants}
+          handleCheckboxChange={toggleShowVariants}
         />
 
         <CopyButton title={product.title} setIsCopied={setIsCopied} />
@@ -153,7 +153,7 @@ export default function FilteredProduct({
           label="Select only"
           checked={selectedOnly.checked}
           onChange={keepDiscountValue}
-          handleChildCheckboxChange={toggleSelectedOnly}
+          handleCheckboxChange={toggleSelectedOnly}
         />
       </div>
 

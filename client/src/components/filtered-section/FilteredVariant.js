@@ -119,7 +119,7 @@ export default function FilteredVariant({
           label={`${product.title} - ${variant.title}`}
           checked={childCheckbox.checked}
           onChange={handleVariantCheckboxChange}
-          handleChildCheckboxChange={handleChildCheckboxChange}
+          handleCheckboxChange={handleChildCheckboxChange}
         />
 
         <button onClick={handleGetVariant(variant.id)}>GET VARIANT</button>
