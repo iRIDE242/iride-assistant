@@ -179,6 +179,7 @@ export default function FilteredProduct({
                 discountFromProduct={discount}
                 resetFromProduct={reset}
                 isSelectedOnly={selectedOnly.checked}
+                setDiscount={setDiscount}
               />
 
               {filters.hiddenVariants.status && (

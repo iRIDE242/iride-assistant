@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useChildCheckbox } from '../../custom-hooks/useChildCheckbox'
+import { KEEP_VALUE } from '../../custom-hooks/useDiscount'
 import { getVariantById } from '../../utils/api'
 import { idGroups, idRoles } from '../../utils/config'
 import { createTwoDigitString } from '../../utils/helper'
@@ -21,6 +22,7 @@ export default function FilteredVariant({
   discountFromProduct,
   resetFromProduct,
   isSelectedOnly,
+  setDiscount,
 }) {
   const [childCheckbox, handleChildCheckboxChange] = useChildCheckbox(
     checkedFromProduct,
@@ -72,6 +74,13 @@ export default function FilteredVariant({
     }
   }
 
+  const handleVariantCheckboxChange = () => {
+    setDiscount(current => ({
+      ...current,
+      state: KEEP_VALUE,
+    }))
+  }
+
   // Check if original setting changes when variant changes
   useEffect(() => {
     if (!arePriceSettingsIdentical(originalPriceSetting, variant)) {
@@ -109,6 +118,7 @@ export default function FilteredVariant({
           id={`${idGroups.variant}--${idRoles.handler}-${variant.id}`}
           label={`${product.title} - ${variant.title}`}
           checked={childCheckbox.checked}
+          onChange={handleVariantCheckboxChange}
           handleChildCheckboxChange={handleChildCheckboxChange}
         />
 
