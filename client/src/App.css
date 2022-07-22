@@ -36,3 +36,44 @@
     transform: rotate(360deg);
   }
 }
+
+div {
+  margin: 24px 16px;
+}
+
+button {
+  margin: 0 4px;
+}
+
+/* Filter section */
+div.products-wrapper > div,
+div.product--wrapper > div,
+div.variant--wrapper > div {
+  margin: 8px 0;
+}
+
+/* Filter products */
+div.products--form-wrapper {
+  margin: 0;
+}
+
+/* Filter product */
+div.product--wrapper {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+ul .product--li {
+  background: chartreuse;
+  border-bottom: darkgreen 1px solid;
+}
+
+ul .product--li:nth-child(2n) {
+  background: lightgreen;
+}
+
+/* Filter variant */
+div.variant--wrapper {
+  margin: 0;
+  padding: 4px 0;
+}
