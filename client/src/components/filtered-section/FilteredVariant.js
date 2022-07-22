@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useChildCheckbox } from '../../custom-hooks/useChildCheckbox'
-import { KEEP_VALUE, SHOW_INITIAL } from '../../custom-hooks/useDiscount'
+import { KEEP_VALUE } from '../../custom-hooks/useDiscount'
+import usePriceSetting from '../../custom-hooks/usePriceSetting'
 import { getVariantById } from '../../utils/api'
 import { idGroups, idRoles } from '../../utils/config'
 import { createTwoDigitString } from '../../utils/helper'
@@ -35,11 +36,12 @@ export default function FilteredVariant({
     getPriceSetting(variant)
   )
 
-  const [priceSetting, setPriceSetting] = useState({
-    price: 0.0,
-    cap: '',
-    discount: '',
-  })
+  const [priceSetting, setPriceSetting] = usePriceSetting(
+    isSelectedOnly,
+    checkbox.checked,
+    discountFromProduct,
+    variant
+  )
 
   const reset = useRef(0)
 
@@ -89,18 +91,6 @@ export default function FilteredVariant({
     }
   }, [originalPriceSetting, variant])
 
-  // Sync the discount change from product
-  useEffect(() => {
-    if (
-      !isSelectedOnly ||
-      (isSelectedOnly &&
-        (checkbox.checked || discountFromProduct.state === SHOW_INITIAL))
-    )
-      setPriceSetting(current =>
-        getPriceSetting(variant, discountFromProduct, current)
-      )
-  }, [checkbox.checked, discountFromProduct, isSelectedOnly, variant])
-
   // Responde to the reset from product
   useEffect(() => {
     if (reset.current !== resetFromProduct) {
@@ -108,7 +98,7 @@ export default function FilteredVariant({
       reset.current = resetFromProduct
       setPriceSetting(originalPriceSetting)
     }
-  }, [originalPriceSetting, resetFromProduct])
+  }, [originalPriceSetting, resetFromProduct, setPriceSetting])
 
   return (
     <div className="variant--wrapper">
