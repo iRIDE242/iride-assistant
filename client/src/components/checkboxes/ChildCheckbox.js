@@ -1,4 +1,4 @@
-import { useChildCheckbox } from '../custom-hooks/useChildCheckbox'
+import { useChildCheckbox } from 'custom-hooks/useChildCheckbox'
 
 export default function ChildCheckbox({
   id,

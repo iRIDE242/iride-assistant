@@ -8,10 +8,10 @@ import { getAllFilters } from '../../utils/filters'
 import { useReset } from '../../utils/customHooks'
 import { idGroups, idRoles } from '../../utils/config'
 import { toggleBlock } from '../../utils/helper'
-import ParentCheckbox from '../ParentCheckbox'
 import { useChildCheckbox } from '../../custom-hooks/useChildCheckbox'
-import ChildCheckboxHost from '../ChildCheckboxHost'
 import { KEEP_VALUE, useDiscount } from '../../custom-hooks/useDiscount'
+import ParentCheckbox from 'components/checkboxes/ParentCheckbox'
+import ChildCheckboxHost from 'components/checkboxes/ChildCheckboxHost'
 
 export default function FilteredProduct({
   product,

@@ -11,7 +11,7 @@ import {
   getOriginalPrice,
   getPriceSetting,
 } from '../../utils/helpers/filterVariant'
-import ChildCheckboxHost from '../ChildCheckboxHost'
+import ChildCheckboxHost from 'components/checkboxes/ChildCheckboxHost'
 
 export default function FilteredVariant({
   product,

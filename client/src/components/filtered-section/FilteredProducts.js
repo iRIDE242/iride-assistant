@@ -8,8 +8,8 @@ import { updateProducts, useProducts } from '../../context/products'
 import { collections, idGroups, idRoles } from '../../utils/config'
 import { getAllFilters } from '../../utils/filters'
 import { useReset } from '../../utils/customHooks'
-import ParentCheckbox from '../ParentCheckbox'
 import { KEEP_VALUE, useDiscount } from '../../custom-hooks/useDiscount'
+import ParentCheckbox from 'components/checkboxes/ParentCheckbox'
 
 const variantHandlerRegex = new RegExp(
   `${idGroups.variant}--${idRoles.handler}-(\\d+)` // Variant handler checkbox
