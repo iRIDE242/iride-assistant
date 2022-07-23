@@ -146,7 +146,7 @@ export default function FilteredProducts({
   const keepDiscountValue = () => {
     setDiscount(current => ({
       ...current,
-      state: KEEP_VALUE,
+      status: KEEP_VALUE,
     }))
   }
 

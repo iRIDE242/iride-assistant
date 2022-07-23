@@ -38,7 +38,7 @@ export const getPriceSetting = (variant, discountFromProduct, current) => {
   // discountFromProduct -> undefined
   if (
     discountFromProduct === undefined ||
-    discountFromProduct?.state === SHOW_INITIAL
+    discountFromProduct?.status === SHOW_INITIAL
   ) {
     return {
       price: Number(price),
@@ -48,12 +48,12 @@ export const getPriceSetting = (variant, discountFromProduct, current) => {
   }
 
   // For selected only changes
-  if (discountFromProduct?.state === KEEP_VALUE) return current
+  if (discountFromProduct?.status === KEEP_VALUE) return current
 
-  const { state, value } = discountFromProduct
+  const { status, value } = discountFromProduct
   const discountNumber = Number(value)
 
-  if (state === STAY_SYNCED) {
+  if (status === STAY_SYNCED) {
     // Number('') -> 0
     if (value === '') {
       return {

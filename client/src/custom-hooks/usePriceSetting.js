@@ -19,7 +19,7 @@ export default function usePriceSetting(
     if (
       !isSelectedOnly ||
       (isSelectedOnly &&
-        (checked || discountFromProduct.state === SHOW_INITIAL))
+        (checked || discountFromProduct.status === SHOW_INITIAL))
     )
       setPriceSetting(current =>
         getPriceSetting(variant, discountFromProduct, current)
