@@ -16,7 +16,7 @@ export interface UseChildCheckboxArgs {
 }
 
 // useDiscount
-enum DiscountStatus {
+export enum DiscountStatus {
   SHOW_INITIAL,
   STAY_SYNCED,
   KEEP_VALUE,
@@ -25,4 +25,11 @@ enum DiscountStatus {
 export interface DiscountState {
   status: DiscountStatus
   value: string | number
+}
+
+// usePriceSetting
+export interface PriceSettingState {
+  price: number
+  cap: string | number
+  discount: string | number
 }

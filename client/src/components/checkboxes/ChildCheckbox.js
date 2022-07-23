@@ -16,11 +16,16 @@ export default function ChildCheckbox({
     fromSection
   )
 
-  const props = getCheckboxProps({ onChange })
+  const props = getCheckboxProps({
+    onChange,
+    id,
+    type: 'checkbox',
+    checked: checkbox.checked,
+  })
 
   return (
     <>
-      <input type="checkbox" id={id} checked={checkbox.checked} {...props} />
+      <input {...props} />
       <label htmlFor={id}>{label}</label>
     </>
   )

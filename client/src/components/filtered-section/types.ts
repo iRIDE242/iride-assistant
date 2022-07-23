@@ -6,10 +6,10 @@ export interface FilteredVariantProps {
   product: Product
   variant: Variant
   checkedFromProduct: boolean
-  fromSection: boolean
+  fromSection?: boolean
   setCheckboxFromProduct: Dispatch<SetStateAction<ParentCheckboxState>>
-  setCheckboxFromSection: Dispatch<SetStateAction<ParentCheckboxState>>
-  discountFromProduct: number
+  setCheckboxFromSection?: Dispatch<SetStateAction<ParentCheckboxState>>
+  discountFromProduct: DiscountState
   resetFromProduct: number
   isSelectedOnly: boolean
   setDiscount: Dispatch<SetStateAction<DiscountState>>

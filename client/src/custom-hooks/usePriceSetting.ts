@@ -1,14 +1,15 @@
+import { Variant } from 'components/types'
 import { useEffect, useState } from 'react'
 import { getPriceSetting } from '../utils/helpers/filterVariant'
-import { SHOW_INITIAL } from './useDiscount'
+import { DiscountState, DiscountStatus, PriceSettingState } from './types'
 
 export default function usePriceSetting(
-  isSelectedOnly,
-  checked,
-  discountFromProduct,
-  variant
+  isSelectedOnly: boolean,
+  checked: boolean,
+  discountFromProduct: DiscountState,
+  variant: Variant
 ) {
-  const [priceSetting, setPriceSetting] = useState({
+  const [priceSetting, setPriceSetting] = useState<PriceSettingState>({
     price: 0.0,
     cap: '',
     discount: '',
@@ -19,12 +20,12 @@ export default function usePriceSetting(
     if (
       !isSelectedOnly ||
       (isSelectedOnly &&
-        (checked || discountFromProduct.status === SHOW_INITIAL))
+        (checked || discountFromProduct.status === DiscountStatus.SHOW_INITIAL))
     )
       setPriceSetting(current =>
         getPriceSetting(variant, discountFromProduct, current)
       )
   }, [checked, discountFromProduct, isSelectedOnly, variant])
 
-  return [priceSetting, setPriceSetting]
+  return [priceSetting, setPriceSetting] as const
 }

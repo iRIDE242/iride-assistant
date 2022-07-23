@@ -1,15 +1,23 @@
-import { useEffect, useState } from 'react'
+import { ParentCheckboxState } from 'components/filtered-section/types'
+import {
+  ComponentPropsWithoutRef,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react'
 import { callAll, updateParentCheckbox } from '../utils/helper'
+import { ChildCheckboxState } from './types'
 
 // For child checkbox which state is defined outside of component
 // since its state is also used by other components.
 export const useChildCheckbox = (
-  checkedFromParent,
-  setParentCheckbox,
-  setGrandParentCheckbox, // optional
-  fromSection // optional
+  checkedFromParent: boolean,
+  setParentCheckbox: Dispatch<SetStateAction<ParentCheckboxState>>,
+  setGrandParentCheckbox?: Dispatch<SetStateAction<ParentCheckboxState>>, // optional
+  fromSection?: boolean // optional
 ) => {
-  const [checkbox, setCheckbox] = useState({
+  const [checkbox, setCheckbox] = useState<ChildCheckboxState>({
     checked: false,
     fromParent: true,
     fromSection: null,
@@ -23,9 +31,16 @@ export const useChildCheckbox = (
     }))
   }
 
-  const getCheckboxProps = ({ onChange, ...props }) => ({
+  const getCheckboxProps = ({
+    onChange,
+    id,
+    type,
+    checked,
+  }: ComponentPropsWithoutRef<'input'>) => ({
+    id,
+    type,
+    checked,
     onChange: callAll(onChange, handleCheckboxChange),
-    ...props,
   })
 
   // Synced with parent checkbox state
@@ -60,5 +75,5 @@ export const useChildCheckbox = (
       )
   }, [checkbox.checked, checkbox.fromSection, setGrandParentCheckbox])
 
-  return [checkbox, handleCheckboxChange, getCheckboxProps]
+  return [checkbox, handleCheckboxChange, getCheckboxProps] as const
 }
