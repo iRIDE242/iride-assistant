@@ -62,14 +62,17 @@ export const useFilteredProducts = (productsMap, filters) => {
  */
 export const useReset = resetFromAbove => {
   const [reset, setReset] = useState(0)
-
+console.log(reset)
   const resetPriceSetting = e => {
     e.preventDefault()
     setReset(prev => prev + 1)
   }
 
   useEffect(() => {
-    if (resetFromAbove && resetFromAbove !== reset) setReset(resetFromAbove)
+    if (resetFromAbove && resetFromAbove !== reset) {
+      console.log(reset)
+      setReset(resetFromAbove)
+    }
   }, [reset, resetFromAbove])
 
   return [reset, resetPriceSetting]

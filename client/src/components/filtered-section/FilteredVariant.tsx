@@ -96,6 +96,7 @@ export default function FilteredVariant({
 
   // Responde to the reset from product
   useEffect(() => {
+    console.log('reset variant price')
     if (reset.current !== resetFromProduct) {
       console.log('reset from product')
       reset.current = resetFromProduct
