@@ -1,6 +1,10 @@
 import { ParentCheckboxState } from 'components/filtered-section/types'
 import { Dispatch, SetStateAction } from 'react'
 
+export enum Blank {
+  blank_string = '',
+}
+
 // useChildCheckbox
 export interface ChildCheckboxState {
   checked: boolean
@@ -24,12 +28,12 @@ export enum DiscountStatus {
 
 export interface DiscountState {
   status: DiscountStatus
-  value: string | number
+  value: Blank.blank_string | number
 }
 
 // usePriceSetting
 export interface PriceSettingState {
   price: number
-  cap: string | number
-  discount: string | number
+  cap: Blank.blank_string | number
+  discount: Blank.blank_string | number
 }

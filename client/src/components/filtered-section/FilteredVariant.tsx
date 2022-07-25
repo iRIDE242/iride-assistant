@@ -12,7 +12,7 @@ import {
 } from '../../utils/helpers/filterVariant'
 import ChildCheckboxHost from 'components/checkboxes/ChildCheckboxHost'
 import { FilteredVariantProps } from './types'
-import { DiscountStatus } from 'custom-hooks/types'
+import { Blank, DiscountStatus } from 'custom-hooks/types'
 
 export default function FilteredVariant({
   product,
@@ -56,9 +56,11 @@ export default function FilteredVariant({
       price: discountNumber
         ? getDiscountedPrice(discountNumber, originalPrice)
         : originalPrice,
-      cap: discountNumber ? originalPrice : '',
+      cap: discountNumber ? originalPrice : Blank.blank_string,
       discount:
-        e.currentTarget.value === '' ? e.currentTarget.value : discountNumber,
+        e.currentTarget.value === Blank.blank_string
+          ? e.currentTarget.value
+          : discountNumber,
     })
   }
 

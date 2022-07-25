@@ -1,7 +1,12 @@
 import { Variant } from 'components/types'
 import { useEffect, useState } from 'react'
 import { getPriceSetting } from '../utils/helpers/filterVariant'
-import { DiscountState, DiscountStatus, PriceSettingState } from './types'
+import {
+  Blank,
+  DiscountState,
+  DiscountStatus,
+  PriceSettingState,
+} from './types'
 
 export default function usePriceSetting(
   isSelectedOnly: boolean,
@@ -11,8 +16,8 @@ export default function usePriceSetting(
 ) {
   const [priceSetting, setPriceSetting] = useState<PriceSettingState>({
     price: 0.0,
-    cap: '',
-    discount: '',
+    cap: Blank.blank_string,
+    discount: Blank.blank_string,
   })
 
   // Sync the discount change from product to modify price setting with conditions
