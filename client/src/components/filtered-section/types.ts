@@ -23,7 +23,7 @@ export interface ParentCheckboxState {
   fromSection?: boolean
 }
 
-export interface VariantResetButtonProps {
+export interface ResetButtonProps {
   resetFromProduct: number
   resetFromSection: number
   originalPriceSetting: PriceSettingState

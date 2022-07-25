@@ -1,14 +1,14 @@
 import useReset from 'custom-hooks/useReset'
 import { FormEvent } from 'react'
-import { VariantResetButtonProps } from './types'
+import { ResetButtonProps } from './types'
 
-export default function VariantResetButton({
+export default function ResetButton({
   resetFromSection,
   resetFromProduct,
   originalPriceSetting,
   setPriceSetting,
   children,
-}: VariantResetButtonProps) {
+}: ResetButtonProps) {
   // Monitor reset from section and product separately.
   // This can solve the problem that price setting will be reset twice
   // when the reset comes from product but not section.

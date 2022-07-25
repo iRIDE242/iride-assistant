@@ -13,7 +13,7 @@ import {
 import ChildCheckboxHost from 'components/checkboxes/ChildCheckboxHost'
 import { FilteredVariantProps } from './types'
 import { Blank, DiscountStatus } from 'custom-hooks/types'
-import VariantResetButton from './VariantResetButton'
+import ResetButton from './ResetButton'
 
 export default function FilteredVariant({
   product,
@@ -152,14 +152,14 @@ export default function FilteredVariant({
           style={{ width: '50px' }}
         />
 
-        <VariantResetButton
+        <ResetButton
           resetFromProduct={resetFromProduct}
           resetFromSection={resetFromSection}
           originalPriceSetting={originalPriceSetting}
           setPriceSetting={setPriceSetting}
         >
           RESET PRICE SETTING
-        </VariantResetButton>
+        </ResetButton>
       </div>
     </div>
   )
