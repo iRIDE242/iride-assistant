@@ -2,7 +2,7 @@ import FilteredProducts from './FilteredProducts'
 
 const settingsForGone = {
   localStorageKey: 'ignoredOutOfStockIds',
-  background: 'lightgreen',
+  background: 'aliceblue',
   mainColor: 'darkgreen',
   ignoredColor: 'navy',
   detailTitle: 'COMPLETELY OUT OF STOCK',
