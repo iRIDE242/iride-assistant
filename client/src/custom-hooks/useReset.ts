@@ -1,28 +1,30 @@
-import { Dispatch, FormEvent, SetStateAction, useEffect, useRef } from 'react'
+import { Dispatch, FormEvent, SetStateAction, useEffect, useState } from 'react'
 import { PriceSettingState } from './types'
 
 export default function useReset(
-  resetCurrentFromAbove?: number,
+  resetFromAbove?: number,
   originalPriceSetting?: PriceSettingState,
   setPriceSetting?: Dispatch<SetStateAction<PriceSettingState>>
 ) {
-  const resetRef = useRef<number>(0)
+  // Here cannot use useRef to replace useState to avoid unnecessary re-rendering.
+  // Changing ref current value won't cause compoenent re-rendering.
+  // So current value passed as props on child component will not be updated to the latest.
+  // https://www.smashingmagazine.com/2020/11/react-useref-hook/
+  const [reset, setReset] = useState<number>(0)
 
   const incrementReset = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault()
-
-    const currentReset = resetRef.current
-    resetRef.current = currentReset + 1
+    setReset(current => current + 1)
   }
 
   useEffect(() => {
-    if (resetCurrentFromAbove && resetCurrentFromAbove !== resetRef.current) {
-      resetRef.current = resetCurrentFromAbove
+    if (resetFromAbove && resetFromAbove !== reset) {
+      setReset(resetFromAbove)
 
       if (originalPriceSetting && setPriceSetting)
         setPriceSetting(originalPriceSetting)
     }
-  }, [originalPriceSetting, resetCurrentFromAbove, setPriceSetting])
+  }, [originalPriceSetting, reset, resetFromAbove, setPriceSetting])
 
-  return [resetRef, incrementReset] as const
+  return [reset, incrementReset] as const
 }

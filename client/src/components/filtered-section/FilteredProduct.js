@@ -5,13 +5,13 @@ import { updateProduct, useProducts } from '../../context/products'
 import CopyButton from '../CopyButton'
 import CopyHint from '../CopyHint'
 import { getAllFilters } from '../../utils/filters'
-import { useReset } from '../../utils/customHooks'
 import { idGroups, idRoles } from '../../utils/config'
 import { toggleBlock } from '../../utils/helper'
 import { useChildCheckbox } from '../../custom-hooks/useChildCheckbox'
 import { KEEP_VALUE, useDiscount } from '../../custom-hooks/useDiscount'
 import ParentCheckbox from 'components/checkboxes/ParentCheckbox'
 import ChildCheckboxHost from 'components/checkboxes/ChildCheckboxHost'
+import useReset from 'custom-hooks/useReset'
 
 export default function FilteredProduct({
   product,
@@ -52,11 +52,7 @@ export default function FilteredProduct({
   const [discount, handleSetDiscount, setDiscount] =
     useDiscount(discountFromSection)
 
-  // Here cannot use useRef to replace useState to avoid unnecessary re-rendering
-  // since the ref version of reset that is needed to pass down to children
-  // will cause shallow copy issue that won't affect its children.
-  // https://www.smashingmagazine.com/2020/11/react-useref-hook/
-  const [reset, resetPriceSetting] = useReset(resetFromSection)
+  const [reset, incrementReset] = useReset()
 
   const handleResetWeight = variantId => async e => {
     e.preventDefault()
@@ -145,7 +141,7 @@ export default function FilteredProduct({
         />
         <span>%</span>
 
-        <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
+        <button onClick={incrementReset}>RESET PRICE SETTING</button>
 
         {/* Selected only child */}
         <ChildCheckboxHost
@@ -178,6 +174,7 @@ export default function FilteredProduct({
                 setCheckboxFromProduct={setCheckbox}
                 setCheckboxFromSection={setCheckboxFromSection}
                 discountFromProduct={discount}
+                resetFromSection={resetFromSection}
                 resetFromProduct={reset}
                 isSelectedOnly={selectedOnly.checked}
                 setDiscount={setDiscount}

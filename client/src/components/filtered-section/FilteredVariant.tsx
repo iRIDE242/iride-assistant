@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { useChildCheckbox } from '../../custom-hooks/useChildCheckbox'
 import usePriceSetting from '../../custom-hooks/usePriceSetting'
 import { getVariantById } from '../../utils/api'
@@ -23,6 +23,7 @@ export default function FilteredVariant({
   setCheckboxFromProduct,
   setCheckboxFromSection,
   discountFromProduct,
+  resetFromSection,
   resetFromProduct,
   isSelectedOnly,
   setDiscount,
@@ -45,8 +46,6 @@ export default function FilteredVariant({
     variant
   )
 
-  const reset = useRef(0)
-
   const modifyDiscount = (e: FormEvent<HTMLInputElement>) => {
     const { price, cap } = originalPriceSetting
 
@@ -64,11 +63,6 @@ export default function FilteredVariant({
           : discountNumber,
     })
   }
-
-  // const resetPriceSetting = (e: FormEvent<HTMLButtonElement>) => {
-  //   e.preventDefault()
-  //   setPriceSetting(originalPriceSetting)
-  // }
 
   const handleGetVariant =
     (variantId: number) => async (e: FormEvent<HTMLButtonElement>) => {
@@ -96,16 +90,6 @@ export default function FilteredVariant({
       setOriginalPriceSetting(getPriceSetting(variant))
     }
   }, [originalPriceSetting, variant])
-
-  // Responde to the reset from product
-  useEffect(() => {
-    console.log('reset variant price')
-    if (reset.current !== resetFromProduct) {
-      console.log('reset from product')
-      reset.current = resetFromProduct
-      setPriceSetting(originalPriceSetting)
-    }
-  }, [originalPriceSetting, resetFromProduct, setPriceSetting])
 
   return (
     <div className="variant--wrapper">
@@ -168,10 +152,9 @@ export default function FilteredVariant({
           style={{ width: '50px' }}
         />
 
-        {/* <button onClick={resetPriceSetting}>RESET PRICE SETTING</button> */}
         <VariantResetButton
-          resetCurrentFromProduct={0}
-          resetCurrentFromSection={0}
+          resetFromProduct={resetFromProduct}
+          resetFromSection={resetFromSection}
           originalPriceSetting={originalPriceSetting}
           setPriceSetting={setPriceSetting}
         >

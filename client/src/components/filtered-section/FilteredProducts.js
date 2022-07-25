@@ -7,9 +7,9 @@ import {
 import { updateProducts, useProducts } from '../../context/products'
 import { collections, idGroups, idRoles } from '../../utils/config'
 import { getAllFilters } from '../../utils/filters'
-import { useReset } from '../../utils/customHooks'
 import { KEEP_VALUE, useDiscount } from '../../custom-hooks/useDiscount'
 import ParentCheckbox from 'components/checkboxes/ParentCheckbox'
+import useReset from 'custom-hooks/useReset'
 
 const variantHandlerRegex = new RegExp(
   `${idGroups.variant}--${idRoles.handler}-(\\d+)` // Variant handler checkbox
@@ -55,7 +55,7 @@ export default function FilteredProducts({
 
   const [discount, handleSetDiscount, setDiscount] = useDiscount()
 
-  const [reset, resetPriceSetting] = useReset()
+  const [reset, incrementReset] = useReset()
 
   const [{ filters }, dispatch] = useProducts()
 
@@ -230,7 +230,7 @@ export default function FilteredProducts({
         />
         <span>%</span>
 
-        <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
+        <button onClick={incrementReset}>RESET PRICE SETTING</button>
       </div>
 
       <div style={{ color: mainColor }} className="products--form-wrapper">
