@@ -1,27 +1,49 @@
 import useReset from 'custom-hooks/useReset'
-import { FormEvent, useEffect } from 'react'
+import { FormEvent } from 'react'
 import { VariantResetButtonProps } from './types'
 
 export default function VariantResetButton({
-  resetFromSection,
-  resetFromProduct,
+  resetCurrentFromSection,
+  resetCurrentFromProduct,
+  originalPriceSetting,
+  setPriceSetting,
+  children,
 }: VariantResetButtonProps) {
-  const [currentForSection] = useReset(resetFromSection)
-  const resetForProduct = useReset(resetFromProduct)
+  useReset(resetCurrentFromSection, originalPriceSetting, setPriceSetting)
+  useReset(resetCurrentFromProduct, originalPriceSetting, setPriceSetting)
 
   const resetPriceSetting = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault()
+    setPriceSetting(originalPriceSetting)
   }
 
   // For section reset
-  useEffect(() => {
-    // reset the price
-  }, [])
+  // useEffect(() => {
+  //   if (resetRefForSection.current !== resetCurrentFromSection)
+  //     resetRefForSection.current = resetCurrentFromSection
+
+  //   // reset the price
+  //   setPriceSetting(originalPriceSetting)
+  // }, [
+  //   originalPriceSetting,
+  //   resetCurrentFromSection,
+  //   resetRefForSection,
+  //   setPriceSetting,
+  // ])
 
   // For product reset
-  useEffect(() => {
-    // reset the price
-  }, [])
+  // useEffect(() => {
+  //   if (resetRefForProduct.current !== resetCurrentFromProduct)
+  //     resetRefForProduct.current = resetCurrentFromProduct
 
-  return <button onClick={resetPriceSetting}>RESET PRICE SETTING</button>
+  //   // reset the price
+  //   setPriceSetting(originalPriceSetting)
+  // }, [
+  //   originalPriceSetting,
+  //   resetCurrentFromProduct,
+  //   resetRefForProduct,
+  //   setPriceSetting,
+  // ])
+
+  return <button onClick={resetPriceSetting}>{children}</button>
 }

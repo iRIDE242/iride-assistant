@@ -1,6 +1,6 @@
 import { Product, Variant } from 'components/types'
-import { DiscountState } from 'custom-hooks/types'
-import { Dispatch, SetStateAction } from 'react'
+import { DiscountState, PriceSettingState } from 'custom-hooks/types'
+import { Dispatch, ReactNode, SetStateAction } from 'react'
 
 export interface FilteredVariantProps {
   product: Product
@@ -23,6 +23,9 @@ export interface ParentCheckboxState {
 }
 
 export interface VariantResetButtonProps {
-  resetFromProduct: number
-  resetFromSection: number
+  resetCurrentFromProduct: number
+  resetCurrentFromSection: number
+  originalPriceSetting: PriceSettingState
+  setPriceSetting: Dispatch<SetStateAction<PriceSettingState>>
+  children: ReactNode
 }

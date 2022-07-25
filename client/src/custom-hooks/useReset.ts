@@ -1,19 +1,28 @@
-import { FormEvent, useEffect, useRef } from 'react'
+import { Dispatch, FormEvent, SetStateAction, useEffect, useRef } from 'react'
+import { PriceSettingState } from './types'
 
-export default function useReset(resetFromAbove?: number) {
-  const reset = useRef<number>(0)
+export default function useReset(
+  resetCurrentFromAbove?: number,
+  originalPriceSetting?: PriceSettingState,
+  setPriceSetting?: Dispatch<SetStateAction<PriceSettingState>>
+) {
+  const resetRef = useRef<number>(0)
 
   const incrementReset = (e: FormEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
-    const currentReset = reset.current
-    reset.current = currentReset + 1
+    const currentReset = resetRef.current
+    resetRef.current = currentReset + 1
   }
 
   useEffect(() => {
-    if (resetFromAbove && resetFromAbove !== reset.current)
-      reset.current = resetFromAbove
-  }, [resetFromAbove])
+    if (resetCurrentFromAbove && resetCurrentFromAbove !== resetRef.current) {
+      resetRef.current = resetCurrentFromAbove
 
-  return [reset.current, incrementReset] as const
+      if (originalPriceSetting && setPriceSetting)
+        setPriceSetting(originalPriceSetting)
+    }
+  }, [originalPriceSetting, resetCurrentFromAbove, setPriceSetting])
+
+  return [resetRef, incrementReset] as const
 }
