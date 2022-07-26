@@ -1,6 +1,6 @@
 import { Variant } from 'components/types'
 import { useEffect, useState } from 'react'
-import { getPriceSetting } from '../utils/helpers/filterVariant'
+import { getPriceSetting } from '../components/filtered-section/helpers/filterVariant'
 import {
   Blank,
   DiscountState,
