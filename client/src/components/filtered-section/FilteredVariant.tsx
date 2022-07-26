@@ -12,7 +12,7 @@ import {
 } from '../../utils/helpers/filterVariant'
 import ChildCheckboxHost from 'components/checkboxes/ChildCheckboxHost'
 import { FilteredVariantProps } from './types'
-import { Blank, DiscountStatus } from 'custom-hooks/types'
+import { Blank, DiscountStatus, PriceSettingState } from 'custom-hooks/types'
 import ResetButton from './ResetButton'
 
 export default function FilteredVariant({
@@ -35,7 +35,7 @@ export default function FilteredVariant({
     fromSection
   )
 
-  const [originalPriceSetting, setOriginalPriceSetting] = useState(() =>
+  const [originalPriceSetting, setOriginalPriceSetting] = useState<PriceSettingState>(() =>
     getPriceSetting(variant)
   )
 
