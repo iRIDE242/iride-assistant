@@ -1,5 +1,5 @@
 import { filter, reduce } from 'ramda'
-import { getInventoryItemId, isHidden } from './variant'
+import { getInventoryItemId, inClearance, isHidden } from './variant'
 import {
   getProductById,
   getVariantLocationInventory,
@@ -31,8 +31,9 @@ const getActiveProductsWithHiddenVariants = products => {
  */
 
 // Create promise relay
-const createLocallyNonHiddenInventoryRelayByVariant = variant => {
+const createNonHiddenOrWithCapLocalInventoryRelayByVariant = variant => {
   if (isHidden(variant)) return false
+  if (!inClearance(variant)) return false
 
   const inventoryItemId = getInventoryItemId(variant)
 
@@ -56,7 +57,7 @@ const areLocalNonHiddenOutOfStock = async product => {
 
   const promiseContainer = createSequencedPromises(
     getVariants(product),
-    createLocallyNonHiddenInventoryRelayByVariant
+    createNonHiddenOrWithCapLocalInventoryRelayByVariant
   )
 
   try {
@@ -161,7 +162,7 @@ export const removeSelectedHiddenStatus = async (variantIds, productIds) => {
 }
 
 /**
- * Update variants 
+ * Update variants
  */
 const createUpdateVariantRelayByVariantData = variantData => {
   return async (res, rej) => {
