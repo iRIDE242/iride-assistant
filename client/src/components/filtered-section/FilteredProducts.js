@@ -7,7 +7,7 @@ import {
 import { updateProducts, useProducts } from '../../context/products'
 import { collections, idGroups, idRoles } from '../../utils/config'
 import { getAllFilters } from '../../utils/filters'
-import { KEEP_VALUE, useDiscount } from '../../custom-hooks/useDiscount'
+import { useDiscount } from '../../custom-hooks/useDiscount'
 import ParentCheckbox from 'components/checkboxes/ParentCheckbox'
 import useReset from 'custom-hooks/useReset'
 
