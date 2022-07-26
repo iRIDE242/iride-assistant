@@ -34,6 +34,10 @@ export const collections = {
     id: '294112133312',
     name: 'Temp 2',
   },
+  294474285248: {
+    id: '294474285248',
+    name: 'Rapha Bundle',
+  },
 }
 
 export const idGroups = {
