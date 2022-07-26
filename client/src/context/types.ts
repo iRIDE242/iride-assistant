@@ -1,0 +1,6 @@
+export enum Actions {
+  UPDATE_PRODUCT,
+  GET_PRODUCTS,
+  TOGGLE_HIDDENS,
+  UPDATE_PRODUCTS,
+}
