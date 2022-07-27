@@ -26,8 +26,7 @@
     "express": "^4.18.1",
     "node-fetch": "^3.2.9",
     "nodemon": "^2.0.19",
-    "ramda": "^0.28.0",
-    "remeda": "^0.0.35"
+    "ramda": "^0.28.0"
   },
   "nodemonConfig": {
     "restartable": "rs",
