@@ -1,5 +1,5 @@
 import { numberToString } from '../utils/helper'
-import { createCtx } from '../utils/customHooks'
+import { createCtx } from './helpers/products'
 
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT'
 const GET_PRODUCTS = 'GET_PRODUCTS'
