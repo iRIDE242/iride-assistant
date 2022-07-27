@@ -1,11 +1,12 @@
-import { equals, filter, pipe, prop } from 'ramda'
+import { Product, Variant } from 'components/types'
+import { equals, filter, pipe, prop } from 'remeda'
 import { isHidden } from './variant'
 
 /**
  * Property requests
  */
-export const getVariants = prop('variants')
-const getStatus = prop('status')
+export const getVariants = prop<Product, 'variants'>('variants')
+const getStatus = prop<Product, 'status'>('status')
 
 /**
  * Composite requests
