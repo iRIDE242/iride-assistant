@@ -1,3 +1,9 @@
+export enum Status {
+  ACTIVE = 'active',
+  DRAFT = 'draft',
+  ARCHIVED = 'archived',
+}
+
 export interface Product {
   id: number
   title: string
@@ -9,7 +15,7 @@ export interface Product {
   updated_at: string
   published_at: null
   template_suffix: null
-  status: string
+  status: Status
   published_scope: string
   tags: string
   admin_graphql_api_id: string
@@ -49,7 +55,7 @@ export interface Variant {
   sku: string
   position: number
   inventory_policy: string
-  compare_at_price: null
+  compare_at_price: null | string
   fulfillment_service: string
   inventory_management: string
   option1: string
