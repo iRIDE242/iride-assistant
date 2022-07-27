@@ -1,8 +1,21 @@
-import { Product } from 'components/types'
 import { Dispatch } from 'react'
 import { numberToString } from '../utils/helper'
 import { createCtx } from './helpers/products'
 import { Action, ActionTypes, ProductsState } from './types'
+import { hasHidden } from 'actions/product'
+import { isHidden } from 'actions/variant'
+import { Product } from 'components/types'
+
+export const initialProducts: ProductsState = {
+  products: new Map(),
+  filters: {
+    hiddenVariants: {
+      status: false,
+      filter: hasHidden, // On each product
+      variantFilter: isHidden, // On each variant
+    },
+  },
+}
 
 const [useProducts, ProductsProvider] = createCtx<
   [ProductsState, Dispatch<Action>]

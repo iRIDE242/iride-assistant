@@ -3,23 +3,14 @@ import ReactDOM from 'react-dom/client'
 import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-import { ProductsProvider, productsReducer } from './context/products'
-import { isHidden } from './actions/variant'
-import { hasHidden } from './actions/product'
-
-const intialProducts = {
-  products: new Map(), // products is a map
-  filters: {
-    hiddenVariants: {
-      status: false,
-      filter: hasHidden, // On each product
-      variantFilter: isHidden, // On each variant
-    },
-  },
-}
+import {
+  initialProducts,
+  ProductsProvider,
+  productsReducer,
+} from './context/products'
 
 function Products({ children }) {
-  const [state, dispatch] = useReducer(productsReducer, intialProducts)
+  const [state, dispatch] = useReducer(productsReducer, initialProducts)
 
   return (
     <ProductsProvider value={[state, dispatch]}>{children}</ProductsProvider>
