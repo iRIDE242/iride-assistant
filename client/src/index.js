@@ -5,24 +5,26 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import {
   initialProducts,
-  ProductsProvider,
+  productsContext,
   productsReducer,
 } from './context/products'
 
-function Products({ children }) {
+function ProductsProvider({ children }) {
   const [state, dispatch] = useReducer(productsReducer, initialProducts)
 
   return (
-    <ProductsProvider value={[state, dispatch]}>{children}</ProductsProvider>
+    <productsContext.Provider value={[state, dispatch]}>
+      {children}
+    </productsContext.Provider>
   )
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
-    <Products>
+    <ProductsProvider>
       <App />
-    </Products>
+    </ProductsProvider>
   </React.StrictMode>
 )
 

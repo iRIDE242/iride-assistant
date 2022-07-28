@@ -21,5 +21,5 @@ export function createCtx<A extends {} | null>(
       )
     return c
   }
-  return [useCtx, ctx.Provider] as const
+  return [useCtx, ctx] as const
 }

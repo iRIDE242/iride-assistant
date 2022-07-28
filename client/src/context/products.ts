@@ -17,7 +17,7 @@ export const initialProducts: ProductsState = {
   },
 }
 
-const [useProducts, ProductsProvider] = createCtx<
+const [useProducts, productsContext] = createCtx<
   [ProductsState, Dispatch<Action>]
 >('<Products />', 'Products')
 
@@ -88,4 +88,4 @@ export const toggleHiddens = (dispatch: Dispatch<Action>) => {
   dispatch({ type: ActionTypes.TOGGLE_HIDDENS })
 }
 
-export { useProducts, ProductsProvider }
+export { useProducts, productsContext }
