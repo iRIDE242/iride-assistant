@@ -8,7 +8,7 @@ import {
 } from '../utils/api'
 import { LOCAL_LOCATION_ID } from '../utils/config'
 import { createSequencedPromises } from '../utils/helper'
-import { getVariants, isActive, getHiddens } from './product'
+import { getVariants, isActive, getHiddens } from './product.action'
 
 /**
  * Get active products with hidden variants
