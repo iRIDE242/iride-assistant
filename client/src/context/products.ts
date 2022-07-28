@@ -1,6 +1,6 @@
 import { Dispatch } from 'react'
 import { numberToString } from '../utils/helper'
-import { createCtx } from './helpers/products'
+import { createCtx } from './helpers/products.helper'
 import { Action, ActionTypes, ProductsState } from './types'
 import { hasHidden } from 'actions/product'
 import { isHidden } from 'actions/variant'
