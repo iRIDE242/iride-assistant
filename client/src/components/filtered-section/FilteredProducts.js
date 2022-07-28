@@ -10,7 +10,6 @@ import { getAllFilters } from '../../utils/filters'
 import { useDiscount } from '../../custom-hooks/useDiscount'
 import ParentCheckbox from 'components/checkboxes/ParentCheckbox'
 import useReset from 'custom-hooks/useReset'
-import useParentCheckbox from 'custom-hooks/useParentCheckbox'
 
 const variantHandlerRegex = new RegExp(
   `${idGroups.variant}--${idRoles.handler}-(\\d+)` // Variant handler checkbox

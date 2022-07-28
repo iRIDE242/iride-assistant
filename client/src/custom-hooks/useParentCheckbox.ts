@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ParentCheckboxState } from 'components/filtered-section/types'
 
+// So far only used in FilteredProduct to make the component tidy
 export default function useParentCheckbox(
   initialCheckboxState: ParentCheckboxState | (() => ParentCheckboxState),
   checkedFromParent?: boolean
