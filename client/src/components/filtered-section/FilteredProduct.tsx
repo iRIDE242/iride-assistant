@@ -12,9 +12,10 @@ import { useDiscount } from '../../custom-hooks/useDiscount'
 import ParentCheckbox from 'components/checkboxes/ParentCheckbox'
 import ChildCheckboxHost from 'components/checkboxes/ChildCheckboxHost'
 import useReset from 'custom-hooks/useReset'
-import { FilteredProductProps, ParentCheckboxState } from './types'
+import { FilteredProductProps } from './types'
 import { Variant } from 'components/types'
 import { DiscountStatus } from 'custom-hooks/types'
+import useParentCheckbox from 'custom-hooks/useParentCheckbox'
 
 export default function FilteredProduct({
   product,
@@ -35,12 +36,15 @@ export default function FilteredProduct({
 
   // Product checkbox
   // Note, this checkbox won't handle selected from its direct parent, but leave it to variant.
-  const [checkbox, setCheckbox] = useState<ParentCheckboxState>(() => ({
-    max: getAllFilters(filters, false)(product.variants).length,
-    checked: false,
-    selected: 0,
-    fromSection: true, // For updating selected from variant
-  }))
+  const [checkbox, setCheckbox] = useParentCheckbox(
+    () => ({
+      max: getAllFilters(filters, false)(product.variants).length,
+      checked: false,
+      selected: 0,
+      fromSection: true, // For updating selected from variant
+    }),
+    checkedFromSection
+  )
 
   const [showVariants, toggleShowVariants] = useChildCheckbox(
     showVariantsFromParent.checked,
@@ -96,16 +100,6 @@ export default function FilteredProduct({
     const filterVariants = getAllFilters(filters, false)
     setFilteredVariants(filterVariants(product.variants))
   }, [filters, product.variants])
-
-  // Sync with products checkbox
-  useEffect(() => {
-    setCheckbox(current => ({
-      ...current,
-      checked: checkedFromSection,
-      selected: checkedFromSection ? current.max : 0,
-      fromSection: true,
-    }))
-  }, [checkedFromSection])
 
   return (
     <div className="product--wrapper">
