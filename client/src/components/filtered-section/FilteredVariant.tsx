@@ -9,7 +9,7 @@ import {
   getDiscountedPrice,
   getOriginalPrice,
   getPriceSetting,
-} from './helpers/filterVariant'
+} from './helpers/filterVariant.helper'
 import ChildCheckboxHost from 'components/checkboxes/ChildCheckboxHost'
 import { FilteredVariantProps } from './types'
 import { Blank, DiscountStatus, PriceSettingState } from 'custom-hooks/types'
