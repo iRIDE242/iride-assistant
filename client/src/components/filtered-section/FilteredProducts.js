@@ -10,6 +10,7 @@ import { getAllFilters } from '../../utils/filters'
 import { useDiscount } from '../../custom-hooks/useDiscount'
 import ParentCheckbox from 'components/checkboxes/ParentCheckbox'
 import useReset from 'custom-hooks/useReset'
+import useParentCheckbox from 'custom-hooks/useParentCheckbox'
 
 const variantHandlerRegex = new RegExp(
   `${idGroups.variant}--${idRoles.handler}-(\\d+)` // Variant handler checkbox
@@ -33,11 +34,11 @@ export default function FilteredProducts({
   settings: { background, mainColor },
   collectionId,
 }) {
-  const [checkbox, setCheckbox] = useState(() => ({
+  const [checkbox, setCheckbox] = useState({
     max: 0,
     checked: false,
     selected: 0,
-  }))
+  })
 
   const [variantsCounts, setVariantsCounts] = useState(0)
 
@@ -150,6 +151,10 @@ export default function FilteredProducts({
     }))
   }
 
+  // Component effect
+  // Calculate the length of filtered variants
+  // only when filteredProducts and filters changes,
+  // avoiding re-calculate it every re-rendering
   useEffect(() => {
     let filteredVariants = []
     const filterVariants = getAllFilters(filters, false)
