@@ -1,5 +1,5 @@
 import { filter, reduce } from 'ramda'
-import { getInventoryItemId, inClearance, isHidden } from './variant'
+import { getInventoryItemId, inClearance, isHidden } from './variant.action'
 import {
   getProductById,
   getVariantLocationInventory,

@@ -1,6 +1,6 @@
 import { Product, Status } from 'components/types'
 import { HiddenStatus } from './types'
-import { isHidden } from './variant'
+import { isHidden } from './variant.action'
 
 /**
  * Property requests
