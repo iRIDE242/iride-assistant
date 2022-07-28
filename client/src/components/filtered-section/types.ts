@@ -6,9 +6,9 @@ export interface FilteredVariantProps {
   product: Product
   variant: Variant
   checkedFromProduct: boolean
-  fromSection?: boolean
+  fromSection: boolean
   setCheckboxFromProduct: Dispatch<SetStateAction<ParentCheckboxState>>
-  setCheckboxFromSection?: Dispatch<SetStateAction<ParentCheckboxState>>
+  setCheckboxFromSection: Dispatch<SetStateAction<ParentCheckboxState>>
   discountFromProduct: DiscountState
   resetFromSection: number
   resetFromProduct: number
@@ -29,4 +29,16 @@ export interface ResetButtonProps {
   originalPriceSetting: PriceSettingState
   setPriceSetting: Dispatch<SetStateAction<PriceSettingState>>
   children: ReactNode
+}
+
+export interface FilteredProductProps {
+  product: Product
+  checked: boolean
+  setCheckbox: Dispatch<SetStateAction<ParentCheckboxState>>
+  discountFromSection: DiscountState
+  resetFromSection: number
+  showVariants: ParentCheckboxState
+  setShowVariants: Dispatch<SetStateAction<ParentCheckboxState>>
+  selectedOnly: ParentCheckboxState
+  setSelectedOnly: Dispatch<SetStateAction<ParentCheckboxState>>
 }

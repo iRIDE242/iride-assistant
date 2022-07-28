@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import { getProductById, resetVariantWeightById } from '../../utils/api'
 import FilteredVariant from './FilteredVariant'
 import { updateProduct, useProducts } from '../../context/products.context'
@@ -12,6 +12,9 @@ import { useDiscount } from '../../custom-hooks/useDiscount'
 import ParentCheckbox from 'components/checkboxes/ParentCheckbox'
 import ChildCheckboxHost from 'components/checkboxes/ChildCheckboxHost'
 import useReset from 'custom-hooks/useReset'
+import { FilteredProductProps, ParentCheckboxState } from './types'
+import { Variant } from 'components/types'
+import { DiscountStatus } from 'custom-hooks/types'
 
 export default function FilteredProduct({
   product,
@@ -23,16 +26,16 @@ export default function FilteredProduct({
   setShowVariants,
   selectedOnly: selectedOnlyFromParent,
   setSelectedOnly,
-}) {
+}: FilteredProductProps) {
   const [{ filters }, dispatch] = useProducts()
 
-  const [filteredVariants, setFilteredVariants] = useState([])
+  const [filteredVariants, setFilteredVariants] = useState<Variant[]>([])
 
-  const [isCopied, setIsCopied] = useState(false)
+  const [isCopied, setIsCopied] = useState<boolean>(false)
 
   // Product checkbox
   // Note, this checkbox won't handle selected from its direct parent, but leave it to variant.
-  const [checkbox, setCheckbox] = useState(() => ({
+  const [checkbox, setCheckbox] = useState<ParentCheckboxState>(() => ({
     max: getAllFilters(filters, false)(product.variants).length,
     checked: false,
     selected: 0,
@@ -54,31 +57,37 @@ export default function FilteredProduct({
 
   const [reset, incrementReset] = useReset()
 
-  const handleResetWeight = variantId => async e => {
-    e.preventDefault()
+  const handleResetWeight =
+    (variantId: Variant['id']) => async (e: FormEvent<HTMLButtonElement>) => {
+      e.preventDefault()
 
-    const li = document.querySelector(`#variant-${variantId}`)
-    li.style.display = 'none'
+      const li = document.querySelector(
+        `#variant-${variantId}`
+      ) as HTMLLIElement
 
-    try {
-      const variant = await resetVariantWeightById(variantId)
-      console.log(variant)
+      if (li) {
+        li.style.display = 'none'
 
-      console.log(product.id)
-      const { product: updatedProduct } = await getProductById(product.id)
-      console.log(updatedProduct)
+        try {
+          const variant = await resetVariantWeightById(variantId)
+          console.log(variant)
 
-      updateProduct(dispatch, updatedProduct)
-    } catch (error) {
-      li.style.display = 'list-item'
-      throw error
+          console.log(product.id)
+          const { product: updatedProduct } = await getProductById(product.id)
+          console.log(updatedProduct)
+
+          updateProduct(dispatch, updatedProduct)
+        } catch (error) {
+          li.style.display = 'list-item'
+          throw error
+        }
+      }
     }
-  }
 
   const keepDiscountValue = () => {
     setDiscount(current => ({
       ...current,
-      status: 2,
+      status: DiscountStatus.KEEP_VALUE,
     }))
   }
 
@@ -170,7 +179,7 @@ export default function FilteredProduct({
                 product={product}
                 variant={variant}
                 checkedFromProduct={checkbox.checked}
-                fromSection={checkbox.fromSection}
+                fromSection={checkbox.fromSection as boolean}
                 setCheckboxFromProduct={setCheckbox}
                 setCheckboxFromSection={setCheckboxFromSection}
                 discountFromProduct={discount}
