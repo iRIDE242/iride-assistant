@@ -7,7 +7,7 @@ import {
   initialProducts,
   productsContext,
   productsReducer,
-} from './context/products'
+} from './context/products.context'
 
 function ProductsProvider({ children }) {
   const [state, dispatch] = useReducer(productsReducer, initialProducts)

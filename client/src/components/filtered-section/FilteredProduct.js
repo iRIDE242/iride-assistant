@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getProductById, resetVariantWeightById } from '../../utils/api'
 import FilteredVariant from './FilteredVariant'
-import { updateProduct, useProducts } from '../../context/products'
+import { updateProduct, useProducts } from '../../context/products.context'
 import CopyButton from '../CopyButton'
 import CopyHint from '../CopyHint'
 import { getAllFilters } from '../../utils/filters'

@@ -4,7 +4,7 @@ import {
   removeSelectedHiddenStatus,
   updateSelectedVariants,
 } from '../../actions/products'
-import { updateProducts, useProducts } from '../../context/products'
+import { updateProducts, useProducts } from '../../context/products.context'
 import { collections, idGroups, idRoles } from '../../utils/config'
 import { getAllFilters } from '../../utils/filters'
 import { useDiscount } from '../../custom-hooks/useDiscount'
