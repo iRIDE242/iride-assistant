@@ -38,6 +38,10 @@ export const collections = {
     id: '294474285248',
     name: 'Rapha Bundle',
   },
+  294623641792: {
+    id: '294623641792',
+    name: 'Road Tyres',
+  },
 }
 
 export const idGroups = {
