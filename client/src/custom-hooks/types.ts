@@ -26,14 +26,16 @@ export enum DiscountStatus {
   KEEP_VALUE,
 }
 
+export type NumberOrBlank = Blank.blank_string | number
+
 export interface DiscountState {
   status: DiscountStatus
-  value: Blank.blank_string | number
+  value: NumberOrBlank
 }
 
 // usePriceSetting
 export interface PriceSettingState {
   price: number
-  cap: Blank.blank_string | number
-  discount: Blank.blank_string | number
+  cap: NumberOrBlank
+  discount: NumberOrBlank
 }

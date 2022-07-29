@@ -1,5 +1,9 @@
 import { Product, Variant } from 'components/types'
-import { DiscountState, PriceSettingState } from 'custom-hooks/types'
+import {
+  DiscountState,
+  NumberOrBlank,
+  PriceSettingState,
+} from 'custom-hooks/types'
 import { Dispatch, FormEvent, ReactNode, SetStateAction } from 'react'
 
 export interface FilteredVariantProps {
@@ -45,6 +49,6 @@ export interface FilteredProductProps {
 
 export interface PercentageInputProps {
   id: string
-  discountValue: DiscountState['value']
+  discountValue: NumberOrBlank
   handleDiscountChange: (e: FormEvent<HTMLInputElement>) => void
 }

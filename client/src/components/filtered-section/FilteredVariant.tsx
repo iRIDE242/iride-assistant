@@ -14,6 +14,7 @@ import ChildCheckboxHost from 'components/checkboxes/ChildCheckboxHost'
 import { FilteredVariantProps } from './types'
 import { Blank, DiscountStatus, PriceSettingState } from 'custom-hooks/types'
 import ResetButton from './ResetButton'
+import PercentageInput from './PercentageInput'
 
 export default function FilteredVariant({
   product,
@@ -35,9 +36,8 @@ export default function FilteredVariant({
     fromSection
   )
 
-  const [originalPriceSetting, setOriginalPriceSetting] = useState<PriceSettingState>(() =>
-    getPriceSetting(variant)
-  )
+  const [originalPriceSetting, setOriginalPriceSetting] =
+    useState<PriceSettingState>(() => getPriceSetting(variant))
 
   const [priceSetting, setPriceSetting] = usePriceSetting(
     isSelectedOnly,
@@ -107,22 +107,11 @@ export default function FilteredVariant({
       </div>
 
       <div className="variant--price">
-        <label
-          style={{ marginLeft: '4px' }}
-          htmlFor={`${idGroups.variant}--${idRoles.discount}-${variant.id}`}
-        >
-          <strong>Discount: </strong>
-        </label>
-        <input
+        <PercentageInput
           id={`${idGroups.variant}--${idRoles.discount}-${variant.id}`}
-          style={{ width: '40px' }}
-          type="number"
-          value={priceSetting.discount}
-          onChange={modifyDiscount}
-          min="0"
-          max="100"
+          discountValue={priceSetting.discount}
+          handleDiscountChange={modifyDiscount}
         />
-        <span>%</span>
 
         <label
           style={{ marginLeft: '4px' }}
