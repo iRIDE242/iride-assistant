@@ -53,7 +53,7 @@ export default function FilteredProducts({
     selected: 0,
   })
 
-  const [discount, handleSetDiscount, setDiscount] = useDiscount()
+  const [discount, setDiscount, handleSetDiscount] = useDiscount()
 
   const [reset, incrementReset] = useReset()
 

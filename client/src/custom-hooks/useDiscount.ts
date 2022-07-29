@@ -11,7 +11,7 @@ export const useDiscount = (discountFromAbove: DiscountState) => {
     value: Blank.blank_string,
   })
 
-  const handleSetDiscount = (e: FormEvent<HTMLInputElement>) => {
+  const handleDiscountChange = (e: FormEvent<HTMLInputElement>) => {
     const discount = e.currentTarget.value
 
     // Number input will only responde legid inputs (number or blank space '')
@@ -35,5 +35,5 @@ export const useDiscount = (discountFromAbove: DiscountState) => {
     }
   }, [discountFromAbove])
 
-  return [discount, handleSetDiscount, setDiscount] as const
+  return [discount, setDiscount, handleDiscountChange] as const
 }

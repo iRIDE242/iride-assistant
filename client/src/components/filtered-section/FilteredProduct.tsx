@@ -17,6 +17,7 @@ import { Variant } from 'components/types'
 import { DiscountStatus } from 'custom-hooks/types'
 import useParentCheckbox from 'custom-hooks/useParentCheckbox'
 import useFilteredVariants from 'custom-hooks/useFilteredVariants'
+import PercentageInput from './PercentageInput'
 
 export default function FilteredProduct({
   product,
@@ -53,7 +54,7 @@ export default function FilteredProduct({
     selectedOnlyFromParent.checked,
     setSelectedOnly
   )
-  const [discount, handleSetDiscount, setDiscount] =
+  const [discount, setDiscount, handleDiscountChange] =
     useDiscount(discountFromSection)
   const [reset, incrementReset] = useReset()
 
@@ -117,22 +118,11 @@ export default function FilteredProduct({
       </div>
 
       <div style={toggleBlock(showVariants.checked)}>
-        <label
-          style={{ marginLeft: '4px' }}
-          htmlFor={`${idGroups.setPrice}--${idRoles.product}-${product.id}`}
-        >
-          <strong>Discount: </strong>
-        </label>
-        <input
+        <PercentageInput
           id={`${idGroups.setPrice}--${idRoles.product}-${product.id}`}
-          style={{ width: '40px' }}
-          type="number"
-          value={discount.value}
-          onChange={handleSetDiscount}
-          min="0"
-          max="100"
+          discountValue={discount.value}
+          handleDiscountChange={handleDiscountChange}
         />
-        <span>%</span>
 
         <button onClick={incrementReset}>RESET PRICE SETTING</button>
 

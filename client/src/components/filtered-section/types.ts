@@ -1,6 +1,6 @@
 import { Product, Variant } from 'components/types'
 import { DiscountState, PriceSettingState } from 'custom-hooks/types'
-import { Dispatch, ReactNode, SetStateAction } from 'react'
+import { Dispatch, FormEvent, ReactNode, SetStateAction } from 'react'
 
 export interface FilteredVariantProps {
   product: Product
@@ -41,4 +41,10 @@ export interface FilteredProductProps {
   setShowVariants: Dispatch<SetStateAction<ParentCheckboxState>>
   selectedOnly: ParentCheckboxState
   setSelectedOnly: Dispatch<SetStateAction<ParentCheckboxState>>
+}
+
+export interface PercentageInputProps {
+  id: string
+  discountValue: DiscountState['value']
+  handleDiscountChange: (e: FormEvent<HTMLInputElement>) => void
 }
