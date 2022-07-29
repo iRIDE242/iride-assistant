@@ -10,6 +10,7 @@ import { getAllFilters } from '../../utils/filters'
 import { useDiscount } from '../../custom-hooks/useDiscount'
 import ParentCheckbox from 'components/checkboxes/ParentCheckbox'
 import useReset from 'custom-hooks/useReset'
+import PercentageInput from './PercentageInput'
 
 const variantHandlerRegex = new RegExp(
   `${idGroups.variant}--${idRoles.handler}-(\\d+)` // Variant handler checkbox
@@ -53,7 +54,7 @@ export default function FilteredProducts({
     selected: 0,
   })
 
-  const [discount, setDiscount, handleSetDiscount] = useDiscount()
+  const [discount, setDiscount, handleDiscountChange] = useDiscount()
 
   const [reset, incrementReset] = useReset()
 
@@ -217,22 +218,11 @@ export default function FilteredProducts({
       </div>
 
       <div>
-        <label
-          style={{ marginLeft: '4px' }}
-          htmlFor={`${idGroups.setPrice}--${idRoles.section}`}
-        >
-          <strong>Discount: </strong>
-        </label>
-        <input
+        <PercentageInput
           id={`${idGroups.setPrice}--${idRoles.section}`}
-          style={{ width: '40px' }}
-          type="number"
-          value={discount.value}
-          onChange={handleSetDiscount}
-          min="0"
-          max="100"
+          discountValue={discount.value}
+          handleDiscountChange={handleDiscountChange}
         />
-        <span>%</span>
 
         <button onClick={incrementReset}>RESET PRICE SETTING</button>
       </div>
