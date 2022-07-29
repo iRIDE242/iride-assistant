@@ -16,6 +16,7 @@ import { FilteredProductProps } from './types'
 import { Variant } from 'components/types'
 import { DiscountStatus } from 'custom-hooks/types'
 import useParentCheckbox from 'custom-hooks/useParentCheckbox'
+import useFilteredVariants from 'custom-hooks/useFilteredVariants'
 
 export default function FilteredProduct({
   product,
@@ -30,10 +31,6 @@ export default function FilteredProduct({
 }: FilteredProductProps) {
   const [{ filters }, dispatch] = useProducts()
 
-  const [filteredVariants, setFilteredVariants] = useState<Variant[]>([])
-
-  const [isCopied, setIsCopied] = useState<boolean>(false)
-
   // Product checkbox
   // Note, this checkbox won't handle selected from its direct parent, but leave it to variant.
   const [checkbox, setCheckbox] = useParentCheckbox(
@@ -46,19 +43,18 @@ export default function FilteredProduct({
     checkedFromSection
   )
 
+  const [filteredVariants] = useFilteredVariants(product, filters)
+  const [isCopied, setIsCopied] = useState<boolean>(false)
   const [showVariants, toggleShowVariants] = useChildCheckbox(
     showVariantsFromParent.checked,
     setShowVariants
   )
-
   const [selectedOnly, toggleSelectedOnly] = useChildCheckbox(
     selectedOnlyFromParent.checked,
     setSelectedOnly
   )
-
   const [discount, handleSetDiscount, setDiscount] =
     useDiscount(discountFromSection)
-
   const [reset, incrementReset] = useReset()
 
   const handleResetWeight =
@@ -94,12 +90,6 @@ export default function FilteredProduct({
       status: DiscountStatus.KEEP_VALUE,
     }))
   }
-
-  // Get the filtered variants from product
-  useEffect(() => {
-    const filterVariants = getAllFilters(filters, false)
-    setFilteredVariants(filterVariants(product.variants))
-  }, [filters, product.variants])
 
   return (
     <div className="product--wrapper">
