@@ -50,13 +50,19 @@ export default function FilteredVariant({
     const { price, cap } = originalPriceSetting
 
     const originalPrice = getOriginalPrice(price, cap)
-    const discountNumber = Number(e.currentTarget.value)
+    const discountNumber =
+      e.currentTarget.value === Blank.blank_string
+        ? NaN
+        : Number(e.currentTarget.value) // Can be 0 and any number, or NaN
 
     setPriceSetting({
       price: discountNumber
-        ? getDiscountedPrice(discountNumber, originalPrice)
+        ? getDiscountedPrice(discountNumber, originalPrice) // not 0 or not NaN
         : originalPrice,
-      cap: discountNumber ? originalPrice : Blank.blank_string,
+      cap:
+        discountNumber || discountNumber === 0
+          ? originalPrice
+          : Blank.blank_string,
       discount:
         e.currentTarget.value === Blank.blank_string
           ? e.currentTarget.value
