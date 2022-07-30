@@ -14,7 +14,6 @@ import ChildCheckboxHost from 'components/checkboxes/ChildCheckboxHost'
 import useReset from 'custom-hooks/useReset'
 import { FilteredProductProps } from './types'
 import { Variant } from 'components/types'
-import { DiscountStatus } from 'custom-hooks/types'
 import useParentCheckbox from 'custom-hooks/useParentCheckbox'
 import useFilteredVariants from 'custom-hooks/useFilteredVariants'
 import PercentageInput from './PercentageInput'
@@ -54,7 +53,7 @@ export default function FilteredProduct({
     selectedOnlyFromParent.checked,
     setSelectedOnly
   )
-  const [discount, setDiscount, handleDiscountChange] =
+  const [discount, setDiscount, handleDiscountChange, keepDiscountValue] =
     useDiscount(discountFromSection)
   const [reset, incrementReset] = useReset()
 
@@ -84,13 +83,6 @@ export default function FilteredProduct({
         }
       }
     }
-
-  const keepDiscountValue = () => {
-    setDiscount(current => ({
-      ...current,
-      status: DiscountStatus.KEEP_VALUE,
-    }))
-  }
 
   return (
     <div className="product--wrapper">

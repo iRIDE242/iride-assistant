@@ -24,6 +24,13 @@ export const useDiscount = (discountFromAbove: DiscountState) => {
     })
   }
 
+  const keepDiscountValue = () => {
+    setDiscount(current => ({
+      ...current,
+      status: DiscountStatus.KEEP_VALUE,
+    }))
+  }
+
   useEffect(() => {
     if (discountFromAbove) {
       const { status, value } = discountFromAbove
@@ -35,5 +42,10 @@ export const useDiscount = (discountFromAbove: DiscountState) => {
     }
   }, [discountFromAbove])
 
-  return [discount, setDiscount, handleDiscountChange] as const
+  return [
+    discount,
+    setDiscount,
+    handleDiscountChange,
+    keepDiscountValue,
+  ] as const
 }

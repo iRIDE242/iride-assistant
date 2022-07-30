@@ -54,7 +54,7 @@ export default function FilteredProducts({
     selected: 0,
   })
 
-  const [discount, setDiscount, handleDiscountChange] = useDiscount()
+  const [discount, , handleDiscountChange, keepDiscountValue] = useDiscount()
 
   const [reset, incrementReset] = useReset()
 
@@ -142,13 +142,6 @@ export default function FilteredProducts({
     } catch (error) {
       console.log(error)
     }
-  }
-
-  const keepDiscountValue = () => {
-    setDiscount(current => ({
-      ...current,
-      status: 2,
-    }))
   }
 
   // Component effect
