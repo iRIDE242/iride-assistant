@@ -1,4 +1,5 @@
 import { useChildCheckbox } from 'custom-hooks/useChildCheckbox'
+import { ChildCheckboxProps } from './types'
 
 export default function ChildCheckbox({
   id,
@@ -8,7 +9,7 @@ export default function ChildCheckbox({
   setGrandParentCheckbox,
   fromSection,
   onChange,
-}) {
+}: ChildCheckboxProps) {
   const [checkbox, , getCheckboxProps] = useChildCheckbox(
     checkedFromParent,
     setParentCheckbox,

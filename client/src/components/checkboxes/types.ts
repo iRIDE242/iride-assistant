@@ -27,3 +27,13 @@ export interface ParentCheckboxProps {
   inputTitle: string
   headerSize?: HeaderSizes
 }
+
+export interface ChildCheckboxProps {
+  id: string
+  label: string
+  checkedFromParent: boolean
+  setParentCheckbox: Dispatch<SetStateAction<ParentCheckboxState>>
+  setGrandParentCheckbox?: Dispatch<SetStateAction<ParentCheckboxState>>
+  fromSection?: boolean
+  onChange?: () => void
+}
