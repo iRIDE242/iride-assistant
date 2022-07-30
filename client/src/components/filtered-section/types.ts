@@ -52,3 +52,23 @@ export interface PercentageInputProps {
   discountValue: NumberOrBlank
   handleDiscountChange: (e: FormEvent<HTMLInputElement>) => void
 }
+
+export interface FilteredProductsProps {
+  filteredProducts: Product[]
+  settings: SettingsForGone
+  collectionId: string
+}
+
+export interface SettingsForGone {
+  localStorageKey: 'ignoredOutOfStockIds'
+  background: string
+  mainColor: string
+  ignoredColor: string
+  detailTitle: 'COMPLETELY OUT OF STOCK'
+  mainTitle: 'Out of stock products '
+}
+
+export enum ToggleVariantsActions {
+  RESUME,
+  REMOVE,
+}

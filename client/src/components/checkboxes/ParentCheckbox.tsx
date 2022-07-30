@@ -1,14 +1,15 @@
 import { useEffect, useRef } from 'react'
+import { HeaderSizes, ParentCheckboxProps, SizedHeaderArg } from './types'
 
-function SizedHeader({ headerSize, children }) {
+function SizedHeader({ headerSize, children }: SizedHeaderArg) {
   const style = {
     display: 'inline-block',
   }
 
   return (
     <>
-      {headerSize === 'h2' && <h2 style={style}>{children}</h2>}
-      {headerSize === 'h3' && <h3 style={style}>{children}</h3>}
+      {headerSize === HeaderSizes.H2 && <h2 style={style}>{children}</h2>}
+      {headerSize === HeaderSizes.H3 && <h3 style={style}>{children}</h3>}
       {!headerSize && <p style={style}>{children}</p>}
     </>
   )
@@ -24,8 +25,8 @@ export default function ParentCheckbox({
   inputId,
   inputTitle,
   headerSize,
-}) {
-  const inputRef = useRef()
+}: ParentCheckboxProps) {
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const handleChange = () => {
     onChange && onChange()
@@ -48,10 +49,12 @@ export default function ParentCheckbox({
 
   // Manipulater indeterminate value
   useEffect(() => {
+    const checkbox = inputRef.current as HTMLInputElement
+
     if (selected > 0 && selected < max) {
-      inputRef.current.indeterminate = true
+      checkbox.indeterminate = true
     } else {
-      inputRef.current.indeterminate = false
+      checkbox.indeterminate = false
     }
   }, [max, selected])
 
@@ -67,7 +70,7 @@ export default function ParentCheckbox({
       />
       <label htmlFor={inputId}>
         <SizedHeader headerSize={headerSize}>
-          {headerSize === 'h2' || headerSize === 'h3'
+          {headerSize === HeaderSizes.H2 || headerSize === HeaderSizes.H3
             ? inputTitle.toUpperCase()
             : inputTitle}
         </SizedHeader>

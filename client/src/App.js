@@ -7,7 +7,11 @@ import FilteredSection from './components/filtered-section/FilteredSection'
 import { getProductsByCollectionId, getProductsByPageInfo } from './utils/api'
 import { getLocallyOutOfStockProducts } from './actions/products'
 import { collections } from './utils/config'
-import { getProducts, toggleHiddens, useProducts } from './context/products.context'
+import {
+  getProducts,
+  toggleHiddens,
+  useProducts,
+} from './context/products.context'
 import { arrayToMapWithIdAsKey } from './utils/helper'
 import { useFilteredProducts } from './utils/customHooks'
 

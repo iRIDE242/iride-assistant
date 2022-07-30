@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import FilteredProduct from './FilteredProduct'
 import {
   removeSelectedHiddenStatus,
@@ -11,6 +11,14 @@ import { useDiscount } from '../../custom-hooks/useDiscount'
 import ParentCheckbox from 'components/checkboxes/ParentCheckbox'
 import useReset from 'custom-hooks/useReset'
 import PercentageInput from './PercentageInput'
+import {
+  FilteredProductsProps,
+  ParentCheckboxState,
+  ToggleVariantsActions,
+} from './types'
+import { Collections } from 'utils/types'
+import { Variant } from 'components/types'
+import { HeaderSizes } from 'components/checkboxes/types'
 
 const variantHandlerRegex = new RegExp(
   `${idGroups.variant}--${idRoles.handler}-(\\d+)` // Variant handler checkbox
@@ -18,12 +26,17 @@ const variantHandlerRegex = new RegExp(
 const productInputRegex = new RegExp(
   `${idGroups.filteredProducts}--${idRoles.product}-(\\d+)` // Product checkbox
 )
-const replacer = (match, p1) => p1
+const replacer = (match: string, p1: string) => p1
 
-const bulkyVisuallyToggleVariants = (variantIds, action) => {
+const bulkyVisuallyToggleVariants = (
+  variantIds: string[],
+  action: ToggleVariantsActions
+) => {
   for (let index = 0; index < variantIds.length; index++) {
-    const li = document.querySelector(`#variant-${variantIds[index]}`)
-    action === 'remove'
+    const li = document.querySelector(
+      `#variant-${variantIds[index]}`
+    ) as HTMLLIElement
+    action === ToggleVariantsActions.REMOVE
       ? (li.style.display = 'none')
       : (li.style.display = 'list-item')
   }
@@ -33,22 +46,22 @@ export default function FilteredProducts({
   filteredProducts,
   settings: { background, mainColor },
   collectionId,
-}) {
-  const [checkbox, setCheckbox] = useState({
+}: FilteredProductsProps) {
+  const [checkbox, setCheckbox] = useState<ParentCheckboxState>({
     max: 0,
     checked: false,
     selected: 0,
   })
 
-  const [variantsCounts, setVariantsCounts] = useState(0)
+  // const [variantsCounts, setVariantsCounts] = useState<number>(0)
 
-  const [showVariants, setShowVariants] = useState({
+  const [showVariants, setShowVariants] = useState<ParentCheckboxState>({
     max: 0,
     checked: false,
     selected: 0,
   })
 
-  const [selectedOnly, setSelectedOnly] = useState({
+  const [selectedOnly, setSelectedOnly] = useState<ParentCheckboxState>({
     max: 0,
     checked: false,
     selected: 0,
@@ -60,31 +73,33 @@ export default function FilteredProducts({
 
   const [{ filters }, dispatch] = useProducts()
 
-  const inputTitle = `${collections[collectionId].name.toUpperCase()} [Counts: 
+  const inputTitle = `${(collections as Collections)[
+    collectionId
+  ].name.toUpperCase()} [Counts: 
   ${filteredProducts.length}]`
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const variantIds = []
-    const productIds = []
+    const variantIds: string[] = []
+    const productIds: string[] = []
 
-    for (let index = 0; index < e.target.length; index++) {
+    for (let index = 0; index < e.currentTarget.length; index++) {
+      const checkbox = e.currentTarget[index] as HTMLInputElement
+
       if (
-        e.target[index].nodeName === 'INPUT' &&
-        (e.target[index].checked || e.target[index].indeterminate === true)
+        checkbox.nodeName === 'INPUT' &&
+        (checkbox.checked || checkbox.indeterminate === true)
       ) {
-        if (variantHandlerRegex.test(e.target[index].id)) {
-          variantIds.push(e.target[index].id)
-        } else if (productInputRegex.test(e.target[index].id)) {
-          productIds.push(
-            e.target[index].id.replace(productInputRegex, replacer)
-          )
+        if (variantHandlerRegex.test(checkbox.id)) {
+          variantIds.push(checkbox.id)
+        } else if (productInputRegex.test(checkbox.id)) {
+          productIds.push(checkbox.id.replace(productInputRegex, replacer))
         }
       }
     }
 
-    bulkyVisuallyToggleVariants(variantIds, 'remove')
+    bulkyVisuallyToggleVariants(variantIds, ToggleVariantsActions.REMOVE)
 
     try {
       const updatedProducts = await removeSelectedHiddenStatus(
@@ -93,30 +108,37 @@ export default function FilteredProducts({
       )
       updateProducts(dispatch, updatedProducts)
     } catch (error) {
-      bulkyVisuallyToggleVariants(variantIds, 'resume')
+      bulkyVisuallyToggleVariants(variantIds, ToggleVariantsActions.RESUME)
       console.log(error)
     }
   }
 
-  const handleTestSubmit = async e => {
+  const handleTestSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     const variantData = []
     const productIds = []
 
-    for (let index = 0; index < e.target.length; index++) {
-      if (
-        e.target[index].nodeName === 'INPUT' &&
-        (e.target[index].checked || e.target[index].indeterminate === true)
-      ) {
-        if (variantHandlerRegex.test(e.target[index].id)) {
-          const id = e.target[index].id.replace(variantHandlerRegex, replacer)
+    for (let index = 0; index < e.currentTarget.length; index++) {
+      const checkbox = e.currentTarget[index] as HTMLInputElement
 
-          const cap = e.target.querySelector(
-            `#${idGroups.variant}--${idRoles.cap}-${id}`
+      if (
+        checkbox.nodeName === 'INPUT' &&
+        (checkbox.checked || checkbox.indeterminate === true)
+      ) {
+        if (variantHandlerRegex.test(checkbox.id)) {
+          const id = checkbox.id.replace(variantHandlerRegex, replacer)
+          const form = e.currentTarget as unknown as HTMLFormElement
+
+          const cap = (
+            form.querySelector(
+              `#${idGroups.variant}--${idRoles.cap}-${id}`
+            ) as HTMLInputElement
           ).value
-          const price = e.target.querySelector(
-            `#${idGroups.variant}--${idRoles.price}-${id}`
+          const price = (
+            form.querySelector(
+              `#${idGroups.variant}--${idRoles.price}-${id}`
+            ) as HTMLInputElement
           ).value
 
           const data = {
@@ -125,10 +147,8 @@ export default function FilteredProducts({
             price,
           }
           variantData.push(data)
-        } else if (productInputRegex.test(e.target[index].id)) {
-          productIds.push(
-            e.target[index].id.replace(productInputRegex, replacer)
-          )
+        } else if (productInputRegex.test(checkbox.id)) {
+          productIds.push(checkbox.id.replace(productInputRegex, replacer))
         }
       }
     }
@@ -149,7 +169,7 @@ export default function FilteredProducts({
   // only when filteredProducts and filters changes,
   // avoiding re-calculate it every re-rendering
   useEffect(() => {
-    let filteredVariants = []
+    let filteredVariants: Variant[] = []
     const filterVariants = getAllFilters(filters, false)
 
     for (let index = 0; index < filteredProducts.length; index++) {
@@ -159,7 +179,7 @@ export default function FilteredProducts({
       ]
     }
 
-    setVariantsCounts(filteredVariants.length)
+    // setVariantsCounts(filteredVariants.length)
 
     setCheckbox(current => ({
       ...current,
@@ -189,7 +209,7 @@ export default function FilteredProducts({
           onChange={keepDiscountValue}
           inputId={`${idGroups.filteredProducts}--${idRoles.section}-${collectionId}`}
           inputTitle={inputTitle}
-          headerSize="h2"
+          headerSize={HeaderSizes.H2}
         />
 
         {/* Show variants parent */}
@@ -234,8 +254,6 @@ export default function FilteredProducts({
               setCheckbox={setCheckbox}
               discountFromSection={discount}
               resetFromSection={reset}
-              variantsCounts={variantsCounts}
-              filteredProductsLength={filteredProducts.length}
               showVariants={showVariants}
               setShowVariants={setShowVariants}
               selectedOnly={selectedOnly}

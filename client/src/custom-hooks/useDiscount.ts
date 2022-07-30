@@ -1,11 +1,7 @@
 import { FormEvent, useEffect, useState } from 'react'
 import { Blank, DiscountState, DiscountStatus } from './types'
 
-export const SHOW_INITIAL = 'SHOW INITIAL'
-export const STAY_SYNCED = 'STAY SYNCED'
-export const KEEP_VALUE = 'KEEP VALUE'
-
-export const useDiscount = (discountFromAbove: DiscountState) => {
+export const useDiscount = (discountFromAbove?: DiscountState) => {
   const [discount, setDiscount] = useState<DiscountState>({
     status: DiscountStatus.SHOW_INITIAL,
     value: Blank.blank_string,

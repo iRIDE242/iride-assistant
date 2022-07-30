@@ -17,6 +17,7 @@ import { Variant } from 'components/types'
 import useParentCheckbox from 'custom-hooks/useParentCheckbox'
 import useFilteredVariants from 'custom-hooks/useFilteredVariants'
 import PercentageInput from './PercentageInput'
+import { HeaderSizes } from 'components/checkboxes/types'
 
 export default function FilteredProduct({
   product,
@@ -94,7 +95,7 @@ export default function FilteredProduct({
           onChange={keepDiscountValue}
           inputId={`${idGroups.filteredProducts}--${idRoles.product}-${product.id}`}
           inputTitle={product.title}
-          headerSize="h3"
+          headerSize={HeaderSizes.H3}
         />
 
         {/* Show variants child */}
