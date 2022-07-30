@@ -19,28 +19,12 @@ import {
 import { Collections } from 'utils/types'
 import { Variant } from 'components/types'
 import { HeaderSizes } from 'components/checkboxes/types'
-
-const variantHandlerRegex = new RegExp(
-  `${idGroups.variant}--${idRoles.handler}-(\\d+)` // Variant handler checkbox
-)
-const productInputRegex = new RegExp(
-  `${idGroups.filteredProducts}--${idRoles.product}-(\\d+)` // Product checkbox
-)
-const replacer = (match: string, p1: string) => p1
-
-const bulkyVisuallyToggleVariants = (
-  variantIds: string[],
-  action: ToggleVariantsActions
-) => {
-  for (let index = 0; index < variantIds.length; index++) {
-    const li = document.querySelector(
-      `#variant-${variantIds[index]}`
-    ) as HTMLLIElement
-    action === ToggleVariantsActions.REMOVE
-      ? (li.style.display = 'none')
-      : (li.style.display = 'list-item')
-  }
-}
+import {
+  bulkyVisuallyToggleVariants,
+  productInputRegex,
+  replacer,
+  variantHandlerRegex,
+} from './helpers/filteredProducts.helper'
 
 export default function FilteredProducts({
   filteredProducts,
