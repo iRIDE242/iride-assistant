@@ -9,7 +9,7 @@ export interface ChildCheckboxHostProps {
   handleCheckboxChange: () => void
 }
 
-export interface SizedHeaderArg {
+export interface SizedHeaderProps {
   headerSize?: string
   children: ReactNode
 }
