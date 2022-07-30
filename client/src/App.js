@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { createPrevAndNextFromHeader } from './actions/header'
 import './App.css'
-// import Product from './components/Product'
 import InventoryInfo from './components/InventoryInfo'
 import FilteredSection from './components/filtered-section/FilteredSection'
 import { getProductsByCollectionId, getProductsByPageInfo } from './utils/api'
@@ -215,18 +214,6 @@ function App() {
           />
         )}
       </div>
-
-      {/* <h2>
-        {collections[collectionId].name.toUpperCase()} [Counts:{' '}
-        {products.length}]
-      </h2>
-      {products.length ? (
-        products.map((product, index) => (
-          <Product key={index} product={product} />
-        ))
-      ) : (
-        <p>No products from this query</p>
-      )} */}
     </div>
   )
 }

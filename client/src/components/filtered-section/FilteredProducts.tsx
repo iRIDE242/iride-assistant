@@ -53,8 +53,6 @@ export default function FilteredProducts({
     selected: 0,
   })
 
-  // const [variantsCounts, setVariantsCounts] = useState<number>(0)
-
   const [showVariants, setShowVariants] = useState<ParentCheckboxState>({
     max: 0,
     checked: false,
@@ -178,8 +176,6 @@ export default function FilteredProducts({
         ...filterVariants(filteredProducts[index].variants),
       ]
     }
-
-    // setVariantsCounts(filteredVariants.length)
 
     setCheckbox(current => ({
       ...current,
