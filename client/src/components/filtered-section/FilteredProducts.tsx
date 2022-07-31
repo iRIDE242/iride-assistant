@@ -17,7 +17,7 @@ import {
   ToggleVariantsActions,
 } from './types'
 import { Collections } from 'utils/types'
-import { Variant } from 'components/types'
+import { Product, Variant } from 'components/types'
 import { HeaderSizes } from 'components/checkboxes/types'
 import {
   bulkyVisuallyToggleVariants,
@@ -63,8 +63,8 @@ export default function FilteredProducts({
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const variantIds: string[] = []
-    const productIds: string[] = []
+    const variantIds: Variant['id'][] = []
+    const productIds: Product['id'][] = []
 
     for (let index = 0; index < e.currentTarget.length; index++) {
       const checkbox = e.currentTarget[index] as HTMLInputElement
@@ -74,9 +74,11 @@ export default function FilteredProducts({
         (checkbox.checked || checkbox.indeterminate === true)
       ) {
         if (variantHandlerRegex.test(checkbox.id)) {
-          variantIds.push(checkbox.id)
+          variantIds.push(Number(checkbox.id))
         } else if (productInputRegex.test(checkbox.id)) {
-          productIds.push(checkbox.id.replace(productInputRegex, replacer))
+          productIds.push(
+            Number(checkbox.id.replace(productInputRegex, replacer))
+          )
         }
       }
     }
@@ -98,8 +100,8 @@ export default function FilteredProducts({
   const handleTestSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const variantData = []
-    const productIds = []
+    const variantData: Array<Partial<Variant>> = []
+    const productIds: Product['id'][] = []
 
     for (let index = 0; index < e.currentTarget.length; index++) {
       const checkbox = e.currentTarget[index] as HTMLInputElement
@@ -123,14 +125,17 @@ export default function FilteredProducts({
             ) as HTMLInputElement
           ).value
 
-          const data = {
-            id,
+          const data: Partial<Variant> = {
+            id: Number(id),
             compare_at_price: cap ? cap : null,
             price,
           }
           variantData.push(data)
         } else if (productInputRegex.test(checkbox.id)) {
-          productIds.push(checkbox.id.replace(productInputRegex, replacer))
+          const productId = Number(
+            checkbox.id.replace(productInputRegex, replacer)
+          )
+          productIds.push(productId)
         }
       }
     }

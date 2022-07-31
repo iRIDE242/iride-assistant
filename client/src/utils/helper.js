@@ -10,7 +10,7 @@ export const getLength = prop('length')
 const createDelayByIndexForPromise = (delay, index) => passPromiseParams => {
   return new Promise((res, rej) => {
     setTimeout(() => {
-      passPromiseParams(res, rej)
+      passPromiseParams.then(res).catch(rej)
     }, delay * index)
   })
 }

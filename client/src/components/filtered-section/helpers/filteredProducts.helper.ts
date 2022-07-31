@@ -1,3 +1,4 @@
+import { Variant } from 'components/types'
 import { idGroups, idRoles } from 'utils/config'
 import { ToggleVariantsActions } from '../types'
 
@@ -12,7 +13,7 @@ export const productInputRegex = new RegExp(
 export const replacer = (match: string, p1: string) => p1
 
 export const bulkyVisuallyToggleVariants = (
-  variantIds: string[],
+  variantIds: Array<Variant['id']>,
   action: ToggleVariantsActions
 ) => {
   for (let index = 0; index < variantIds.length; index++) {
