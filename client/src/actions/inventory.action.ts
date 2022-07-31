@@ -1,17 +1,17 @@
 import { getInventoryItemId, inClearance, isHidden } from './variant.action'
 import { getVariantLocationInventory } from '../utils/api'
 import { LOCAL_LOCATION_ID } from '../utils/config'
-import { createSequencedPromises } from '../utils/helper'
 import { getVariants, isActive } from './product.action'
 import { Product, Variant } from 'components/types'
 import { InventoryStatus } from './types'
+import { createSequencedPromises } from './helper'
 
 /**
  * Get products that are active, and completely or partially out of stock locally
  */
 
 // Create promise relay
-const createNonHiddenOrWithCapLocalInventoryRelayByVariant = async (
+const createNonHiddenOrWithCapLocalInventoryPromiseByVariant = async (
   variant: Variant
 ) => {
   if (isHidden(variant)) return false
@@ -38,7 +38,7 @@ const areLocalNonHiddenOutOfStock = async (product: Product) => {
 
   const promiseContainer = createSequencedPromises(
     getVariants(product),
-    createNonHiddenOrWithCapLocalInventoryRelayByVariant
+    createNonHiddenOrWithCapLocalInventoryPromiseByVariant
   )
 
   try {

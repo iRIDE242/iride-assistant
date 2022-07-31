@@ -3,16 +3,16 @@ import {
   resetVariantWeightById,
   updateVariantByData,
 } from '../utils/api'
-import { createSequencedPromises } from '../utils/helper'
 import { Product, Variant } from 'components/types'
+import { createSequencedPromises } from './helper'
 
 /**
  * Bulky remove hidden status for variants
  */
 
 // Promise relay to remove hidden status for a variant
-const createRemoveHiddenStatusRelayByVariantId = async (
-  variantId: string
+const createRemoveHiddenStatusPromiseByVariantId = async (
+  variantId: number
 ): Promise<Variant> => {
   try {
     const { variant } = await resetVariantWeightById(variantId)
@@ -24,8 +24,8 @@ const createRemoveHiddenStatusRelayByVariantId = async (
 }
 
 // Promise relay to get a product
-const createGetProductRelayByProductId = async (
-  productId: string
+const createGetProductPromiseByProductId = async (
+  productId: number
 ): Promise<Product> => {
   try {
     const { product: updatedProduct } = await getProductById(productId)
@@ -43,7 +43,7 @@ export const removeSelectedHiddenStatus = async (
 ): Promise<Product[]> => {
   const variantsPromiseContainer = createSequencedPromises(
     variantIds,
-    createRemoveHiddenStatusRelayByVariantId
+    createRemoveHiddenStatusPromiseByVariantId
   )
 
   try {
@@ -53,7 +53,7 @@ export const removeSelectedHiddenStatus = async (
     // This promise needs to be after the updating variants action to get the updated products
     const productsPromiseContainer = createSequencedPromises(
       productIds,
-      createGetProductRelayByProductId
+      createGetProductPromiseByProductId
     )
 
     const updatedProducts = await Promise.all(productsPromiseContainer)
@@ -66,7 +66,7 @@ export const removeSelectedHiddenStatus = async (
 /**
  * Update variants
  */
-const createUpdateVariantRelayByVariantData = async (
+const createUpdateVariantPromiseByVariantData = async (
   variantData: Partial<Variant>
 ): Promise<Variant> => {
   try {
@@ -84,7 +84,7 @@ export const updateSelectedVariants = async (
 ): Promise<Product[]> => {
   const variantsPromiseContainer = createSequencedPromises(
     variantData, // variants data array
-    createUpdateVariantRelayByVariantData
+    createUpdateVariantPromiseByVariantData
   )
 
   try {
@@ -94,7 +94,7 @@ export const updateSelectedVariants = async (
     // This promise needs to be after the updating variants action to get the updated products
     const productsPromiseContainer = createSequencedPromises(
       productIds,
-      createGetProductRelayByProductId
+      createGetProductPromiseByProductId
     )
 
     const updatedProducts = await Promise.all(productsPromiseContainer)
