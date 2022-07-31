@@ -4,7 +4,7 @@ import './App.css'
 import InventoryInfo from './components/InventoryInfo'
 import FilteredSection from './components/filtered-section/FilteredSection'
 import { getProductsByCollectionId, getProductsByPageInfo } from './utils/api'
-import { getLocallyOutOfStockProducts } from './actions/products'
+import { getLocallyOutOfStockProducts } from './actions/products.action'
 import { collections } from './utils/config'
 import {
   getProducts,

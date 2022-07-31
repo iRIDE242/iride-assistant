@@ -3,7 +3,7 @@ import FilteredProduct from './FilteredProduct'
 import {
   removeSelectedHiddenStatus,
   updateSelectedVariants,
-} from '../../actions/products'
+} from '../../actions/products.action'
 import { updateProducts, useProducts } from '../../context/products.context'
 import { collections, idGroups, idRoles } from '../../utils/config'
 import { getAllFilters } from '../../utils/filters'
