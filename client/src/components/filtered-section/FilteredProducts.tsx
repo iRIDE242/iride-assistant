@@ -1,9 +1,5 @@
 import { FormEvent, useEffect, useState } from 'react'
 import FilteredProduct from './FilteredProduct'
-import {
-  removeSelectedHiddenStatus,
-  updateSelectedVariants,
-} from '../../actions/products.action'
 import { updateProducts, useProducts } from '../../context/products.context'
 import { collections, idGroups, idRoles } from '../../utils/config'
 import { getAllFilters } from '../../utils/filters'
@@ -25,6 +21,10 @@ import {
   replacer,
   variantHandlerRegex,
 } from './helpers/filteredProducts.helper'
+import {
+  removeSelectedHiddenStatus,
+  updateSelectedVariants,
+} from 'actions/variants.action'
 
 export default function FilteredProducts({
   filteredProducts,

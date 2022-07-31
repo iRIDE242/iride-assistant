@@ -4,7 +4,6 @@ import './App.css'
 import InventoryInfo from './components/InventoryInfo'
 import FilteredSection from './components/filtered-section/FilteredSection'
 import { getProductsByCollectionId, getProductsByPageInfo } from './utils/api'
-import { getLocallyOutOfStockProducts } from './actions/products.action'
 import { collections } from './utils/config'
 import {
   getProducts,
@@ -13,6 +12,7 @@ import {
 } from './context/products.context'
 import { arrayToMapWithIdAsKey } from './utils/helper'
 import { useFilteredProducts } from './utils/customHooks'
+import { getLocallyOutOfStockProducts } from 'actions/inventory.action'
 
 const emptyLink = {
   limit: '',
