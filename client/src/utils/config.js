@@ -42,6 +42,10 @@ export const collections = {
     id: '294623641792',
     name: 'Road Tyres',
   },
+  294822936768: {
+    id: '294822936768',
+    name: 'Hiplok Locks',
+  },
 }
 
 export const idGroups = {
