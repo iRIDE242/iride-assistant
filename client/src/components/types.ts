@@ -83,3 +83,7 @@ export interface CopyButtonProps {
   showCopy?: boolean
   setIsCopied: Dispatch<SetStateAction<boolean>>
 }
+
+export interface CopyHintProps {
+  isCopied: boolean
+}

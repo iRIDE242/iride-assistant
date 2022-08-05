@@ -1,4 +1,6 @@
-export default function CopyHint({ isCopied }) {
+import { CopyHintProps } from './types'
+
+export default function CopyHint({ isCopied }: CopyHintProps) {
   return (
     <p
       style={{
@@ -6,7 +8,7 @@ export default function CopyHint({ isCopied }) {
         flex: 1,
         textAlign: 'left',
         marginLeft: '16px',
-        display: 'inline-block'
+        display: 'inline-block',
       }}
     >
       {isCopied ? 'Title has been copied.' : ''}
