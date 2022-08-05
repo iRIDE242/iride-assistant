@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import useLocalStorageState from '../utils/useLocalStorageState'
+import useLocalStorageState from '../../utils/useLocalStorageState'
 import Product from './Product'
 
 export default function InfoDetail({

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { createPrevAndNextFromHeader } from './actions/header.action'
 import './App.css'
-import InventoryInfo from './components/InventoryInfo'
+import InventoryInfo from './components/inventory/InventoryInfo'
 import FilteredSection from './components/filtered-section/FilteredSection'
 import { getProductsByCollectionId, getProductsByPageInfo } from './utils/api'
 import { collections } from './utils/config'

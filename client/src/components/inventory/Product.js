@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { getTitle } from '../utils/helper'
-import CopyButton from './CopyButton'
-import CopyHint from './CopyHint'
+import { getTitle } from 'utils/helper'
+import CopyButton from 'components/CopyButton'
+import CopyHint from 'components/CopyHint'
 
 function Product(props) {
   const [isCopied, setIsCopied] = useState(false)
