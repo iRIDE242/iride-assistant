@@ -39,3 +39,9 @@ export interface PriceSettingState {
   cap: NumberOrBlank
   discount: NumberOrBlank
 }
+
+// useLocalStorageState
+export enum LocalStorageKeys {
+  IGNORED_PRODUCT_IDS = 'ignoredOutOfStockIds',
+  IGNORED_OUT_OF_STOCK_IDS = 'ignoredOutOfStockIds',
+}

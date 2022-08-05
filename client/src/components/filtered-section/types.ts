@@ -1,6 +1,7 @@
 import { Product, Variant } from 'components/types'
 import {
   DiscountState,
+  LocalStorageKeys,
   NumberOrBlank,
   PriceSettingState,
 } from 'custom-hooks/types'
@@ -60,7 +61,7 @@ export interface FilteredProductsProps {
 }
 
 export interface SettingsForStyle {
-  localStorageKey: string
+  localStorageKey: LocalStorageKeys
   background: string
   mainColor: string
   ignoredColor: string

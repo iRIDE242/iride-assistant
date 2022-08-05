@@ -1,8 +1,9 @@
+import { LocalStorageKeys } from 'custom-hooks/types'
 import FilteredProducts from './FilteredProducts'
 import { FilteredSectionProps, SettingsForStyle } from './types'
 
 const settingsForGone: SettingsForStyle = {
-  localStorageKey: 'ignoredOutOfStockIds',
+  localStorageKey: LocalStorageKeys.IGNORED_OUT_OF_STOCK_IDS,
   background: 'aliceblue',
   mainColor: 'darkgreen',
   ignoredColor: 'navy',
@@ -10,7 +11,10 @@ const settingsForGone: SettingsForStyle = {
   mainTitle: 'Out of stock products ',
 }
 
-export default function FilteredSection({ collectionId, filteredProducts }: FilteredSectionProps) {
+export default function FilteredSection({
+  collectionId,
+  filteredProducts,
+}: FilteredSectionProps) {
   if (!filteredProducts.length) {
     return (
       <div style={{ background: settingsForGone.background }}>
