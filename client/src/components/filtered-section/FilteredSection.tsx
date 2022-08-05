@@ -1,6 +1,7 @@
 import FilteredProducts from './FilteredProducts'
+import { FilteredSectionProps, SettingsForGone } from './types'
 
-const settingsForGone = {
+const settingsForGone: SettingsForGone = {
   localStorageKey: 'ignoredOutOfStockIds',
   background: 'aliceblue',
   mainColor: 'darkgreen',
@@ -9,7 +10,7 @@ const settingsForGone = {
   mainTitle: 'Out of stock products ',
 }
 
-export default function FilteredSection({ collectionId, filteredProducts }) {
+export default function FilteredSection({ collectionId, filteredProducts }: FilteredSectionProps) {
   if (!filteredProducts.length) {
     return (
       <div style={{ background: settingsForGone.background }}>

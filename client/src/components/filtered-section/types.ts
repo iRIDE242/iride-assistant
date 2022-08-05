@@ -72,3 +72,8 @@ export enum ToggleVariantsActions {
   RESUME,
   REMOVE,
 }
+
+export interface FilteredSectionProps {
+  collectionId: string
+  filteredProducts: Product[]
+}
