@@ -55,17 +55,17 @@ export interface PercentageInputProps {
 
 export interface FilteredProductsProps {
   filteredProducts: Product[]
-  settings: SettingsForGone
+  settings: SettingsForStyle
   collectionId: string
 }
 
-export interface SettingsForGone {
-  localStorageKey: 'ignoredOutOfStockIds'
+export interface SettingsForStyle {
+  localStorageKey: string
   background: string
   mainColor: string
   ignoredColor: string
-  detailTitle: 'COMPLETELY OUT OF STOCK'
-  mainTitle: 'Out of stock products '
+  detailTitle: string
+  mainTitle: string
 }
 
 export enum ToggleVariantsActions {

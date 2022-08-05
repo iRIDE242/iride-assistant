@@ -1,7 +1,7 @@
 import FilteredProducts from './FilteredProducts'
-import { FilteredSectionProps, SettingsForGone } from './types'
+import { FilteredSectionProps, SettingsForStyle } from './types'
 
-const settingsForGone: SettingsForGone = {
+const settingsForGone: SettingsForStyle = {
   localStorageKey: 'ignoredOutOfStockIds',
   background: 'aliceblue',
   mainColor: 'darkgreen',
