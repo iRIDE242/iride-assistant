@@ -5,7 +5,7 @@ import CopyHint from 'components/CopyHint'
 import { ProductProps } from './types'
 
 function Product(props: ProductProps) {
-  const [isCopied, setIsCopied] = useState(false)
+  const [isCopied, setIsCopied] = useState<boolean>(false)
   const {
     product,
     fromInventory,
@@ -35,7 +35,11 @@ function Product(props: ProductProps) {
         }}
       >
         <p>{title}</p>
-        <CopyButton title={title} showCopy={fromInventory} setIsCopied={setIsCopied} />
+        <CopyButton
+          title={title}
+          showCopy={fromInventory}
+          setIsCopied={setIsCopied}
+        />
         {notIgnored && <button onClick={addToIgnored}>ADD TO IGNORED</button>}
         {isIgnored && from === 'item' && (
           <button onClick={removeFromIgnored}>REMOVE FROM IGNORED</button>

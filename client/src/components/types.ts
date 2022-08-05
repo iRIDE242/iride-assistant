@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react'
+
 export enum Status {
   ACTIVE = 'active',
   DRAFT = 'draft',
@@ -74,4 +76,10 @@ export interface Variant {
   old_inventory_quantity: number
   requires_shipping: boolean
   admin_graphql_api_id: string
+}
+
+export interface CopyButtonProps {
+  title: string
+  showCopy?: boolean
+  setIsCopied: Dispatch<SetStateAction<boolean>>
 }
