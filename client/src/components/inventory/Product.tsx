@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { getTitle } from 'utils/helper'
 import CopyButton from 'components/CopyButton'
 import CopyHint from 'components/CopyHint'
+import { ProductProps } from './types'
 
-function Product(props) {
+function Product(props: ProductProps) {
   const [isCopied, setIsCopied] = useState(false)
   const {
     product,
@@ -17,11 +18,11 @@ function Product(props) {
   const title = getTitle(product)
 
   const addToIgnored = () => {
-    handleAddToIgnored(product.id)
+    handleAddToIgnored?.(product.id)
   }
 
   const removeFromIgnored = () => {
-    handleRemoveFromIgnored(product.id)
+    handleRemoveFromIgnored?.(product.id)
   }
 
   return (
