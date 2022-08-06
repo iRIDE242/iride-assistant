@@ -42,6 +42,27 @@ export interface PriceSettingState {
 
 // useLocalStorageState
 export enum LocalStorageKeys {
-  IGNORED_PRODUCT_IDS = 'ignoredOutOfStockIds',
+  IGNORED_PRODUCT_IDS = 'ignoredProductIds',
   IGNORED_OUT_OF_STOCK_IDS = 'ignoredOutOfStockIds',
+  IGNORED_VENDORS = 'ignoredVendors',
+}
+
+export type GetDefaultValue<LocalStorageState> = () =>
+  | LocalStorageState
+  | LocalStorageState[]
+
+export interface UseLocalStorageStateArg<LocalStorageState> {
+  key: LocalStorageKeys
+  defaultValue:
+    | LocalStorageState
+    | LocalStorageState[]
+    | GetDefaultValue<LocalStorageState>
+  methods?: {
+    serialize?: <LocalStorageState>(
+      state: LocalStorageState | LocalStorageState[]
+    ) => string
+    deserialize?: <LocalStorageState>(
+      value: string
+    ) => LocalStorageState | LocalStorageState[]
+  }
 }
