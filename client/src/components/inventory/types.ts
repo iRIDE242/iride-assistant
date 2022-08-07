@@ -1,3 +1,4 @@
+import { SettingsForStyle } from 'components/filtered-section/types'
 import { Product } from 'components/types'
 
 export enum From {
@@ -13,4 +14,9 @@ export interface ProductProps {
   handleAddToIgnored?: (id: Product['id']) => void
   handleRemoveFromIgnored?: (id: Product['id']) => void
   from?: From
+}
+
+export interface InfoDetailProps {
+  outOfStockProducts: Product[]
+  settings: SettingsForStyle
 }

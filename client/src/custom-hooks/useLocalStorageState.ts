@@ -12,7 +12,7 @@ export default function useLocalStorageState<LocalStorageState>({
   methods: { serialize = JSON.stringify, deserialize = JSON.parse } = {},
 }: UseLocalStorageStateArg<LocalStorageState>) {
   const [state, setState] = React.useState<
-    LocalStorageState | LocalStorageState[] | Blank.blank_string
+    LocalStorageState[] | Blank.blank_string
   >(() => {
     const valueInLocalStorage = window.localStorage.getItem(key)
 

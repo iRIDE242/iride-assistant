@@ -48,23 +48,21 @@ export enum LocalStorageKeys {
 }
 
 export type GetInitialValue<LocalStorageState> = () =>
-  | LocalStorageState
   | LocalStorageState[]
   | Blank.blank_string
 
 export interface UseLocalStorageStateArg<LocalStorageState> {
   key: LocalStorageKeys
   initialValue?:
-    | LocalStorageState
     | LocalStorageState[]
-    | GetInitialValue<LocalStorageState>
     | Blank.blank_string
+    | GetInitialValue<LocalStorageState>
   methods?: {
     serialize?: <LocalStorageState>(
-      state: LocalStorageState | LocalStorageState[] | Blank.blank_string
+      state: LocalStorageState[] | Blank.blank_string
     ) => string
     deserialize?: <LocalStorageState>(
       value: string
-    ) => LocalStorageState | LocalStorageState[] | Blank.blank_string
+    ) => LocalStorageState[] | Blank.blank_string
   }
 }
