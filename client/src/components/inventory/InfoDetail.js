@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import useLocalStorageState from '../../custom-hooks/useLocalStorageState'
 import Product from './Product'
 
@@ -15,11 +15,11 @@ export default function InfoDetail({
 }) {
   const [ignoredProductIds, setIgnoredProductIds] = useLocalStorageState({
     key: localStorageKey,
-    defaultValue: [],
+    initialValue: [],
   })
   const [ignoredVendors, setIgnoredVendors] = useLocalStorageState({
     key: 'ignoredVendors',
-    defaultValue: [],
+    initialValue: [],
   })
   const [isHidden, setIsHidden] = useState(true)
   const [isModified, setIsModified] = useState(false)
