@@ -1,19 +1,20 @@
 import React from 'react'
 import {
-  GetDefaultValue,
+  GetInitialValue,
   LocalStorageKeys,
   UseLocalStorageStateArg,
 } from './types'
 
 export default function useLocalStorageState<LocalStorageState>({
   key,
-  defaultValue,
+  initialValue,
   methods: { serialize = JSON.stringify, deserialize = JSON.parse } = {},
 }: UseLocalStorageStateArg<LocalStorageState>) {
   const [state, setState] = React.useState<
     LocalStorageState | LocalStorageState[]
   >(() => {
     const valueInLocalStorage = window.localStorage.getItem(key)
+
     if (valueInLocalStorage) {
       try {
         return deserialize<LocalStorageState>(valueInLocalStorage)
@@ -22,9 +23,9 @@ export default function useLocalStorageState<LocalStorageState>({
         window.localStorage.removeItem(key)
       }
     }
-    return typeof defaultValue === 'function'
-      ? (defaultValue as GetDefaultValue<LocalStorageState>)()
-      : defaultValue
+    return typeof initialValue === 'function'
+      ? (initialValue as GetInitialValue<LocalStorageState>)()
+      : initialValue
   })
 
   const prevKeyRef = React.useRef<LocalStorageKeys>(key)

@@ -47,16 +47,16 @@ export enum LocalStorageKeys {
   IGNORED_VENDORS = 'ignoredVendors',
 }
 
-export type GetDefaultValue<LocalStorageState> = () =>
+export type GetInitialValue<LocalStorageState> = () =>
   | LocalStorageState
   | LocalStorageState[]
 
 export interface UseLocalStorageStateArg<LocalStorageState> {
   key: LocalStorageKeys
-  defaultValue:
+  initialValue:
     | LocalStorageState
     | LocalStorageState[]
-    | GetDefaultValue<LocalStorageState>
+    | GetInitialValue<LocalStorageState>
   methods?: {
     serialize?: <LocalStorageState>(
       state: LocalStorageState | LocalStorageState[]
