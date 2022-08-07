@@ -20,3 +20,8 @@ export interface InfoDetailProps {
   outOfStockProducts: Product[]
   settings: SettingsForStyle
 }
+
+export interface Ignored {
+  product: Product
+  from: From
+}

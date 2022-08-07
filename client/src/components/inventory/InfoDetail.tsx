@@ -1,6 +1,9 @@
-import { useRef, useState } from 'react'
+import { Product } from 'components/types'
+import { LocalStorageKeys } from 'custom-hooks/types'
+import { useRef, useState, Dispatch, SetStateAction, FormEvent } from 'react'
 import useLocalStorageState from '../../custom-hooks/useLocalStorageState'
-import Product from './Product'
+import ProductRow from './ProductRow'
+import { From, Ignored, InfoDetailProps } from './types'
 
 export default function InfoDetail({
   outOfStockProducts,
@@ -12,24 +15,29 @@ export default function InfoDetail({
     detailTitle,
     mainTitle,
   },
-}) {
-  const [ignoredProductIds, setIgnoredProductIds] = useLocalStorageState({
-    key: localStorageKey,
-    initialValue: [],
-  })
-  const [ignoredVendors, setIgnoredVendors] = useLocalStorageState({
-    key: 'ignoredVendors',
-    initialValue: [],
-  })
-  const [isHidden, setIsHidden] = useState(true)
-  const [isModified, setIsModified] = useState(false)
-  const [vendorString, setVendorString] = useState(() => ignoredVendors.join())
+}: InfoDetailProps) {
+  const [ignoredProductIds, setIgnoredProductIds] =
+    useLocalStorageState<number>({
+      key: localStorageKey,
+      initialValue: [] as number[],
+    }) as readonly [number[], Dispatch<SetStateAction<number[]>>]
+
+  const [ignoredVendors, setIgnoredVendors] = useLocalStorageState<string>({
+    key: LocalStorageKeys.IGNORED_VENDORS,
+    initialValue: [] as string[],
+  }) as readonly [string[], Dispatch<SetStateAction<string[]>>]
+
+  const [isHidden, setIsHidden] = useState<boolean>(true)
+  const [isModified, setIsModified] = useState<boolean>(false)
+  const [vendorString, setVendorString] = useState<string>(() =>
+    (ignoredVendors as string[]).join()
+  )
 
   // Original vendor string
-  const vendorStringRef = useRef(vendorString)
+  const vendorStringRef = useRef<string>(vendorString)
 
-  let notIgnored = []
-  let ignored = []
+  let notIgnored: Product[] = []
+  let ignored: Ignored[] = []
 
   if (outOfStockProducts.length) {
     outOfStockProducts.forEach(product => {
@@ -37,29 +45,35 @@ export default function InfoDetail({
         ? localStorageKey === 'ignoredProductIds'
           ? ignoredVendors.indexOf(product.vendor) === -1
             ? notIgnored.push(product)
-            : ignored.push({ product, from: 'vendor' })
+            : ignored.push({ product, from: From.VENDOR })
           : notIgnored.push(product)
-        : ignored.push({ product, from: 'item' })
+        : ignored.push({ product, from: From.ITEM })
     })
   }
 
-  const handleAddToIgnored = setIgnored => ignoredProductId => {
-    setIgnored(prevIds => [...prevIds, ignoredProductId])
-  }
+  const handleAddToIgnored =
+    (setIgnored: Dispatch<SetStateAction<number[]>>) =>
+    (ignoredProductId: number) => {
+      setIgnored(prevIds => [...prevIds, ignoredProductId])
+    }
 
-  const handleRemoveFromIgnored = setIgnored => notIgnoredProductId => {
-    setIgnored(prevIds => prevIds.filter(id => id !== notIgnoredProductId))
-  }
+  const handleRemoveFromIgnored =
+    (setIgnored: Dispatch<SetStateAction<number[]>>) =>
+    (notIgnoredProductId: number) => {
+      setIgnored(prevIds => prevIds.filter(id => id !== notIgnoredProductId))
+    }
 
-  const toggleIgnored = setToggle => () => {
-    setToggle(prev => !prev)
-  }
+  const toggleIgnored =
+    (setToggle: Dispatch<SetStateAction<boolean>>) => () => {
+      setToggle(prev => !prev)
+    }
 
-  const handleClearIgnored = setIgnored => () => {
-    setIgnored([])
-  }
+  const handleClearIgnored =
+    (setIgnored: Dispatch<SetStateAction<number[]>>) => () => {
+      setIgnored([])
+    }
 
-  const handleVendorSubmit = e => {
+  const handleVendorSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     vendorStringRef.current = vendorString
 
@@ -67,13 +81,13 @@ export default function InfoDetail({
     setIsModified(false)
   }
 
-  const handleVendorChange = e => {
-    console.log(`event: ${e.target.value}`)
+  const handleVendorChange = (e: FormEvent<HTMLInputElement>) => {
+    console.log(`event: ${e.currentTarget.value}`)
     console.log(`ref: ${vendorStringRef.current}`)
-    e.target.value !== vendorStringRef.current
+    e.currentTarget.value !== vendorStringRef.current
       ? setIsModified(true)
       : setIsModified(false)
-    setVendorString(e.target.value)
+    setVendorString(e.currentTarget.value)
   }
 
   return (
@@ -104,7 +118,7 @@ export default function InfoDetail({
           {mainTitle} [Counts: {notIgnored.length}]
         </h3>
         {notIgnored.map(p => (
-          <Product
+          <ProductRow
             key={p.id}
             product={p}
             fromInventory={true}
@@ -126,7 +140,7 @@ export default function InfoDetail({
           >
             <h3>Ignored [Counts: {ignored.length}]</h3>
             {ignored.map(({ product, from }) => (
-              <Product
+              <ProductRow
                 key={product.id}
                 product={product}
                 fromInventory={true}

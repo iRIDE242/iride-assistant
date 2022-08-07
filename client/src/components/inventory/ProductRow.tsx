@@ -4,7 +4,7 @@ import CopyButton from 'components/CopyButton'
 import CopyHint from 'components/CopyHint'
 import { ProductProps } from './types'
 
-function Product(props: ProductProps) {
+function ProductRow(props: ProductProps) {
   const [isCopied, setIsCopied] = useState<boolean>(false)
   const {
     product,
@@ -52,4 +52,4 @@ function Product(props: ProductProps) {
   )
 }
 
-export default Product
+export default ProductRow
