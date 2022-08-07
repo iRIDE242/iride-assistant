@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  Blank,
   GetInitialValue,
   LocalStorageKeys,
   UseLocalStorageStateArg,
@@ -7,11 +8,11 @@ import {
 
 export default function useLocalStorageState<LocalStorageState>({
   key,
-  initialValue,
+  initialValue = Blank.blank_string,
   methods: { serialize = JSON.stringify, deserialize = JSON.parse } = {},
 }: UseLocalStorageStateArg<LocalStorageState>) {
   const [state, setState] = React.useState<
-    LocalStorageState | LocalStorageState[]
+    LocalStorageState | LocalStorageState[] | Blank.blank_string
   >(() => {
     const valueInLocalStorage = window.localStorage.getItem(key)
 
