@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import {
   Blank,
   GetInitialValue,
@@ -6,7 +6,18 @@ import {
   UseLocalStorageStateArg,
 } from './types'
 
-export default function useLocalStorageState<LocalStorageState>({
+// Overload for default initialValue
+export function useLocalStorageState(props: {
+  key: LocalStorageKeys
+}): readonly [Blank, Dispatch<SetStateAction<Blank>>]
+
+// Overload for initialValue provided
+export function useLocalStorageState<LocalStorageState>(
+  props: UseLocalStorageStateArg<LocalStorageState>
+): readonly [LocalStorageState[], Dispatch<SetStateAction<LocalStorageState[]>>]
+
+// Note, overload cannot use export default
+export function useLocalStorageState<LocalStorageState>({
   key,
   initialValue = Blank.blank_string,
   methods: { serialize = JSON.stringify, deserialize = JSON.parse } = {},
@@ -42,5 +53,13 @@ export default function useLocalStorageState<LocalStorageState>({
     window.localStorage.setItem(key, serialize<LocalStorageState>(state))
   }, [key, state, serialize])
 
-  return [state, setState] as const
+  return initialValue === Blank.blank_string
+    ? ([
+        state as Blank.blank_string,
+        setState as Dispatch<SetStateAction<Blank>>,
+      ] as const)
+    : ([
+        state as LocalStorageState[],
+        setState as Dispatch<SetStateAction<LocalStorageState[]>>,
+      ] as const)
 }

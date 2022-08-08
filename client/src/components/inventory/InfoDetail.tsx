@@ -1,7 +1,7 @@
 import { Product } from 'components/types'
 import { LocalStorageKeys } from 'custom-hooks/types'
 import { useRef, useState, Dispatch, SetStateAction, FormEvent } from 'react'
-import useLocalStorageState from '../../custom-hooks/useLocalStorageState'
+import { useLocalStorageState } from '../../custom-hooks/useLocalStorageState'
 import ProductRow from './ProductRow'
 import { From, Ignored, InfoDetailProps } from './types'
 
@@ -20,17 +20,17 @@ export default function InfoDetail({
     useLocalStorageState<number>({
       key: localStorageKey,
       initialValue: [] as number[],
-    }) as readonly [number[], Dispatch<SetStateAction<number[]>>]
+    })
 
   const [ignoredVendors, setIgnoredVendors] = useLocalStorageState<string>({
     key: LocalStorageKeys.IGNORED_VENDORS,
     initialValue: [] as string[],
-  }) as readonly [string[], Dispatch<SetStateAction<string[]>>]
+  })
 
   const [isHidden, setIsHidden] = useState<boolean>(true)
   const [isModified, setIsModified] = useState<boolean>(false)
   const [vendorString, setVendorString] = useState<string>(() =>
-    (ignoredVendors as string[]).join()
+    ignoredVendors.join()
   )
 
   // Original vendor string
