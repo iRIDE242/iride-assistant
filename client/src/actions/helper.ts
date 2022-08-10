@@ -3,10 +3,10 @@
  */
 const createDelayByIndexForPromise =
   (delay: number, index: number) =>
-  <T>(promiseRequest: Promise<T>) => {
+  <T>(promiseRequest: () => Promise<T>) => {
     return new Promise<T>((res, rej) => {
       setTimeout(() => {
-        promiseRequest.then(res).catch(rej)
+        promiseRequest().then(res).catch(rej)
       }, delay * index)
     })
   }
@@ -22,7 +22,7 @@ export const createSequencedPromises = <T, U>(
   let legidIndex: number = 0
 
   for (let index = 0; index < arr.length; index++) {
-    const promiseRequest = createPromiseRequest(arr[index])
+    const promiseRequest = () => createPromiseRequest(arr[index])
 
     if (!promiseRequest) continue
 
