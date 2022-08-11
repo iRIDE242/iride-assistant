@@ -34,6 +34,18 @@ export const collections = {
     id: '294112133312',
     name: 'Temp 2',
   },
+  294474285248: {
+    id: '294474285248',
+    name: 'Rapha Bundle',
+  },
+  294623641792: {
+    id: '294623641792',
+    name: 'Road Tyres',
+  },
+  294822936768: {
+    id: '294822936768',
+    name: 'Hiplok Locks',
+  },
 }
 
 export const idGroups = {

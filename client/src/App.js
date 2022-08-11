@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { createPrevAndNextFromHeader } from './actions/header'
+import { createPrevAndNextFromHeader } from './actions/header.action'
 import './App.css'
-// import Product from './components/Product'
-import InventoryInfo from './components/InventoryInfo'
+import InventoryInfo from './components/inventory/InventoryInfo'
 import FilteredSection from './components/filtered-section/FilteredSection'
 import { getProductsByCollectionId, getProductsByPageInfo } from './utils/api'
-import { getLocallyOutOfStockProducts } from './actions/products'
 import { collections } from './utils/config'
-import { getProducts, toggleHiddens, useProducts } from './context/products'
+import {
+  getProducts,
+  toggleHiddens,
+  useProducts,
+} from './context/products.context'
 import { arrayToMapWithIdAsKey } from './utils/helper'
 import { useFilteredProducts } from './utils/customHooks'
+import { getLocallyOutOfStockProducts } from 'actions/inventory.action'
 
 const emptyLink = {
   limit: '',
@@ -211,18 +214,6 @@ function App() {
           />
         )}
       </div>
-
-      {/* <h2>
-        {collections[collectionId].name.toUpperCase()} [Counts:{' '}
-        {products.length}]
-      </h2>
-      {products.length ? (
-        products.map((product, index) => (
-          <Product key={index} product={product} />
-        ))
-      ) : (
-        <p>No products from this query</p>
-      )} */}
     </div>
   )
 }

@@ -1,28 +1,6 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getAllFilters } from './filters'
 import { mapValueToArray } from './helper'
-
-/**
- * Helper function to create context.
- * Will show error if content is out of context.
- */
-export function createCtx(providerName, displayName) {
-  const ctx = createContext(undefined)
-
-  if (ctx && displayName) {
-    ctx.displayName = displayName
-  }
-
-  function useCtx(componentName = 'Consumer components') {
-    const c = useContext(ctx)
-    if (c === undefined)
-      throw new Error(
-        `${componentName} must be inside ${providerName} with a value`
-      )
-    return c
-  }
-  return [useCtx, ctx.Provider]
-}
 
 /**
  * Checkbox having indeterminate status
@@ -55,22 +33,4 @@ export const useFilteredProducts = (productsMap, filters) => {
   }, [filters, productsMap])
 
   return [filteredProducts, setFilteredProducts]
-}
-
-/**
- * Reset price
- */
-export const useReset = resetFromAbove => {
-  const [reset, setReset] = useState(0)
-
-  const resetPriceSetting = e => {
-    e.preventDefault()
-    setReset(prev => prev + 1)
-  }
-
-  useEffect(() => {
-    if (resetFromAbove && resetFromAbove !== reset) setReset(resetFromAbove)
-  }, [reset, resetFromAbove])
-
-  return [reset, resetPriceSetting]
 }
